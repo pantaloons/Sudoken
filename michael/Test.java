@@ -2,6 +2,8 @@ import java.util.*;
 import java.io.*;
 
 class Painter {
+	//Extension points provided to determine color of cell, style of borders, and so on
+	//within paint function
 	static void paint(Sudoku s) {
 		for(int i = 0; i < s.getHeight(); i++) {
 			for(int j = 0; j < s.getWidth(); j++) {
@@ -15,6 +17,7 @@ class Painter {
 }
 
 class Loader {
+	//This should also be virtual
 	static Sudoku loadCSV(String file) throws IOException {
 		Scanner sc = new Scanner(new File(file));
 		int width = sc.nextInt(), height = sc.nextInt();
@@ -27,6 +30,7 @@ class Loader {
 		sc.close();
 		return s;
 	}
+	//Likewise
 	static void saveCSV(Sudoku s, String csvFile) {
 	}
 }
@@ -54,6 +58,8 @@ class Sudoku {
 	public boolean solve() {
 		return solveR(-1, 0);
 	}
+	
+	//This should be virtual or povided to extension points to extend constraints
 	private boolean violated(int x, int y) {
 		for(int i = 0; i < 9; i++) {
 			if(i != x && cells[y][i] == cells[y][x]) return true;
