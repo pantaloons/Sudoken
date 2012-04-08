@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import sudokuboard.SudokuBoard;
-import sudokuboard.imp.SudokuBoardImp;
-import sudokusolver.imp.Square;
-import sudokusolver.imp.SquareGroup;
+import sudokuboard.SudokuBoardImp;
+import sudokusolver.square.Square;
+import sudokusolver.square.SquareGroup;
 
 public class SudokuSolverImp implements SudokuSolver {
 

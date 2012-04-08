@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import sudokuboard.SudokuBoard;
-import sudokuboard.imp.SudokuBoardImp;
+import sudokuboard.SudokuBoardImp;
 import sudokusolver.SudokuSolver;
 import sudokusolver.SudokuSolverImp;
 

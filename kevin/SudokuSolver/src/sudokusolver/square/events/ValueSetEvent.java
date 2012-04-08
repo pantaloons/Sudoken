@@ -2,8 +2,8 @@ package sudokusolver.square.events;
 
 import java.util.Collection;
 
-import sudokusolver.imp.Square;
-import sudokusolver.imp.SquareGroup;
+import sudokusolver.square.Square;
+import sudokusolver.square.SquareGroup;
 
 public class ValueSetEvent extends SquareChangeEvent {
 
