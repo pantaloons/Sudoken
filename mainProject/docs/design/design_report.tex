@@ -1,0 +1,76 @@
+\documentclass[a4paper, 11pt]{article}
+%\documentclass[a4paper, 10pt]{amsart}
+
+% multi-line spacing for easier marking
+%\usepackage{setspace}
+
+% math symbols
+\usepackage{amssymb,amsmath}
+\usepackage{textcomp}
+
+% nicer fonts
+\usepackage{times}
+
+% for fancy tables with multi-row headers
+\usepackage{multirow}
+% for pictures
+\usepackage{graphicx}
+
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{fancyvrb}
+
+% if appending entire pdf docs (e.g. appendix)
+%\usepackage{pdfpages}
+
+% narrow margins 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+% no indention of paragraphs
+%\setlength{\parindent}{0in}
+% have wider spacing between paragraphs
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+% greater separation between columns
+\setlength{\columnsep}{0.7cm}
+
+% handy macro defines
+	% code command
+\newcommand{\codeCommand}[1]{\texttt{#1}}
+	% code 'type' word
+\newcommand{\codeType}[1]{\textbf{\texttt{#1}}}
+
+% for code listings, etc.
+\usepackage{listings}
+\usepackage{color}
+
+\lstset{captionpos=b,tabsize=4,frame=lines,keywordstyle=\color{blue}\bf,commentstyle=\color{OliveGreen},stringstyle=\color{red},numbers=left,numberstyle=\tiny,numbersep=5pt,breaklines=true,showstringspaces=false,basicstyle=\ttfamily\footnotesize,emph={label}}
+
+% titles stuff 
+\title{\textbf{Cosc427 Assignment 2} \\ {\textit{Sudoken} - Design Document}}
+\author{
+	Kevin Doran    \\ 33439377 \and
+	Adam Freeth    \\ 68895971 \and
+	Timothy Hobbs  \\ 39986601 \and
+	Joshua Leung   \\ 46308424 \and
+	Michael McGee  \\ 74188139
+}
+
+\begin{document}
+\maketitle
+
+%\doublespacing % for easier marking
+
+\section{Introduction}
+\input{section_1-intro}
+
+\section{Core Framework}
+%\input{section_2-core}
+
+\section{Extensions System}
+%\input{section_3-extensions}
+
+\section{Plugins}
+
+\section{Conclusion}
+%\input{section_pconclusion}
+
+\end{document}
