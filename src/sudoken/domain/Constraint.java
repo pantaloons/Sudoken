@@ -1,6 +1,4 @@
-package sudokusolver;
-
-import sudokuboard.SudokuBoard;
+package sudoken.domain;
 
 /**
  * The extension point for plugins to add constraints to the solving process. 
@@ -8,7 +6,7 @@ import sudokuboard.SudokuBoard;
  * @author Kevin Doran
  *
  */
-public interface ConstraintsExtension {
+public interface Constraint {
 
     /**
      * Called by the solver to check if the current board state violates any
@@ -21,5 +19,5 @@ public interface ConstraintsExtension {
      * @param sudokuBoard the whole sudoku board.
      * @return      {@code true} if there the board violates constraints, otherwise {@code false}.
      */
-    boolean isViolated(int x, int y, SudokuBoard sudokuBoard);
+    boolean isViolated(int x, int y, Board sudokuBoard);
 }

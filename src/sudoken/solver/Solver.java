@@ -1,6 +1,6 @@
-package sudokusolver;
+package sudoken.solver;
 
-import sudokuboard.SudokuBoard;
+import sudoken.domain.*;
 
 /**
  * The main sudoku solver. The sudoku solver solves the given sudoku board while
@@ -9,14 +9,14 @@ import sudokuboard.SudokuBoard;
  * @author Kevin Doran
  *
  */
-public interface SudokuSolver {
+public interface Solver {
     
     /**
      * Sets the sudoku board that is to be solved.
      * 
      * @param sudokuBoard   the sudoku board to be solved.
      */
-    void setSudokuBoard(SudokuBoard sudokuBoard);
+    void setSudokuBoard(Board sudokuBoard);
     
     /**
      * Solves the sudoku board.
@@ -24,12 +24,4 @@ public interface SudokuSolver {
      * @return {@code true} if the board is solvable, {@code false} if it is not.
      */
     boolean solve();
-    
-    /**
-     * Adds a constraint to the solving process. A board must not violate any 
-     * constraints in order to be solved.
-     * 
-     * @param constraints   constraints that the solved board must not violate.
-     */
-    void addConstraintsExtension(ConstraintsExtension constraints);
 }
