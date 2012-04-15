@@ -35,6 +35,7 @@ public class MainWindow implements Runnable {
 	public void run() {
 		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//f.setIconImage(new ImageIcon(ClassLoader.getSystemResource("icon.png")).getImage());
 		Container c = f.getContentPane();
 		GridBagLayout gbl = new GridBagLayout();
 		f.setLayout(gbl);
