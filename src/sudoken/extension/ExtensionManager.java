@@ -7,33 +7,52 @@ import sudoken.domain.*;
 import sudoken.persistence.*;
 
 public class ExtensionManager {
-	private static boolean inited = false;
+	/** Registry mapping extension identifiers to {@link Extension} instances */
 	private static Map<String, Extension> m;
 	
-	private static void init() {
+	// called on first usage of ExtensionManager
+	static {
+		System.out.println("Extension Manager Starting up");
+		
 		m = new HashMap<String, Extension>();
-		inited = true;
 		//TODO: Load property files and locate plugins
 	}
 	
+	/**
+	 * Checks if the named extension is currently registered with us
+	 * @param ext   Identifier for extension. Lower-case.
+	 * @return      <code>true</code> if a matching extension exists/can be used 
+	 */
 	public static boolean hasExtension(String ext) {
-		if(!inited) init();
 		return m.containsKey(ext);
 	}
 	
+	/**
+	 * Get parser for extension-specific constraints found in input files
+	 * @param ext    Identifier for extension. Lower-case.
+	 * @Precondition Assumes that <code>hasExtension()</code> has been called and was successful 
+	 */
 	public static SectionParser getParser(String ext) {
-		if(!inited) init();
 		return m.get(ext).getParser();
 	}
 	
+	/**
+	 * Get factory creating a {@link sudoken.domain.Board} from description given in file 
+	 * @param ext    Identifier for extension. Lower-case.
+	 * @Precondition Assumes that <code>hasExtension()</code> has been called and was successful 
+	 */
 	public static BoardCreator getConstructor(String ext) {
-		if(!inited) init();
 		return m.get(ext).getCreator();
 	}
-
-	public static void register(String name, Extension ext) {
-		if(!inited) init();
-		System.out.println("Registering: " + name);
+	
+	/**
+	 * Called from static initialisers of plugins when they are first loaded
+	 */
+	public static void register(Extension ext) {
+		String longName = ext.getClass().getName();
+		String name = ext.getClass().getSimpleName().toLowerCase();
+		
+		System.out.format("Registering: '%s' => %s\n", name, longName);
 		m.put(name, ext);
 	}
 }

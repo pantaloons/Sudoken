@@ -5,7 +5,7 @@ import sudoken.extension.ExtensionManager;
 
 public class Futoshiki extends Extension {
 	static {
-		ExtensionManager.register("futoshiki", new Futoshiki());
+		ExtensionManager.register(new Futoshiki());
 	}
 	
 	public Futoshiki() {

@@ -5,7 +5,7 @@ import sudoken.extension.ExtensionManager;
 
 public class Sudoku extends Extension {
 	static {
-		ExtensionManager.register("sudoku", new Sudoku());
+		ExtensionManager.register(new Sudoku());
 	}
 	
 	public Sudoku() {
