@@ -1,0 +1,72 @@
+<project name="Sudoken" default="out" basedir="./">
+	<description>
+		Simple build script for Sudoken
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src"         location="src" />
+	<property name="lib"         location="lib" />
+	<property name="build"       location="bin" />
+	
+	<property name="extRoot"     location="sudoken/extensions/" />
+	
+	<property name="out"         location="out" />
+	<property name="plugins"     location="${out}/plugins" />
+	
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp/>
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}" />
+		<mkdir dir="${out}" />
+		<mkdir dir="${plugins}" />
+	</target>
+
+	<target name="compile" depends="init"
+		description="compile the source " >
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${build}">
+			<classpath>
+				<pathelement path="${classpath}" />
+				<fileset dir="${lib}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="out" depends="compile"
+		description="generate the outribution">
+		<!-- Create the outribution directory -->
+		<mkdir dir="${out}" />
+		
+		<!-- Put core into executable .jar file -->
+		<jar jarfile="${out}/Sudoken.jar" basedir="${build}">
+			<manifest>
+				<attribute name="Main-Class" value="sudoken.gui.MainWindow" />
+			</manifest>
+			
+			<!-- Exclude extensions (i.e. all subdirectories of extensions folder)
+			     but not actual extensions base classes
+			  -->
+			<!-- <exclude name="${extRoot}/**/*.class" /> -->
+			
+			<!-- Library files -->
+			<zipgroupfileset dir="${lib}" includes="*.jar" />
+			
+			<!-- Essential images -->
+			<fileset dir="res" />
+		</jar>
+		
+		<!-- Put each extension into separate .jar file -->
+			<!-- FIXME: how to get these automatically detected? -->
+		<jar jarfile="${plugins}/sudoku.jar" basedir="${build}/${extRoot}/sudoku" />
+		<jar jarfile="${plugins}/futoshiki.jar" basedir="${build}/${extRoot}/futoshiki" />
+	</target>
+
+	<target name="clean"
+		description="clean up temp files created by building">
+		<!-- Delete the ${build} and ${out} directory trees -->
+		<delete dir="${build}" />
+		<delete dir="${out}" />
+	</target>
+</project>
