@@ -13,6 +13,7 @@ public class ExtensionManager {
 	private static void init() {
 		m = new HashMap<String, Extension>();
 		inited = true;
+		//TODO: Load property files and locate plugins
 	}
 	
 	public static boolean hasExtension(String ext) {

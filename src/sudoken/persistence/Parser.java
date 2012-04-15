@@ -6,7 +6,19 @@ import java.util.*;
 import sudoken.domain.*;
 import sudoken.extension.ExtensionManager;
 
+/**
+ * Default parser for a board. Reads in the game type and board information, then delegates
+ * to extension specific parsers to read constraints.
+ *
+ */
 public class Parser {
+	
+	/**
+	 * Loads a board from a file.
+	 * 
+	 * @param fileName The file to load a board file.
+	 * @return The loaded board
+	 */
     public static Board load(String fileName) throws IOException {
     	Scanner sc = new Scanner(new File(fileName));
     	String type = sc.next();

@@ -7,7 +7,7 @@ import sudoken.domain.*;
 
 public class FutoshikiParser implements SectionParser {
     /**
-     * Format: cellx inequality celly Eg: 0 5 < 0 6
+     * Format: cella inequality cellb Eg: 0 5 < 0 6
      * @return 
      */
     @Override
