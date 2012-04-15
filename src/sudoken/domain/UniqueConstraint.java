@@ -23,14 +23,13 @@ public class UniqueConstraint implements Constraint {
 		if (!isPresent) {
 			return false;
 		}
-		boolean hasViolation = false;
 		for (int i = 0; i < xValues.length; i++) {
-			if (!b.getValue(xValues[i], yValues[i]).equals(Board.UNSET)) {
+			if ((x != xValues[i] || y != yValues[i]) && !b.getValue(xValues[i], yValues[i]).equals(Board.UNSET)) {
 				if (b.getValue(x, y).equals(b.getValue(xValues[i], yValues[i]))) {
-					hasViolation = true;
+					return true;
 				}
 			}
 		}
-		return hasViolation;
+		return false;
 	}
 }
