@@ -36,12 +36,13 @@ public class BacktrackingSolver implements Solver {
             }
         }
 
-        if (!board.getValue(x, y).equals(Board.UNSET)) {
+        if (board.getValue(x, y) != Board.UNSET) {
             return solve(x + 1, y);
         }
 
-        for (String value : board.getCandidates()) {
+        for (int value = 1; value <= board.getNumCandidates(); value++) {
         	board.setValue(x, y, value);
+        	//board.print();System.out.println(board.getNumCandidates());
             boolean legal = true;
             for (Constraint c : board.getConstraints()) {
                 if(c.isViolated(x, y, board)) {

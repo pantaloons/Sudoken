@@ -26,10 +26,20 @@ public class Parser {
     	
     	int width = sc.nextInt();
     	int height = sc.nextInt();
-    	String[][] grid = new String[width][height];
+    	int[][] grid = new int[width][height];
     	for(int i = 0; i < height; i++) {
     		for(int j = 0; j < width; j++) {
-    			grid[j][i] = sc.next();
+    			if (sc.hasNextInt()) {
+    				grid[j][i] = sc.nextInt();
+    			}
+    			else {
+    				if (sc.next().equals("-")) {
+    					grid[j][i] = -1;
+    				}
+    				else {
+    					throw new IOException("Parse error...");
+    				}
+    			}
     		}
     	}
     	

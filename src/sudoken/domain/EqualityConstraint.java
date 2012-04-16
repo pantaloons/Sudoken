@@ -13,7 +13,7 @@ public class EqualityConstraint implements Constraint {
     @Override
     public boolean isViolated(int x, int y, Board b) {
     	if((x != x1 || y != y1) && (x != x2 || y != y2)) return false;
-    	if(b.getValue(x1, y1).equals(Board.UNSET) || b.getValue(x2, y2).equals(Board.UNSET)) return false;
-    	return b.getValue(x1, y1).equals(b.getValue(x2, y2));
+    	if(b.getValue(x1, y1) == Board.UNSET || b.getValue(x2, y2) == Board.UNSET) return false;
+    	return b.getValue(x1, y1) == b.getValue(x2, y2);
     }
 }

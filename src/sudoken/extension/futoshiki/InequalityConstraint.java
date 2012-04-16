@@ -16,13 +16,13 @@ public class InequalityConstraint implements Constraint {
 
     @Override
     public boolean isViolated(int x, int y, Board b) {
-    	if(b.getValue(x1, y1).equals(Board.UNSET) || b.getValue(x2, y2).equals(Board.UNSET)) return false;
+    	if(b.getValue(x1, y1) == Board.UNSET || b.getValue(x2, y2) == Board.UNSET) return false;
         if((x == this.x1 && y == this.y1) || (x == this.x2 && y == this.y2)) {
         	if(less) {
-        		return b.getValue(x1, y1).compareTo(b.getValue(x2, y2)) > 0;
+        		return b.getValue(x1, y1) > b.getValue(x2, y2);
         	}
         	else {
-        		return b.getValue(x1, y1).compareTo(b.getValue(x2, y2)) < 0;
+        		return b.getValue(x1, y1) < b.getValue(x2, y2);
         	}
         }
         
