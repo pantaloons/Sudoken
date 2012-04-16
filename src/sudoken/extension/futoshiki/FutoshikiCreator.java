@@ -14,23 +14,19 @@ public class FutoshikiCreator implements BoardCreator {
 		if(width != height) throw new IllegalArgumentException("Width and height must be equal.");
 		
 		for (int i = 0; i < height; i++) {
-			int[] xValues = new int[width];
-			int[] yValues = new int[width];
+			UniqueConstraint rowConstraint = new UniqueConstraint();
 			for (int j = 0; j < width; j++) {
-				xValues[j] = j;
-				yValues[j] = i;
+				rowConstraint.add(j, i);
 			}
-			constraints.add(new UniqueConstraint(xValues, yValues));
+			constraints.add(rowConstraint);
 		}
 		
 		for (int i = 0; i < width; i++) {
-			int[] xValues = new int[height];
-			int[] yValues = new int[height];
+			UniqueConstraint colConstraint = new UniqueConstraint();
 			for (int j = 0; j < height; j++) {
-				xValues[j] = i;
-				yValues[j] = j;
+				colConstraint.add(i, j);
 			}
-			constraints.add(new UniqueConstraint(xValues, yValues));
+			constraints.add(colConstraint);
 		}
 
 		return new Board(width, height, grid, width, constraints);

@@ -59,9 +59,8 @@ public class Parser {
     			else flipped = true;
     			conf += cur;
     		}
-    		constraints.addAll(ExtensionManager.getParser(ext).load(conf));
+    		constraints.addAll(ExtensionManager.getParser(ext).load(conf, width, height));
     	}
-    	
     	return ExtensionManager.getConstructor(type).create(width, height, grid, constraints);
     }
 }

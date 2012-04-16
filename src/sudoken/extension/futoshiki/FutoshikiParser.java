@@ -11,7 +11,7 @@ public class FutoshikiParser implements SectionParser {
      * @return 
      */
     @Override
-    public Collection<Constraint> load(String config) {
+    public Collection<Constraint> load(String config, int width, int height) {
         Scanner sc = new Scanner(config);
         List<Constraint> c = new ArrayList<Constraint>();
         while(sc.hasNext()) {

@@ -13,38 +13,31 @@ public class SudokuCreator implements BoardCreator {
 			throw new IllegalArgumentException("Board dimension must be a square number.");
 		
 		for (int i = 0; i < height; i++) {
-			int[] xValues = new int[width];
-			int[] yValues = new int[width];
+			UniqueConstraint rowConstraint = new UniqueConstraint();
 			for (int j = 0; j < width; j++) {
-				xValues[j] = j;
-				yValues[j] = i;
+				rowConstraint.add(j, i);
 			}
-			constraints.add(new UniqueConstraint(xValues, yValues));
+			constraints.add(rowConstraint);
 		}
 		
 		for (int i = 0; i < width; i++) {
-			int[] xValues = new int[height];
-			int[] yValues = new int[height];
+			UniqueConstraint colConstraint = new UniqueConstraint();
 			for (int j = 0; j < height; j++) {
-				xValues[j] = i;
-				yValues[j] = j;
+				colConstraint.add(i, j);
 			}
-			constraints.add(new UniqueConstraint(xValues, yValues));
+			constraints.add(colConstraint);
 		}
 		
 		int size = (int) Math.sqrt(width);
 		for(int i = 0; i < size; i++) {
 			for(int j = 0; j < size; j++) {
-				int[] xValues = new int[width];
-				int[] yValues = new int[width];
-				int k = 0;
+				UniqueConstraint boxConstraint = new UniqueConstraint();
 				for(int a = i * size; a < (i + 1) * size; a++) {
-					for(int b = j * size; b < (j + 1) * size; b++, k++) {
-						xValues[k] = a;
-						yValues[k] = b;
+					for(int b = j * size; b < (j + 1) * size; b++) {
+						boxConstraint.add(a, b);
 					}
 				}
-				constraints.add(new UniqueConstraint(xValues, yValues));
+				constraints.add(boxConstraint);
 			}
 		}
 		

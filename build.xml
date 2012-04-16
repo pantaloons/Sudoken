@@ -74,13 +74,20 @@
 			</manifest>
 			<fileset dir="${build}" includes="${extRoot}/sudoku/*" />
 		</jar>
-		
-		<jar jarfile="${plugins}/futoshiki.jar">
-			<manifest>
-				<!-- Plugin metadata... -->
-			</manifest>
-			<fileset dir="${build}" includes="${extRoot}/futoshiki/*" />
-		</jar>
+        
+        <jar jarfile="${plugins}/futoshiki.jar">
+            <manifest>
+                <!-- Plugin metadata... -->
+            </manifest>
+            <fileset dir="${build}" includes="${extRoot}/futoshiki/*" />
+        </jar>
+        
+        <jar jarfile="${plugins}/jigsaw.jar">
+            <manifest>
+                <!-- Plugin metadata... -->
+            </manifest>
+            <fileset dir="${build}" includes="${extRoot}/jigsaw/*" />
+        </jar>
 	</target>
 	
 	<target name="clean"
