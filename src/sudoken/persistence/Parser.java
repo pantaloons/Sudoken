@@ -30,15 +30,13 @@ public class Parser {
     	for(int i = 0; i < height; i++) {
     		for(int j = 0; j < width; j++) {
     			if (sc.hasNextInt()) {
-    				grid[j][i] = sc.nextInt();
+    				int nextInt = sc.nextInt();
+    				if (nextInt > 0) grid[j][i] = nextInt;
+    				else throw new IOException("Parse error...");
     			}
     			else {
-    				if (sc.next().equals("-")) {
-    					grid[j][i] = -1;
-    				}
-    				else {
-    					throw new IOException("Parse error...");
-    				}
+    				if (sc.next().equals("-")) grid[j][i] = -1;
+    				else throw new IOException("Parse error...");
     			}
     		}
     	}
