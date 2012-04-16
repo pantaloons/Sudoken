@@ -45,13 +45,15 @@ public class BacktrackingSolver implements Solver {
         	//board.print();System.out.println(board.getNumCandidates());
             boolean legal = true;
             for (Constraint c : board.getConstraints()) {
-                if(c.isViolated(x, y, board)) {
-                    legal = false;
-                    break;
+                if (c.canHandle(x, y)) {
+	            	if (c.isViolated(board)) {
+	                    legal = false;
+	                    break;
+	                }
                 }
             }
 
-            if(legal && solve(x + 1, y)) {
+            if (legal && solve(x + 1, y)) {
             	return true;
             }
         }

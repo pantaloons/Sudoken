@@ -1,40 +1,84 @@
 package sudoken.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class UniqueConstraint implements Constraint {
-	private List<Integer> xValues, yValues;
-	
-	public UniqueConstraint() {
-		xValues = new ArrayList<Integer>();
-		yValues = new ArrayList<Integer>();
+/**
+ * Ensure that within a set of constraints, each value occurs only once 
+ * 
+ * @author Adam Freeth
+ * @author Joshua Leung
+ */
+public class UniqueConstraint implements Constraint 
+{
+	/* Little data-class to represent cell coordinates */
+	// TODO: maybe we should have this as a proper class again, complete with equality tests
+	private class Position 
+	{
+		int x;
+		int y;
+		
+		Position(int x, int y) 
+		{
+			this.x = x;
+			this.y = y;
+		}
 	}
 	
-	public void add(int x, int y) {
-		xValues.add(x);
-		yValues.add(y);
+	/* --------------------------- */
+	
+	/* list of cells that constraint is concerned about */
+	private List<Position> positions;
+	
+	public UniqueConstraint() 
+	{
+		positions = new ArrayList<Position>();
+	}
+	
+	public void add(int x, int y) 
+	{
+		positions.add(new Position(x, y));
 	}
 	
 	@Override
-	public boolean isViolated(int x, int y, Board b) {
-		boolean isPresent = false;
-		for (int i = 0; i < xValues.size(); i++) {
-			if (x == xValues.get(i) && y == yValues.get(i)) {
-				isPresent = true;
-				break;
-			}
+	public boolean canHandle(int x, int y)
+	{
+		for (Position p : positions) {
+			if ((p.x == x) && (p.y == y))
+				return true;
 		}
-		if (!isPresent) {
-			return false;
-		}
-		for (int i = 0; i < xValues.size(); i++) {
-			if ((x != xValues.get(i) || y != yValues.get(i)) && !(b.getValue(xValues.get(i), yValues.get(i)) == Board.UNSET)) {
-				if (b.getValue(x, y) == b.getValue(xValues.get(i), yValues.get(i))) {
-					return true;
+		
+		return false;
+	}
+
+	@Override
+	public boolean isViolated(Board board)
+	{
+		/* since we're only interested if things are all unique, 
+		 * just bung them all into an set and balk if we find duplicates
+		 * along the way (or if we find undefined cells)
+		 */
+		Set<Integer> cellValues = new HashSet<Integer>();
+		boolean valid = true;
+		
+		for (Position p : positions) {
+			int value = board.getValue(p.x, p.y);
+			
+			// NOTE: undefined cells would give false positives, but if we considered
+			// these as invalid, the solving process would never get anywhere
+			if (value != Board.UNSET) {
+				if (cellValues.contains(value)) {
+					/* cell already had item = duplicate = invalid */
+					valid = false;
+					break;
+				}
+				else {
+					/* value hasn't been seen yet */
+					cellValues.add(value);
 				}
 			}
 		}
-		return false;
+		
+		// constraint is violated if board isn't valid
+		return (valid == false);
 	}
 }
