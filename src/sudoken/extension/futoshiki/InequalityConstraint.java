@@ -39,8 +39,8 @@ public class InequalityConstraint implements Constraint
 		int v2 = board.getValue(x2, y2);
 		
 		if ((v1 == Board.UNSET) || (v2 == Board.UNSET)) {
-			/* violated: cannot compare undefined */
-			return true;
+			/* not violated: cannot compare undefined */
+			return false;
 		}
 		else {
 			/* violated: if relationship represents inverse inequality to the valid state */
