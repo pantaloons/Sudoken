@@ -16,11 +16,11 @@ public class Parser {
 	/**
 	 * Loads a board from a file.
 	 * 
-	 * @param fileName The file to load a board file.
+	 * @param f The file to load a board file.
 	 * @return The loaded board
 	 */
-    public static Board load(String fileName) throws IOException {
-    	Scanner sc = new Scanner(new File(fileName));
+    public static Board load(File f) throws IOException {
+    	Scanner sc = new Scanner(f);
     	String type = sc.next();
     	if(!ExtensionManager.hasExtension(type)) throw new IOException("Extension " + type + " not loaded.");
     	
