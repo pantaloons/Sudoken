@@ -159,6 +159,6 @@ public class ExtensionManager {
 	}
 
 	private static ClassLoader loadJAR(File f) throws MalformedURLException {
-		return new URLClassLoader(new URL[]{f.toURL()});
+		return new URLClassLoader(new URL[]{f.toURI().toURL()});
 	}
 }
