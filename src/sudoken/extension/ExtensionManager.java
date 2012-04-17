@@ -1,5 +1,9 @@
 package sudoken.extension;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -93,7 +97,7 @@ public class ExtensionManager {
 	 * for extensions, and if found, they are loaded. When an extension is loaded,
 	 * all interested components are notified of the newly loaded extension.
 	 */
-	public void startLoadingExtensions() {
+	public static void startLoadingExtensions() {
 	    // This was chosen to be a public method rather than in the static initialisation block,
 	    // as starting threads in constructors/initialisation blocks in generally regarded as
 	    // poor use of concurrency (Goetz et al, 2006). 
@@ -102,7 +106,7 @@ public class ExtensionManager {
         loadingThread.start();
 	}
 	
-	private class ExtensionLoader implements Runnable {
+	private static class ExtensionLoader implements Runnable {
 
         @Override
         public void run() {
@@ -110,7 +114,10 @@ public class ExtensionManager {
                 loadExtensions();
             } catch (InterruptedException e) {
                 // Nothing needs to be cleaned up. The thread will now end.
-            }
+            } catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
 	    
 	}
@@ -122,17 +129,36 @@ public class ExtensionManager {
 	 * be notified of newly loaded extensions.
 	 * 
 	 * @throws InterruptedException
+	 * @throws MalformedURLException 
 	 */
-	private static void loadExtensions() throws InterruptedException {
-	    ServiceLoader<Extension> extensionLoader = ServiceLoader.load(Extension.class);
-	    Iterator<Extension> extensionIterator = extensionLoader.iterator();
-	    while(true) {
-	        while(extensionIterator.hasNext()) {
-	            // Loads the extension
-	            Extension newlyLoadedExtension = extensionIterator.next();
-	            notifyListeners(newlyLoadedExtension);
-	        }
-            TimeUnit.SECONDS.sleep(REFRESH_RATE_IN_SECONDS);
-	    }
+	private static void loadExtensions() throws InterruptedException, MalformedURLException {
+		File dir = new File("./plugins");
+		while(true) {
+			if(!dir.exists()) {
+				TimeUnit.SECONDS.sleep(REFRESH_RATE_IN_SECONDS);
+				continue;
+			}
+			System.out.println("Looking for new extensions...");
+			for(File f : dir.listFiles()) {
+				if(f.isFile()) {
+					int i = f.getName().lastIndexOf('.');
+					if(i >= 0 && f.getName().substring(i + 1).equals("jar")) {
+						ClassLoader cl = loadJAR(f);
+					    ServiceLoader<Extension> extensionLoader = ServiceLoader.load(Extension.class, cl);
+					    Iterator<Extension> extensionIterator = extensionLoader.iterator();
+				        while(extensionIterator.hasNext()) {
+				            // Loads the extension
+				            Extension newlyLoadedExtension = extensionIterator.next();
+				            notifyListeners(newlyLoadedExtension);
+				        }
+					}
+				}
+			}
+			TimeUnit.SECONDS.sleep(REFRESH_RATE_IN_SECONDS);
+		}
+	}
+
+	private static ClassLoader loadJAR(File f) throws MalformedURLException {
+		return new URLClassLoader(new URL[]{f.toURL()});
 	}
 }

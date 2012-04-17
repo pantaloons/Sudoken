@@ -31,7 +31,7 @@
 	<target name="compile" depends="init"
 		description="compile the source " >
 		<!-- Compile the java code from ${src} into ${build} -->
-		<javac srcdir="${src}" destdir="${build}">
+		<javac includeantruntime="false" srcdir="${src}" destdir="${build}">
 			<classpath>
 				<pathelement path="${classpath}" />
 				<fileset dir="${lib}">
@@ -46,7 +46,7 @@
 		<!-- Put core into executable .jar file -->
 		<jar jarfile="${out}/Sudoken.jar">
 			<manifest>
-				<attribute name="Main-Class" value="sudoken.gui.MainWindow" />
+				<attribute name="Main-Class" value="sudoken.gui.SudokenLauncher" />
 			</manifest>
 			
 			<!-- Classes to include in .jar: All but the actual extensions -->
@@ -69,24 +69,18 @@
 		<!-- Put each extension into separate .jar file -->
 			<!-- FIXME: how to get these automatically detected? -->
 		<jar jarfile="${plugins}/sudoku.jar">
-			<manifest>
-				<!-- Plugin metadata... -->
-			</manifest>
 			<fileset dir="${build}" includes="${extRoot}/sudoku/*" />
+			<service type="sudoken.extension.Extension" provider="sudoken.extension.sudoku.Sudoku" />
 		</jar>
         
         <jar jarfile="${plugins}/futoshiki.jar">
-            <manifest>
-                <!-- Plugin metadata... -->
-            </manifest>
             <fileset dir="${build}" includes="${extRoot}/futoshiki/*" />
+        	<service type="sudoken.extension.Extension" provider="sudoken.extension.futoshiki.Futoshiki" />
         </jar>
         
         <jar jarfile="${plugins}/jigsaw.jar">
-            <manifest>
-                <!-- Plugin metadata... -->
-            </manifest>
             <fileset dir="${build}" includes="${extRoot}/jigsaw/*" />
+        	<service type="sudoken.extension.Extension" provider="sudoken.extension.jigsaw.Jigsaw" />
         </jar>
 	</target>
 	
