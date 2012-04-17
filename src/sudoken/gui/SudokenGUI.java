@@ -2,10 +2,17 @@ package sudoken.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.*;
 import javax.swing.UIManager.*;
+import javax.swing.filechooser.FileFilter;
 
 import sudoken.domain.*;
+import sudoken.persistence.Parser;
+import sudoken.solver.BacktrackingSolver;
+import sudoken.solver.Solver;
 
 /**
  * Main user interface for Sudoku puzzles solvers
@@ -16,7 +23,13 @@ public class SudokenGUI extends JFrame
 {	
 	/* Instance Variables ========================== */
 	
-	/* panel for housing the board display */
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4755160282006524528L;
+
+	private Solver s;
+
 	private BoardWidget board_pane;
 	
 	/* status label */
@@ -25,32 +38,16 @@ public class SudokenGUI extends JFrame
 	/* progressbar */
 	private JProgressBar progressbar;
 	
-	/* --------------------------------------------- */
-	// App state - move to a container class?
-	
-	/* current board/puzzle */
-	private Board board;
-	
 	/* Ctor ======================================== */
 	
 	/* ctor */
 	// FIXME: this should eventually contain the body of the other again
 	public SudokenGUI()
 	{
-		this(null);
-	}
-	
-	/* ctor */
-	public SudokenGUI(Board board)
-	{
-		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setIconImage(new ImageIcon(ClassLoader.getSystemResource("icon.png")).getImage());
-		
-		// XXX: remove this line
-		this.board = board;
 		
 		/* setup UI */
+		//setIconImage(new ImageIcon(ClassLoader.getSystemResource("icon.png")).getImage());
 		setup_theming();
 		setup_ui();
 		
@@ -90,11 +87,9 @@ public class SudokenGUI extends JFrame
 		
 		/* top panel - controls */
 		JPanel ctrlPanel = setup_ctrlPanel();
-		contentPane.add(ctrlPanel, BorderLayout.NORTH);
+		contentPane.add(ctrlPanel, BorderLayout.NORTH);		
 		
-		/* center panel - puzzle display area */
-		// NOTE: this needs to be replaced everytime the puzzle changes
-		board_pane = new BoardWidget(board);		
+		board_pane = new BoardWidget(null);
 		contentPane.add(board_pane, BorderLayout.CENTER);
 		
 		/* bottom panel - status */
@@ -116,12 +111,46 @@ public class SudokenGUI extends JFrame
 		
 		/* load puzzle */
 		JButton loadBut = new JButton("Load Puzzle");
+		loadBut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser(".");
+				fc.setFileFilter(new FileFilter() {
+					public String getDescription() {
+						return "Sudoken (.sudoken)";
+					}
+					public boolean accept(File f) {
+						if(f.isDirectory()) return true;
+						int i = f.getName().lastIndexOf('.');
+						if(i < 0) return false;
+						else return f.getName().substring(i + 1).equals("sudoken");
+					}
+				});
+				if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					File f = fc.getSelectedFile();
+					try {
+						Board b = Parser.load(f);
+						s = new BacktrackingSolver();
+						s.setSudokuBoard(b);
+						board_pane.setBoard(b);
+					}
+					catch(IOException x) {
+						System.out.println("Error...");
+					}
+				}
+			}
+		});
 		pnl.add(loadBut);
 		
 		pnl.add(Box.createHorizontalGlue()); // padding
 		
 		/* solve */
 		JButton solveBut = new JButton("Solve!");
+		solveBut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				s.solve();
+				board_pane.setupUI();
+			}
+		});
 		pnl.add(solveBut);
 		
 		pnl.add(Box.createHorizontalGlue()); // padding

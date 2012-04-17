@@ -8,6 +8,12 @@ import sudoken.domain.*;
 /* Widget for rendering board states */
 public class BoardWidget extends JPanel
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2031869036220290839L;
+
 	/* the board that the widget currently shows */
 	private Board board;
 	
@@ -22,10 +28,19 @@ public class BoardWidget extends JPanel
 		setupUI();
 	}
 	
+	public void setBoard(Board b) {
+		this.board = b;
+		setupUI();
+	}
+	
 	/* setup widgets representing the board */
 	public void setupUI()
 	{
+		System.out.println("setting up UI");
+				
 		GridBagConstraints c = new GridBagConstraints();
+		
+		removeAll();
 		
 		if (board == null) {
 			/* display dummy placeholder label */
@@ -60,5 +75,8 @@ public class BoardWidget extends JPanel
 			
 			// TODO: facilitate overdrawing the area where these lie
 		}
+		
+		repaint();
+		revalidate();
 	}
 }
