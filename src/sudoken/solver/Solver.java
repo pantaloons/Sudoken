@@ -24,4 +24,17 @@ public interface Solver {
      * @return {@code true} if the board is solvable, {@code false} if it is not.
      */
     boolean solve();
+    
+   
+    /**
+     * Subscribes a SolverListener to this solver. The SolverListener will now have
+     * its {@link SolverListener#processSolvedBoard(Board)} method called when
+     * a board is loaded or is changed/solved.
+     * 
+     * @param listener  the SolverListener to subscribe.
+     * @return          {@code true} if the listener was successfully subscribed,
+     *                  {@code false} otherwise. A potential reason for having {@code false}
+     *                  returned is that the listener was already added previously.
+     */
+    boolean addListener(SolverListener listener);
 }

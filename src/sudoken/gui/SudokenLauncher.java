@@ -24,7 +24,7 @@ public class SudokenLauncher
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() 
 			{	
-				new SudokenGUI();
+				new SudokenGUIImp();
 			}
 		});
 	}
