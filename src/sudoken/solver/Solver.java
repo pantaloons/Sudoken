@@ -27,14 +27,14 @@ public interface Solver {
     
    
     /**
-     * Subscribes a SolverListener to this solver. The SolverListener will now have
-     * its {@link SolverListener#processSolvedBoard(Board)} method called when
+     * Subscribes a SolverListener to this solver. The BoardChangeListener will now have
+     * its {@link BoardChangeListener#processSolvedBoard(Board)} method called when
      * a board is loaded or is changed/solved.
      * 
-     * @param listener  the SolverListener to subscribe.
+     * @param listener  the BoardChangeListener to subscribe.
      * @return          {@code true} if the listener was successfully subscribed,
      *                  {@code false} otherwise. A potential reason for having {@code false}
      *                  returned is that the listener was already added previously.
      */
-    boolean addListener(SolverListener listener);
+    boolean addListener(BoardChangeListener listener);
 }

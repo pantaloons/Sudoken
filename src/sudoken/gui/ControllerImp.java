@@ -38,6 +38,7 @@ public class ControllerImp implements Controller {
         ControllerImp controller = new ControllerImp();
         controller.setGUI(gui);
         gui.setController(controller);
+        puzzleSolver.addListener(gui);
         controller.setSolver(puzzleSolver);
         return controller;
     }

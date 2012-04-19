@@ -9,5 +9,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/RoomSystemSimulator/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="plugins"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

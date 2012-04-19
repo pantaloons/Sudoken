@@ -21,10 +21,17 @@ public class SudokenLauncher
 		Class.forName("sudoken.extension.jigsaw.Jigsaw");*/
 		
 		/* launch gui */
+		
+		try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            // Put up with the standard look-and-feel.
+        }
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() 
 			{	
-				new SudokenGUIImp();
+			    new WrappingFrame("Sudoken", new SudokenGUIImp().getPanel()).getFrame().setVisible(true);
 			}
 		});
 	}

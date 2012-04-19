@@ -1,12 +1,13 @@
 package sudoken.gui;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import sudoken.extension.ExtensionListener;
-import sudoken.solver.SolverListener;
+import sudoken.solver.BoardChangeListener;
 
-public interface SudokenGUI extends ExtensionListener, SolverListener {
+public interface SudokenGUI extends ExtensionListener, BoardChangeListener {
 
     public void setIsPuzzleLoaded(boolean isLoaded);
     public void setSolved(boolean isSuccess);

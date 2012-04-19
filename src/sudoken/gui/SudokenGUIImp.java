@@ -2,11 +2,7 @@ package sudoken.gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-
 import javax.swing.*;
-import javax.swing.UIManager.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -14,9 +10,6 @@ import net.miginfocom.swing.MigLayout;
 
 import sudoken.domain.*;
 import sudoken.extension.Extension;
-import sudoken.persistence.Parser;
-import sudoken.solver.BacktrackingSolver;
-import sudoken.solver.Solver;
 
 /**
  * Main user interface for Sudoku puzzles solvers
@@ -29,6 +22,7 @@ public class SudokenGUIImp implements SudokenGUI {
     private Controller controller;
     private JPanel panel;
     private LabelledFileChooser fileChooser;
+    private BoardWidget boardWidget;
 
     private JButton solveButton;
     private JButton loadButton;
@@ -43,30 +37,35 @@ public class SudokenGUIImp implements SudokenGUI {
         layoutComponents();
         setIsPuzzleLoaded(false);
     }
-    
+
     private void createComponents() {
         panel = new JPanel();
-        fileChooser = new LabelledFileChooser("Browse");
-        FileFilter fileExtension = new FileNameExtensionFilter(
-                "Sudoken Config", "sudoken");
-        fileChooser.getFileChooser().addChoosableFileFilter(fileExtension);
-        fileChooser.getFileChooser().setFileSelectionMode(
-                JFileChooser.FILES_ONLY);
-
+        boardWidget = new BoardWidget();
         solveButton = new JButton("Solve");
         loadButton = new JButton("Load Puzzle");
         solveButton.addActionListener(new SolveButtonListener());
         loadButton.addActionListener(new LoadButtonListener());
+        createFileChooser();
     }
     
-    private void layoutComponents() {
-        LayoutManager layout = new MigLayout("", "[grow][]");
-        panel.setLayout(layout);
-        panel.add(fileChooser, "grow");
-        panel.add(loadButton);
-        panel.add(solveButton, "wrap");
+    private void createFileChooser() {
+        fileChooser = new LabelledFileChooser("Browse");
+        FileFilter fileExtension = new FileNameExtensionFilter("Sudoken Config", "sudoken");
+        fileChooser.getFileChooser().addChoosableFileFilter(fileExtension);
+        fileChooser.getFileChooser().setFileSelectionMode(JFileChooser.FILES_ONLY);
     }
 
+    private void layoutComponents() {
+        LayoutManager layout = new MigLayout("", "[grow][]", "[]20[grow]");
+        panel.setLayout(layout);
+        panel.add(fileChooser, "growx");
+        panel.add(loadButton);
+        panel.add(solveButton, "wrap");
+        panel.add(boardWidget, "align center, span");
+        panel.setPreferredSize(new Dimension(500, 500));
+    }
+
+    @Override
     public void setController(Controller controller) {
         this.controller = controller;
     }
@@ -78,7 +77,7 @@ public class SudokenGUIImp implements SudokenGUI {
             controller.solve();
         }
     }
-    
+
     private class LoadButtonListener implements ActionListener {
 
         @Override
@@ -86,27 +85,33 @@ public class SudokenGUIImp implements SudokenGUI {
             String fileName = fileChooser.getTextField().getText();
             controller.loadPuzzle(fileName);
         }
-        
+
     }
 
     @Override
     public void processNewExtension(Extension newlyLoadedExtension) {
         // add new icon for new extension (Maybe. This is not that important).
-        
+
     }
 
     @Override
-    public void processSolvedBoard(Board solvedBoard) {
-        //
+    public void processSolvedBoard(final Board solvedBoard) {
+        EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                boardWidget.setBoard(solvedBoard);
+            }
+        });
     }
 
     @Override
     public void setIsPuzzleLoaded(final boolean isLoaded) {
         EventQueue.invokeLater(new Runnable() {
-            
+
             @Override
             public void run() {
-               solveButton.setEnabled(isLoaded); 
+                solveButton.setEnabled(isLoaded);
             }
         });
     }
@@ -114,13 +119,13 @@ public class SudokenGUIImp implements SudokenGUI {
     @Override
     public void setSolved(boolean isSuccess) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void reset() {
         // clear board.
-        
+
     }
 
     @Override
@@ -129,26 +134,27 @@ public class SudokenGUIImp implements SudokenGUI {
     }
 }
 
-// I don't think it is even possible to have progress for a backtracking solver. If there is a new solver,
+// I don't think it is even possible to have progress for a backtracking solver.
+// If there is a new solver,
 // then maybe this is useful.
 //
-//private JProgressBar progressbar;
+// private JProgressBar progressbar;
 //
-///* Status panel */
-//private JPanel setup_statusPanel() {
-//  /* panel settings */
-//  JPanel pnl = new JPanel();
-//  pnl.setBorder(BorderFactory.createEmptyBorder(4, 2, 2, 2));
-//  pnl.setLayout(new BoxLayout(pnl, BoxLayout.X_AXIS));
+// /* Status panel */
+// private JPanel setup_statusPanel() {
+// /* panel settings */
+// JPanel pnl = new JPanel();
+// pnl.setBorder(BorderFactory.createEmptyBorder(4, 2, 2, 2));
+// pnl.setLayout(new BoxLayout(pnl, BoxLayout.X_AXIS));
 //
-//  /* progressbar - 75% */
-//  progressbar = new JProgressBar();
-//  pnl.add(progressbar);
+// /* progressbar - 75% */
+// progressbar = new JProgressBar();
+// pnl.add(progressbar);
 //
-//  /* labels - 20% */
-//  status_label = new JLabel("Load puzzle to begin...");
-//  status_label.setBorder(BorderFactory.createEmptyBorder(2, 7, 2, 3));
-//  pnl.add(status_label);
+// /* labels - 20% */
+// status_label = new JLabel("Load puzzle to begin...");
+// status_label.setBorder(BorderFactory.createEmptyBorder(2, 7, 2, 3));
+// pnl.add(status_label);
 //
-//  return pnl;
-//}
+// return pnl;
+// }

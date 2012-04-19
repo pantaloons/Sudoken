@@ -2,6 +2,7 @@ package sudoken.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -44,7 +45,8 @@ public class LabelledFileChooser extends JPanel {
         browseButton = new JButton(buttonName);
         textField = new JTextField();
         fileChooser = new JFileChooser();
-
+        
+        fileChooser.setCurrentDirectory(new File("./"));
         MigLayout layout = new MigLayout("insets 0", "[][grow][]");
         setLayout(layout);
         add(label, "gapx 0 10");
