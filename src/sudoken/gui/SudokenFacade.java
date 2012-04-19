@@ -2,6 +2,7 @@ package sudoken.gui;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import sudoken.extension.ExtensionManager;
 import sudoken.gui.controller.ControllerImp;
@@ -22,7 +23,13 @@ public class SudokenFacade {
         // Setting the look and feel should be done as the very first step in an
         // application (see http://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html).
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
         } catch (Exception e) {
             // Put up with the standard look-and-feel.
         }
@@ -31,7 +38,7 @@ public class SudokenFacade {
         SudokenGUI gui = new SudokenGUIImp();
         Solver puzzleSolver = new BacktrackingSolver();
         ControllerImp.createControllerImp(puzzleSolver, gui);
-        wrappingFrame = new WrappingFrame("Sudoken", gui.getPanel()).getFrame();
+        wrappingFrame = new WrappingFrame("Sudoken", gui.getPanel()).getFrame(); 
         // setIconImage(new ImageIcon(ClassLoader.getSystemResource("icon.png")).getImage());
     }
 
