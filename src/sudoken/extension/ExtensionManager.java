@@ -161,15 +161,11 @@ public class ExtensionManager {
                     int i = f.getName().lastIndexOf('.');
                     if (i >= 0 && f.getName().substring(i + 1).equals("jar")) {
                         ClassLoader cl = loadJAR(f);
-                        ServiceLoader<Extension> extensionLoader = ServiceLoader
-                                .load(Extension.class, cl);
-                        Iterator<Extension> extensionIterator = extensionLoader
-                                .iterator();
-                        while (extensionIterator.hasNext()) {
-                            // Loads the extension
-                            Extension newlyLoadedExtension = extensionIterator
-                                    .next();
-                            notifyListeners(newlyLoadedExtension);
+                        ServiceLoader<Extension> extensionLoader = 
+                        		ServiceLoader.load(Extension.class, cl);
+                        
+                        for (Extension newlyLoadedExtension : extensionLoader) {
+                        	notifyListeners(newlyLoadedExtension);
                         }
                     }
                 }
