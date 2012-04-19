@@ -1,93 +1,93 @@
 <project name="Sudoken" default="out" basedir="./">
-	<description>
-		Build script for Sudoken. 
-		
-		Most of the complexity here arises from trying to create
-		separate .jar files for the extensions.
-		
-		Author: Joshua Leung
-	</description>
-	<!-- set global properties for this build -->
-	<property name="src"         location="src" />
-	<property name="lib"         location="lib" />
-	<property name="build"       location="bin" />
-	
-	<property name="extRoot"     value = "sudoken/extension" />
-	<property name="extSrcs"     location="${src}/${extRoot}" />
-	<property name="extBins"     location="${build}/${extRoot}" />
-	
-	<property name="out"         location="out" />
-	<property name="plugins"     location="${out}/plugins" />
-	
-	<target name="init">
-		<!-- Create the time stamp -->
-		<tstamp/>
-		<!-- Create the build directory structure used by compile -->
-		<mkdir dir="${build}" />
-		<mkdir dir="${out}" />
-		<mkdir dir="${plugins}" />
-	</target>
+    <description>
+        Build script for Sudoken. 
+        
+        Most of the complexity here arises from trying to create
+        separate .jar files for the extensions.
+        
+        Author: Joshua Leung
+    </description>
+    <!-- set global properties for this build -->
+    <property name="src"         location="src" />
+    <property name="lib"         location="lib" />
+    <property name="build"       location="bin" />
+    
+    <property name="extRoot"     value = "sudoken/extension" />
+    <property name="extSrcs"     location="${src}/${extRoot}" />
+    <property name="extBins"     location="${build}/${extRoot}" />
+    
+    <property name="out"         location="out" />
+    <property name="plugins"     location="${out}/plugins" />
+    
+    <target name="init">
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <!-- Create the build directory structure used by compile -->
+        <mkdir dir="${build}" />
+        <mkdir dir="${out}" />
+        <mkdir dir="${plugins}" />
+    </target>
 
-	<target name="compile" depends="init"
-		description="compile the source " >
-		<!-- Compile the java code from ${src} into ${build} -->
-		<javac includeantruntime="false" srcdir="${src}" destdir="${build}">
-			<classpath>
-				<pathelement path="${classpath}" />
-				<fileset dir="${lib}">
-					<include name="*.jar" />
-				</fileset>
-			</classpath>
-		</javac>
-	</target>
+    <target name="compile" depends="init"
+        description="compile the source " >
+        <!-- Compile the java code from ${src} into ${build} -->
+        <javac includeantruntime="false" srcdir="${src}" destdir="${build}">
+            <classpath>
+                <pathelement path="${classpath}" />
+                <fileset dir="${lib}">
+                    <include name="*.jar" />
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
 
-	<target name="out" depends="compile"
-		description="generate the distribution">		
-		<!-- Put core into executable .jar file -->
-		<jar jarfile="${out}/Sudoken.jar">
-			<manifest>
-				<attribute name="Main-Class" value="sudoken.gui.SudokenLauncher" />
-			</manifest>
-			
-			<!-- Classes to include in .jar: All but the actual extensions -->
-			<fileset dir="${build}">
-				<!-- All normal folders, but exclude anything in the extensions folder -->
-				<exclude name="${extRoot}/**/**" />
-			</fileset>
-			<fileset dir="${build}">
-				<!-- Put back extensions base classes -->
-				<include name="${extRoot}/*.class" />
-			</fileset>
-			
-			<!-- Library files -->
-			<zipgroupfileset dir="${lib}" includes="*.jar" />
-			
-			<!-- Essential images: Dump in root for easy access -->
-			<fileset dir="res" />
-		</jar>
-		
-		<!-- Put each extension into separate .jar file -->
-			<!-- FIXME: how to get these automatically detected? -->
-		<jar jarfile="${plugins}/sudoku.jar">
-			<fileset dir="${build}" includes="${extRoot}/sudoku/*" />
-			<service type="sudoken.extension.Extension" provider="sudoken.extension.sudoku.Sudoku" />
-		</jar>
+    <target name="out" depends="compile"
+        description="generate the distribution">        
+        <!-- Put core into executable .jar file -->
+        <jar jarfile="${out}/Sudoken.jar">
+            <manifest>
+                <attribute name="Main-Class" value="sudoken.gui.SudokenFacade" />
+            </manifest>
+            
+            <!-- Classes to include in .jar: All but the actual extensions -->
+            <fileset dir="${build}">
+                <!-- All normal folders, but exclude anything in the extensions folder -->
+                <exclude name="${extRoot}/**/**" />
+            </fileset>
+            <fileset dir="${build}">
+                <!-- Put back extensions base classes -->
+                <include name="${extRoot}/*.class" />
+            </fileset>
+            
+            <!-- Library files -->
+            <zipgroupfileset dir="${lib}" includes="*.jar" />
+            
+            <!-- Essential images: Dump in root for easy access -->
+            <fileset dir="res" />
+        </jar>
+        
+        <!-- Put each extension into separate .jar file -->
+            <!-- FIXME: how to get these automatically detected? -->
+        <jar jarfile="${plugins}/sudoku.jar">
+            <fileset dir="${build}" includes="${extRoot}/sudoku/*" />
+            <service type="sudoken.extension.Extension" provider="sudoken.extension.sudoku.Sudoku" />
+        </jar>
         
         <jar jarfile="${plugins}/futoshiki.jar">
             <fileset dir="${build}" includes="${extRoot}/futoshiki/*" />
-        	<service type="sudoken.extension.Extension" provider="sudoken.extension.futoshiki.Futoshiki" />
+            <service type="sudoken.extension.Extension" provider="sudoken.extension.futoshiki.Futoshiki" />
         </jar>
         
         <jar jarfile="${plugins}/jigsaw.jar">
             <fileset dir="${build}" includes="${extRoot}/jigsaw/*" />
-        	<service type="sudoken.extension.Extension" provider="sudoken.extension.jigsaw.Jigsaw" />
+            <service type="sudoken.extension.Extension" provider="sudoken.extension.jigsaw.Jigsaw" />
         </jar>
-	</target>
-	
-	<target name="clean"
-		description="clean up temp files created by building">
-		<!-- Delete the ${build} and ${out} directory trees -->
-		<delete dir="${build}" />
-		<delete dir="${out}" />
-	</target>
+    </target>
+    
+    <target name="clean"
+        description="clean up temp files created by building">
+        <!-- Delete the ${build} and ${out} directory trees -->
+        <delete dir="${build}" />
+        <delete dir="${out}" />
+    </target>
 </project>

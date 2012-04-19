@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import sudoken.extension.ExtensionListener;
+import sudoken.gui.controller.Controller;
 import sudoken.solver.BoardChangeListener;
 
 public interface SudokenGUI extends ExtensionListener, BoardChangeListener {

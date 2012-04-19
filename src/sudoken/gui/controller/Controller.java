@@ -1,4 +1,4 @@
-package sudoken.gui;
+package sudoken.gui.controller;
 
 public interface Controller {
     

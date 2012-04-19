@@ -7,6 +7,8 @@ import javax.swing.UIManager;
 import sudoken.domain.Board;
 import sudoken.extension.Extension;
 import sudoken.extension.ExtensionManager;
+import sudoken.gui.controller.ControllerImp;
+import sudoken.gui.util.WrappingFrame;
 import sudoken.solver.BacktrackingSolver;
 import sudoken.solver.Solver;
 

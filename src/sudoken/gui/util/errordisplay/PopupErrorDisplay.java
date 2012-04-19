@@ -1,4 +1,4 @@
-package sudoken.gui.errordisplay;
+package sudoken.gui.util.errordisplay;
 
 import java.awt.Component;
 

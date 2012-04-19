@@ -3,6 +3,7 @@ package sudoken.gui;
 import javax.swing.*;
 
 import sudoken.extension.ExtensionManager;
+import sudoken.gui.util.WrappingFrame;
 
 public class SudokenLauncher
 {
