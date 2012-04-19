@@ -11,4 +11,10 @@ public class Jigsaw extends Extension {
     public Jigsaw() {
         super(new JigsawParser(), new JigsawCreator());
     }
+    
+    @Override
+    public boolean hasPrerequisites() {
+    	// no prerequisites
+    	return true;
+    }
 }

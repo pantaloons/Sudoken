@@ -11,4 +11,10 @@ public class Futoshiki extends Extension {
     public Futoshiki() {
         super(new FutoshikiParser(), new FutoshikiCreator());
     }
+    
+    @Override
+    public boolean hasPrerequisites() {
+    	// no prerequisites
+    	return true;
+    }
 }

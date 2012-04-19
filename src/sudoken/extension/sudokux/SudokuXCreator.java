@@ -1,8 +1,9 @@
-package sudoken.extension.sudoku;
+package sudoken.extension.sudokux;
 
 import java.util.Collection;
 
 import sudoken.domain.*;
+import sudoken.extension.*;
 
 public class SudokuXCreator implements BoardCreator {
 	// XXX: review this
@@ -17,7 +18,8 @@ public class SudokuXCreator implements BoardCreator {
 	}
 	
 	@Override
-	public Board create(int width, int height, int[][] grid, Collection<Constraint> constraints) {
+	public Board create(int width, int height, int[][] grid, 
+			Collection<Constraint> constraints) {
 		/* create standard sudoku board */
 		BoardCreator sudokuCreator = getSudokuCreator();
 		Board board = sudokuCreator.create(width, height, grid, constraints);

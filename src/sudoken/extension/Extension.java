@@ -28,7 +28,8 @@ public abstract class Extension {
 	 * extensions, where one extension may be built on top of
 	 * another.
 	 *
-	 * @return   {@code true} if all prerequisites for using this extension are met
+	 * @return   {@code true} if all prerequisites for using this 
+	 *           extension are met
 	 */
 	public abstract boolean hasPrerequisites();
 }

@@ -38,10 +38,16 @@ public class ExtensionManager {
      * 
      * @param ext
      *            Identifier for extension. Lower-case.
-     * @return <code>true</code> if a matching extension exists/can be used
+     * @return {@code true} if a matching extension exists/can be used
      */
     public static boolean hasExtension(String ext) {
-        return m.containsKey(ext);
+    	// 1) extension must be registered
+        if (m.containsKey(ext) == false)
+        	return false;
+        
+        // 2) extension's prerequisites must be met at this point in time
+        Extension extension = m.get(ext);
+        return extension.hasPrerequisites();
     }
 
     /**

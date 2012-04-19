@@ -11,4 +11,10 @@ public class Sudoku extends Extension {
     public Sudoku() {
         super(null, new SudokuCreator());
     }
+    
+    @Override
+    public boolean hasPrerequisites() {
+    	// no prerequisites
+    	return true;
+    }
 }
