@@ -82,6 +82,14 @@
             <fileset dir="${build}" includes="${extRoot}/jigsaw/*" />
             <service type="sudoken.extension.Extension" provider="sudoken.extension.jigsaw.Jigsaw" />
         </jar>
+        
+        <jar jarfile="${plugins}/x.jar">
+            <fileset dir="${build}" includes="${extRoot}/x/*" />
+            <service type="sudoken.extension.Extension">
+				<provider classname="sudoken.extension.x.SudokuX" />
+				<provider classname="sudoken.extension.x.FutoshikiX" />
+            </service>
+        </jar>
     </target>
     
     <target name="clean"

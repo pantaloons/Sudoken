@@ -1,4 +1,4 @@
-package sudoken.extension.sudokux;
+package sudoken.extension.x;
 
 import sudoken.extension.Extension;
 import sudoken.extension.ExtensionManager;
@@ -9,7 +9,7 @@ public class SudokuX extends Extension {
     }
 
     public SudokuX() {
-        super(null, new SudokuXCreator());
+        super(null, new XCreator("sudoku"));
     }
     
     @Override

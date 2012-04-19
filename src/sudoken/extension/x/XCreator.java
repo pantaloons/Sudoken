@@ -1,18 +1,23 @@
-package sudoken.extension.sudokux;
+package sudoken.extension.x;
 
 import java.util.Collection;
 
 import sudoken.domain.*;
 import sudoken.extension.*;
 
-public class SudokuXCreator implements BoardCreator {
-	// XXX: review this
-	private BoardCreator getSudokuCreator()
+public class XCreator implements BoardCreator {
+	/* identifier for extension that we're extending */
+	private String baseExtension;
+	
+	public XCreator(String baseExtension) {
+		this.baseExtension = baseExtension;
+	}
+	
+	/* Get creator for puzzle type that we're extending with an X */
+	private BoardCreator getCreator()
 	{
-		final String requiredExtension = "sudoku";
-		
-		if (ExtensionManager.hasExtension(requiredExtension))
-			return ExtensionManager.getConstructor(requiredExtension);
+		if (ExtensionManager.hasExtension(baseExtension))
+			return ExtensionManager.getConstructor(baseExtension);
 		else
 			return null;
 	}
@@ -21,8 +26,7 @@ public class SudokuXCreator implements BoardCreator {
 	public Board create(int width, int height, int[][] grid, 
 			Collection<Constraint> constraints) {
 		/* create standard sudoku board */
-		BoardCreator sudokuCreator = getSudokuCreator();
-		Board board = sudokuCreator.create(width, height, grid, constraints);
+		Board board = getCreator().create(width, height, grid, constraints);
 		
 		/* add our own constraints (diagonals) to this board */
 		// XXX: perhaps we'd be better off with "board.addAdditionalConstraint()"?
