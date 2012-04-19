@@ -6,18 +6,19 @@ import java.util.Collection;
  * A game board.
  * 
  * @author Kevin Doran
- *
+ * 
  */
 public class Board {
-	public static final int UNSET = -1;
-	
+    public static final int UNSET = -1;
+
     private int height;
     private int width;
     private int[][] values;
     private int numCandidates;
     private Collection<Constraint> constraints;
 
-    public Board(int width, int height, int[][] values, int numCandidates, Collection<Constraint> c) {
+    public Board(int width, int height, int[][] values, int numCandidates,
+            Collection<Constraint> c) {
         this.height = height;
         this.width = width;
         this.values = values;
@@ -40,24 +41,26 @@ public class Board {
     public void setValue(int x, int y, int value) {
         values[x][y] = value;
     }
-    
+
     public int getNumCandidates() {
-    	return numCandidates;
+        return numCandidates;
     }
-    
+
     public Collection<Constraint> getConstraints() {
-    	return constraints;
+        return constraints;
     }
-    
-    //TODO: DEBUG, REMOVE
+
+    // TODO: DEBUG, REMOVE
     public void print() {
-    	for(int i = 0; i < height; i++) {
-    		for(int j = 0; j < width; j++) {
-    			if (values[j][i] == -1) System.out.print("- ");
-    			else System.out.print(values[j][i] + " ");
-    		}
-    		System.out.println();
-    	}
-    	System.out.println();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (values[j][i] == -1)
+                    System.out.print("- ");
+                else
+                    System.out.print(values[j][i] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 }

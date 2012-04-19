@@ -5,7 +5,6 @@ import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-
 /**
  * A {@code JFrame} which wraps a {@code JPanel}.
  * 

@@ -57,7 +57,8 @@ public class ControllerImp implements Controller {
     public void loadPuzzle(String fileName) {
         File puzzleFile = new File(fileName);
         if (!puzzleFile.canRead()) {
-            errorDisplay.showErrorMessage("The choosen file cannot be read. "
+            errorDisplay
+                    .showErrorMessage("The choosen file cannot be read. "
                             + "This program may not have sufficient privilages to read "
                             + "this file.");
             return;
@@ -67,7 +68,8 @@ public class ControllerImp implements Controller {
             Board puzzleBoard = Parser.load(puzzleFile);
             puzzleSolver.setSudokuBoard(puzzleBoard);
         } catch (IOException e) {
-            errorDisplay.showErrorMessage("An error occurred while trying to read "
+            errorDisplay
+                    .showErrorMessage("An error occurred while trying to read "
                             + "the file. The file was opened successfully, but "
                             + "reading the file contents failed.");
             e.printStackTrace();
@@ -78,14 +80,15 @@ public class ControllerImp implements Controller {
             e.printStackTrace();
             return;
         } catch (ParseException e) {
-            errorDisplay.showErrorMessage("An error occured while trying to parse "
+            errorDisplay
+                    .showErrorMessage("An error occured while trying to parse "
                             + "the file. The file was opened successfully and a "
                             + "sudoku extension was found to read the file; "
                             + "however, there is an error in the files syntax.");
             e.printStackTrace();
             return;
         }
-        gui.setIsPuzzleLoaded(true);       
+        gui.setIsPuzzleLoaded(true);
     }
 
     @Override

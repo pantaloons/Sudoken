@@ -19,11 +19,10 @@ import sudoken.gui.util.LabelledFileChooser;
  * @author Joshua Leung & Kevin Doran
  */
 public class SudokenGUIImp implements SudokenGUI {
-    private static final long serialVersionUID = -4755160282006524528L;
 
     private Controller controller;
     private JPanel panel;
-    private LabelledFileChooser fileChooser;
+    private LabelledFileChooser labelledFileChooser;
     private BoardWidget boardWidget;
 
     private JButton solveButton;
@@ -31,9 +30,6 @@ public class SudokenGUIImp implements SudokenGUI {
 
     // FIXME: this should eventually contain the body of the other again
     public SudokenGUIImp() {
-
-        // setIconImage(new
-        // ImageIcon(ClassLoader.getSystemResource("icon.png")).getImage());
 
         createComponents();
         layoutComponents();
@@ -49,22 +45,23 @@ public class SudokenGUIImp implements SudokenGUI {
         loadButton.addActionListener(new LoadButtonListener());
         createFileChooser();
     }
-    
+
     private void createFileChooser() {
-        fileChooser = new LabelledFileChooser("Browse");
+        labelledFileChooser = new LabelledFileChooser("Browse");
         FileFilter fileExtension = new FileNameExtensionFilter("Sudoken Config", "sudoken");
-        fileChooser.getFileChooser().addChoosableFileFilter(fileExtension);
-        fileChooser.getFileChooser().setFileSelectionMode(JFileChooser.FILES_ONLY);
+        labelledFileChooser.getFileChooser().setAcceptAllFileFilterUsed(false);
+        labelledFileChooser.getFileChooser().addChoosableFileFilter(fileExtension);
+        labelledFileChooser.getFileChooser().setFileSelectionMode(JFileChooser.FILES_ONLY);
     }
 
     private void layoutComponents() {
         LayoutManager layout = new MigLayout("", "[grow][]", "[]20[grow]");
         panel.setLayout(layout);
-        panel.add(fileChooser, "growx");
+        panel.add(labelledFileChooser, "growx");
         panel.add(loadButton);
         panel.add(solveButton, "wrap");
         panel.add(boardWidget, "align center, span");
-        panel.setPreferredSize(new Dimension(500, 500));
+        panel.setPreferredSize(new Dimension(500, 500)); 
     }
 
     @Override
@@ -84,16 +81,14 @@ public class SudokenGUIImp implements SudokenGUI {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String fileName = fileChooser.getTextField().getText();
+            String fileName = labelledFileChooser.getTextField().getText();
             controller.loadPuzzle(fileName);
         }
-
     }
 
     @Override
     public void processNewExtension(Extension newlyLoadedExtension) {
         // add new icon for new extension (Maybe. This is not that important).
-
     }
 
     @Override

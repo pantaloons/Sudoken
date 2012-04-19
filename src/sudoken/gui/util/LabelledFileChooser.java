@@ -45,7 +45,7 @@ public class LabelledFileChooser extends JPanel {
         browseButton = new JButton(buttonName);
         textField = new JTextField();
         fileChooser = new JFileChooser();
-        
+
         fileChooser.setCurrentDirectory(new File("./"));
         MigLayout layout = new MigLayout("insets 0", "[][grow][]");
         setLayout(layout);

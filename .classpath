@@ -8,7 +8,7 @@
 			<attribute name="javadoc_location" value="http://commons.apache.org/lang/api-3.1/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/RoomSystemSimulator/miglayout15-swing.jar"/>
 	<classpathentry kind="lib" path="plugins"/>
+	<classpathentry kind="lib" path="lib/miglayout15-swing.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

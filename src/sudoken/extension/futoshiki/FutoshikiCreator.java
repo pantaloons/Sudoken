@@ -9,26 +9,29 @@ import sudoken.domain.UniqueConstraint;
 
 public class FutoshikiCreator implements BoardCreator {
 
-	@Override
-	public Board create(int width, int height, int[][] grid, Collection<Constraint> constraints) {
-		if(width != height) throw new IllegalArgumentException("Width and height must be equal.");
-		
-		for (int i = 0; i < height; i++) {
-			UniqueConstraint rowConstraint = new UniqueConstraint();
-			for (int j = 0; j < width; j++) {
-				rowConstraint.add(j, i);
-			}
-			constraints.add(rowConstraint);
-		}
-		
-		for (int i = 0; i < width; i++) {
-			UniqueConstraint colConstraint = new UniqueConstraint();
-			for (int j = 0; j < height; j++) {
-				colConstraint.add(i, j);
-			}
-			constraints.add(colConstraint);
-		}
+    @Override
+    public Board create(int width, int height, int[][] grid,
+            Collection<Constraint> constraints) {
+        if (width != height)
+            throw new IllegalArgumentException(
+                    "Width and height must be equal.");
 
-		return new Board(width, height, grid, width, constraints);
-	}
+        for (int i = 0; i < height; i++) {
+            UniqueConstraint rowConstraint = new UniqueConstraint();
+            for (int j = 0; j < width; j++) {
+                rowConstraint.add(j, i);
+            }
+            constraints.add(rowConstraint);
+        }
+
+        for (int i = 0; i < width; i++) {
+            UniqueConstraint colConstraint = new UniqueConstraint();
+            for (int j = 0; j < height; j++) {
+                colConstraint.add(i, j);
+            }
+            constraints.add(colConstraint);
+        }
+
+        return new Board(width, height, grid, width, constraints);
+    }
 }

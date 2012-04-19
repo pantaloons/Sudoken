@@ -15,7 +15,7 @@ public class PopupErrorDisplay implements ErrorDisplay {
     public PopupErrorDisplay() {
         super();
     }
-    
+
     /**
      * Sets the swing component over which the pop-up window will appear over.
      * 

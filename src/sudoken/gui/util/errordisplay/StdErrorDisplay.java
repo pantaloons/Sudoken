@@ -9,12 +9,11 @@ import java.awt.Component;
  * 
  */
 public class StdErrorDisplay implements ErrorDisplay {
-    
-    
+
     public StdErrorDisplay() {
         super();
     }
-    
+
     /**
      * Displays the given message on the standard error stream.
      */
