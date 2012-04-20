@@ -20,8 +20,10 @@ public class XCreator implements BoardCreator
 	{
 		if (ExtensionManager.hasExtension(baseExtension))
 			return ExtensionManager.getConstructor(baseExtension);
-		else
+		else {
+			/* TODO: Throw exception. */
 			return null;
+		}
 	}
 	
 	@Override

@@ -55,7 +55,7 @@ public class JigsawParser implements SectionParser {
         for (List<Position> piecePositions: piecesPositions) {
         	if (piecePositions.size() == width) {
         		// Check that positions are adjacent.
-        		if (!arePiecesAdjacent(piecePositions, new HashSet<Integer>()))
+        		if (!arePositionsAdjacent(piecePositions))
         			throw new IOException("Parse error: Nonadjacent jigsaw piece.");
         	} else
         		throw new IOException("Parse error: Incorrect jigsaw piece size.");
@@ -65,9 +65,14 @@ public class JigsawParser implements SectionParser {
         return c;
     }
     
-    private boolean arePiecesAdjacent(List<Position> positions, Set<Integer> adjIndices) {
+    /* Returns true if positions are fully adjacent. */
+    private boolean arePositionsAdjacent(List<Position> positions) {
+    	return arePositionsAdjacent(positions, new HashSet<Integer>());
+    }
+    
+    private boolean arePositionsAdjacent(List<Position> positions, Set<Integer> adjIndices) {
     	if (adjIndices.isEmpty()) adjIndices.add(0);
-    	// Find a position adjacent to ones we've found (in adjPositionIndices).
+    	// Find a position adjacent to ones we've found (in adjIndices).
     	for (int i = 0; i < positions.size(); i++) {
     		if (!adjIndices.contains(i)) {
     			// Check current position against found ones.
@@ -75,7 +80,7 @@ public class JigsawParser implements SectionParser {
     				if (arePositionsAdjacent(positions.get(i), positions.get(adjIndex))) {
     					adjIndices.add(i);
     					if (adjIndices.size() == positions.size()) return true;
-    					else return arePiecesAdjacent(positions, adjIndices);
+    					else return arePositionsAdjacent(positions, adjIndices);
     				}
     			}
     		}
@@ -83,6 +88,7 @@ public class JigsawParser implements SectionParser {
     	return false;
     }
     
+    /* Returns true if two positions are vertically or horizontally adjacent to each other. */
     private boolean arePositionsAdjacent(Position first, Position second) {
     	boolean hAdj = (Math.abs(first.x - second.x) == 1);
     	boolean vAdj = (Math.abs(first.y - second.y) == 1);

@@ -68,6 +68,11 @@
         
         <!-- Put each extension into separate .jar file -->
             <!-- FIXME: how to get these automatically detected? -->
+        <jar jarfile="${plugins}/latinsquare.jar">
+            <fileset dir="${build}" includes="${extRoot}/latinsquare/*" />
+            <service type="sudoken.extension.Extension" provider="sudoken.extension.latinsquare.LatinSquare" />
+        </jar>
+    	
         <jar jarfile="${plugins}/sudoku.jar">
             <fileset dir="${build}" includes="${extRoot}/sudoku/*" />
             <service type="sudoken.extension.Extension" provider="sudoken.extension.sudoku.Sudoku" />

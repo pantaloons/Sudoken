@@ -14,7 +14,7 @@ public class Sudoku extends Extension {
     
     @Override
     public boolean hasPrerequisites() {
-    	// no prerequisites
-    	return true;
+    	// Depends on latin square
+    	return ExtensionManager.hasExtension("latinsquare");
     }
 }
