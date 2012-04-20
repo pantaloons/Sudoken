@@ -25,6 +25,10 @@ import net.miginfocom.swing.MigLayout;
  * @version 1.0 11.04.2011
  */
 public class LabelledFileChooser extends JPanel {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6786345864552715558L;
     private JFileChooser fileChooser;
     private JTextField textField;
     private JLabel label;

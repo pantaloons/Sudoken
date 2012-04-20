@@ -5,8 +5,8 @@ import java.text.ParseException;
 import java.util.*;
 
 import sudoken.domain.*;
-import sudoken.exception.NoMatchingExtensionException;
 import sudoken.extension.ExtensionManager;
+import sudoken.extension.NoMatchingExtensionException;
 
 /**
  * Default parser for a board. Reads in the game type and board information,

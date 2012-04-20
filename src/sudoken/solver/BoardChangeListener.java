@@ -4,5 +4,5 @@ import sudoken.domain.Board;
 
 public interface BoardChangeListener {
 
-    public void processSolvedBoard(Board solvedBoard);
+    public void processUpdatedBoard(Board solvedBoard);
 }

@@ -40,17 +40,40 @@ public class BoardWidget extends JPanel {
 
     private void setNoBoard() {
         removeAll();
+        this.board = null;
         /* display dummy placeholder label */
-        add(new JLabel("<No puzzle to display>"));
+        add(new JLabel("No puzzle to display."));
 
         /* with a big border around the rest of the panel */
-        setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        //setBorder(BorderFactory.createLineBorder(Color.GRAY));
         revalidate();
         repaint();
     }
+    
+    public void updateUI(final Board b) {
+        if(board == null) setBoard(b);
+        
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Updating!");
+                int width = board.getWidth();
+                int height = board.getHeight();
+                for (int row = 0; row < height; row++) {
+                    for (int col = 0; col < width; col++) {
+                        if(b.getValue(new Position(col, row)) == -1)
+                            boardLabels[col][row].setText("");
+                        else
+                            boardLabels[col][row].setText(b.getValue(new Position(col, row)) + "");
+                    }
+                }
+                revalidate();
+            }
+        });
+    }
 
     /* setup widgets representing the board */
-    public void setupUI() {
+    private void setupUI() {
         System.out.println("setting up UI");
         removeAll();
 
@@ -76,49 +99,4 @@ public class BoardWidget extends JPanel {
         repaint();
         revalidate();
     }
-
-    // I'm really sorry for swapping the layouts, but for some reason, I
-    // couldn't get
-    // GridBagLayout and MigLayout to work together: the grid of numbers was
-    // being displayed
-    // on one line. I'll try get back to this, as I don't want impose MigLayout
-    // on
-    // people.
-
-    // /* setup widgets representing the board */
-    // public void setupUI()
-    // {
-    // System.out.println("setting up UI");
-    //
-    // GridBagConstraints c = new GridBagConstraints();
-    //
-    // removeAll();
-    //
-    // /* create an array of labels */
-    // int width = board.getWidth();
-    // int height = board.getHeight();
-    //
-    // // to get larger cells...
-    // c.ipadx = 20;
-    // c.ipady = 10;
-    //
-    // boardLabels = new JLabel[width][height];
-    // for (int row = 0; row < height; row++) {
-    // c.gridy = row;
-    //
-    // for (int col = 0; col < width; col++) {
-    // c.gridx = col;
-    //
-    // int value = board.getValue(col, row);
-    // String txt = (value == Board.UNSET)? " " : Integer.toString(value);
-    //
-    // boardLabels[col][row] = new JLabel(txt);
-    // add(boardLabels[col][row], c);
-    // }
-    // }
-    //
-    // // TODO: facilitate overdrawing the area where these lie
-    // repaint();
-    // revalidate();
-    // }
 }

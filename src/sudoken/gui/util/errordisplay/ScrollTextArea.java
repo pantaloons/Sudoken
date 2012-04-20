@@ -14,6 +14,10 @@ import javax.swing.JTextArea;
  * @author Kevin Doran
  */
 public class ScrollTextArea extends JScrollPane {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8731919606768422549L;
     private final int INSET_SIZE = 5;
     private final int DEFAULT_WIDTH = 200;
     private final int DEFAULT_HEIGHT = 100;

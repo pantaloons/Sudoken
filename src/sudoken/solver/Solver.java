@@ -1,5 +1,8 @@
 package sudoken.solver;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import sudoken.domain.*;
 
 /**
@@ -9,7 +12,12 @@ import sudoken.domain.*;
  * @author Kevin Doran
  * 
  */
-public interface Solver {
+public abstract class Solver {
+    protected Board board;
+    private Collection<BoardChangeListener> listeners = new ArrayList<BoardChangeListener>();
+    
+    public Solver() {
+    }
 
     /**
      * Sets the sudoku board that is to be solved.
@@ -17,7 +25,10 @@ public interface Solver {
      * @param sudokuBoard
      *            the sudoku board to be solved.
      */
-    void setSudokuBoard(Board sudokuBoard);
+    public void setSudokuBoard(Board sudokuBoard) {
+        board = sudokuBoard;
+        notifyListeners(board);
+    }
 
     /**
      * Solves the sudoku board.
@@ -25,7 +36,7 @@ public interface Solver {
      * @return {@code true} if the board is solvable, {@code false} if it is
      *         not.
      */
-    boolean solve();
+    public abstract boolean solve();
 
     /**
      * Subscribes a SolverListener to this solver. The BoardChangeListener will
@@ -39,5 +50,18 @@ public interface Solver {
      *         {@code false} returned is that the listener was already added
      *         previously.
      */
-    boolean addListener(BoardChangeListener listener);
+    public boolean addListener(BoardChangeListener listener) {
+        boolean added = listeners.add(listener);
+        if (board != null) {
+            // Inform listeners of the current board.
+            listener.processUpdatedBoard(board);
+        }
+        return added;
+    }
+    
+    protected void notifyListeners(Board solvedBoard) {
+        for (BoardChangeListener listener : listeners) {
+            listener.processUpdatedBoard(solvedBoard);
+        }
+    }
 }

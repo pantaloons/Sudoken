@@ -1,8 +1,5 @@
 package sudoken.solver;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import sudoken.domain.*;
 
 /**
@@ -11,10 +8,7 @@ import sudoken.domain.*;
  * @author Kevin Doran
  * 
  */
-public class BacktrackingSolver implements Solver {
-    private Board board;
-    private Collection<BoardChangeListener> listeners = new ArrayList<BoardChangeListener>();
-
+public class BacktrackingSolver extends Solver {
     @Override
     public boolean solve() {
         return solve(new Position(0, 0));
@@ -33,6 +27,8 @@ public class BacktrackingSolver implements Solver {
      *         solved. {@code false} if it cannot be solved.
      */
     private boolean solve(Position p) {
+        notifyListeners(board);
+        
         if (p.getX() == board.getWidth()) {
         	p = new Position(0, p.getY() + 1);
             if (p.getY() == board.getHeight()) {
@@ -65,27 +61,5 @@ public class BacktrackingSolver implements Solver {
         }
         board.setValue(p, Board.UNSET);
         return false;
-    }
-
-    @Override
-    public void setSudokuBoard(Board board) {
-        this.board = board;
-        notifyListeners(board);
-    }
-
-    @Override
-    public boolean addListener(BoardChangeListener listener) {
-        boolean added = listeners.add(listener);
-        if (board != null) {
-            // Inform listeners of the current board.
-            listener.processSolvedBoard(board);
-        }
-        return added;
-    }
-
-    private void notifyListeners(Board solvedBoard) {
-        for (BoardChangeListener listener : listeners) {
-            listener.processSolvedBoard(solvedBoard);
-        }
     }
 }

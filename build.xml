@@ -16,7 +16,7 @@
     <property name="extSrcs"     location="${src}/${extRoot}" />
     <property name="extBins"     location="${build}/${extRoot}" />
     
-    <property name="out"         location="out" />
+    <property name="out"         location="build" />
     <property name="plugins"     location="${out}/plugins" />
     
     <target name="init">
@@ -44,7 +44,7 @@
     <target name="out" depends="compile"
         description="generate the distribution">        
         <!-- Put core into executable .jar file -->
-        <jar jarfile="${out}/Sudoken.jar">
+        <jar jarfile="${out}/sudoken.jar">
             <manifest>
                 <attribute name="Main-Class" value="sudoken.gui.SudokenFacade" />
             </manifest>
@@ -66,27 +66,21 @@
             <fileset dir="res" />
         </jar>
         
-        <!-- Put each extension into separate .jar file -->
-            <!-- FIXME: how to get these automatically detected? -->
-        <jar jarfile="${plugins}/latinsquare.jar">
-            <fileset dir="${build}" includes="${extRoot}/latinsquare/*" />
-            <service type="sudoken.extension.Extension" provider="sudoken.extension.latinsquare.LatinSquare" />
-        </jar>
+    	<macrodef name="build_plugin">
+    	    <attribute name="name"/>
+    		<attribute name="class"/>
+    	    <sequential>
+    	        <jar jarfile="${plugins}/@{name}.jar">
+    	        	<fileset dir="${build}" includes="${extRoot}/@{name}/*" />
+    	        	<service type="sudoken.extension.Extension" provider="sudoken.extension.@{name}.@{class}" />
+    	        </jar>
+    	    </sequential>
+    	</macrodef>
     	
-        <jar jarfile="${plugins}/sudoku.jar">
-            <fileset dir="${build}" includes="${extRoot}/sudoku/*" />
-            <service type="sudoken.extension.Extension" provider="sudoken.extension.sudoku.Sudoku" />
-        </jar>
-        
-        <jar jarfile="${plugins}/futoshiki.jar">
-            <fileset dir="${build}" includes="${extRoot}/futoshiki/*" />
-            <service type="sudoken.extension.Extension" provider="sudoken.extension.futoshiki.Futoshiki" />
-        </jar>
-        
-        <jar jarfile="${plugins}/jigsaw.jar">
-            <fileset dir="${build}" includes="${extRoot}/jigsaw/*" />
-            <service type="sudoken.extension.Extension" provider="sudoken.extension.jigsaw.Jigsaw" />
-        </jar>
+    	<build_plugin name="latinsquare" class="LatinSquare" />
+    	<build_plugin name="sudoku" class="Sudoku" />
+    	<build_plugin name="futoshiki" class="Futoshiki" />
+    	<build_plugin name="jigsaw" class="Jigsaw" />
         
         <jar jarfile="${plugins}/x.jar">
             <fileset dir="${build}" includes="${extRoot}/x/*" />

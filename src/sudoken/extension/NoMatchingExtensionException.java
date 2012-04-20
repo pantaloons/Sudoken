@@ -1,4 +1,4 @@
-package sudoken.exception;
+package sudoken.extension;
 
 /**
  * Thrown when the ExtensionManager could not find any matching extension to a
@@ -8,6 +8,11 @@ package sudoken.exception;
  * 
  */
 public class NoMatchingExtensionException extends Exception {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2184147238426267004L;
 
     public NoMatchingExtensionException() {
         super();
