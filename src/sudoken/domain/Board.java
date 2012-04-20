@@ -49,18 +49,4 @@ public class Board {
     public Collection<Constraint> getConstraints() {
         return constraints;
     }
-
-    // TODO: DEBUG, REMOVE
-    public void print() {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                if (values[j][i] == -1)
-                    System.out.print("- ");
-                else
-                    System.out.print(values[j][i] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
 }

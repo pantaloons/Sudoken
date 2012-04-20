@@ -32,8 +32,6 @@ public class JigsawCreator implements BoardCreator {
             constraints.add(colConstraint);
         }
 
-        // TODO: Add jigsaw constraints
-
         return new Board(width, height, grid, width, constraints);
     }
 }
