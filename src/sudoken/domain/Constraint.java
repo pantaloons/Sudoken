@@ -17,7 +17,7 @@ public interface Constraint {
      *            The y-position of the cell that has changed. Zero-based.
      * @return {@code true} if constraint is interested in the cell
      */
-    boolean canHandle(int x, int y);
+    boolean canHandle(Position position);
 
     /**
      * Called by the solver to check if the current board state violates any

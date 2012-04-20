@@ -16,7 +16,7 @@ public class LatinSquareCreator implements BoardCreator {
         for (int i = 0; i < height; i++) {
             UniqueConstraint rowConstraint = new UniqueConstraint();
             for (int j = 0; j < width; j++) {
-                rowConstraint.add(j, i);
+                rowConstraint.add(new Position(j, i));
             }
             constraints.add(rowConstraint);
         }
@@ -24,7 +24,7 @@ public class LatinSquareCreator implements BoardCreator {
         for (int i = 0; i < width; i++) {
             UniqueConstraint colConstraint = new UniqueConstraint();
             for (int j = 0; j < height; j++) {
-                colConstraint.add(i, j);
+                colConstraint.add(new Position(i, j));
             }
             constraints.add(colConstraint);
         }

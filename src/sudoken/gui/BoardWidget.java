@@ -63,7 +63,7 @@ public class BoardWidget extends JPanel {
         for (int row = 0; row < height; row++) {
 
             for (int col = 0; col < width; col++) {
-                int value = board.getValue(col, row);
+                int value = board.getValue(new Position(col, row));
                 String txt = (value == Board.UNSET) ? " " : Integer
                         .toString(value);
 

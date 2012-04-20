@@ -34,12 +34,12 @@ public class Board {
         return height;
     }
 
-    public int getValue(int x, int y) {
-        return values[x][y];
+    public int getValue(Position position) {
+        return values[position.getX()][position.getY()];
     }
 
-    public void setValue(int x, int y, int value) {
-        values[x][y] = value;
+    public void setValue(Position position, int value) {
+        values[position.getX()][position.getY()] = value;
     }
 
     public int getNumCandidates() {

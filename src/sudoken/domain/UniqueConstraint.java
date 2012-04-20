@@ -9,20 +9,6 @@ import java.util.*;
  * @author Joshua Leung
  */
 public class UniqueConstraint implements Constraint {
-    /* Little data-class to represent cell coordinates */
-    // TODO: maybe we should have this as a proper class again, complete with
-    // equality tests
-    private class Position {
-        int x;
-        int y;
-
-        Position(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    /* --------------------------- */
 
     /* list of cells that constraint is concerned about */
     private List<Position> positions;
@@ -31,14 +17,14 @@ public class UniqueConstraint implements Constraint {
         positions = new ArrayList<Position>();
     }
 
-    public void add(int x, int y) {
-        positions.add(new Position(x, y));
+    public void add(Position newPosition) {
+        positions.add(newPosition);
     }
 
     @Override
-    public boolean canHandle(int x, int y) {
+    public boolean canHandle(Position position) {
         for (Position p : positions) {
-            if ((p.x == x) && (p.y == y))
+            if (position.equals(p))
                 return true;
         }
 
@@ -56,7 +42,7 @@ public class UniqueConstraint implements Constraint {
         boolean valid = true;
 
         for (Position p : positions) {
-            int value = board.getValue(p.x, p.y);
+            int value = board.getValue(p);
 
             // NOTE: undefined cells would give false positives, but if we
             // considered

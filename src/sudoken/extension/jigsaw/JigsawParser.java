@@ -9,20 +9,11 @@ import java.util.Scanner;
 import java.util.Set;
 
 import sudoken.domain.Constraint;
+import sudoken.domain.Position;
 import sudoken.domain.UniqueConstraint;
 import sudoken.persistence.SectionParser;
 
 public class JigsawParser implements SectionParser {
-	// TODO: Make Position universal? Code here gets a bit silly without it.
-    private class Position {
-        int x;
-        int y;
-
-        Position(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
 	
     /**
      * Format: Positive integers in a grid the same size as puzzle, with each
@@ -46,8 +37,9 @@ public class JigsawParser implements SectionParser {
                 // Change from 1-base to 0-base.
                 int pieceNum = sc.nextInt() - 1;
                 if (pieceNum >= 0 && pieceNum < width) {
-                    pieceConstraints.get(pieceNum).add(j, i);
-                    piecesPositions.get(pieceNum).add(new Position(j, i));
+                	Position p = new Position(j, i);
+                    pieceConstraints.get(pieceNum).add(p);
+                    piecesPositions.get(pieceNum).add(p);
                 } else
                     throw new IOException("Parse error: Incorrect jigsaw piece number.");
             }
@@ -89,9 +81,9 @@ public class JigsawParser implements SectionParser {
     }
     
     /* Returns true if two positions are vertically or horizontally adjacent to each other. */
-    private boolean arePositionsAdjacent(Position first, Position second) {
-    	boolean hAdj = (Math.abs(first.x - second.x) == 1);
-    	boolean vAdj = (Math.abs(first.y - second.y) == 1);
-    	return (hAdj && first.y == second.y) || (vAdj && first.x == second.x);
+    private boolean arePositionsAdjacent(Position p1, Position p2) {
+    	boolean hAdj = (Math.abs(p1.getX() - p2.getX()) == 1);
+    	boolean vAdj = (Math.abs(p1.getY() - p2.getY()) == 1);
+    	return (hAdj && p1.getY() == p2.getY()) || (vAdj && p1.getX() == p2.getX());
     }
 }

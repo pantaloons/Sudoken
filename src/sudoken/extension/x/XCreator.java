@@ -40,13 +40,13 @@ public class XCreator implements BoardCreator
 		
 		UniqueConstraint forwardConstraint = new UniqueConstraint();
 		for (int i = 0; i < width; i++) {
-			forwardConstraint.add(i, i);
+			forwardConstraint.add(new Position(i, i));
 		}
 		boardConstraints.add(forwardConstraint);
 		
 		UniqueConstraint backwardsConstraint = new UniqueConstraint();
 		for (int i = 0, j = height - 1; (i < width) && (j >= 0); i++, j--) {
-			backwardsConstraint.add(j, i);
+			backwardsConstraint.add(new Position(j, i));
 		}
 		boardConstraints.add(backwardsConstraint);
 		
