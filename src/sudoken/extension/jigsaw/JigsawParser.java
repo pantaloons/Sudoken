@@ -26,7 +26,6 @@ public class JigsawParser implements SectionParser {
             throws IOException {
         Scanner sc = new Scanner(config);
         List<UniqueConstraint> pieceConstraints = new ArrayList<UniqueConstraint>();
-        // Could probably also do with a Position class.
         List<List<Position>> piecesPositions = new ArrayList<List<Position>>();
         for (int i = 0; i < width; i++) {
             pieceConstraints.add(new UniqueConstraint());

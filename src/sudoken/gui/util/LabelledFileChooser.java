@@ -50,7 +50,7 @@ public class LabelledFileChooser extends JPanel {
         textField = new JTextField();
         fileChooser = new JFileChooser();
 
-        fileChooser.setCurrentDirectory(new File("./"));
+        fileChooser.setCurrentDirectory(new File("../test"));
         MigLayout layout = new MigLayout("insets 0", "[][grow][]");
         setLayout(layout);
         add(label, "gapx 0 10");

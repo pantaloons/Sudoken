@@ -82,6 +82,7 @@
     	<build_plugin name="futoshiki" class="Futoshiki" />
     	<build_plugin name="jigsaw" class="Jigsaw" />
     	<build_plugin name="diagonals" class="Diagonals" />
+    	<build_plugin name="kenken" class="KenKen" />
     	
     </target>
     
