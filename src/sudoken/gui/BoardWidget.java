@@ -56,7 +56,7 @@ public class BoardWidget extends JPanel {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                System.out.println("Updating!");
+                //System.out.println("Updating!");
                 int width = board.getWidth();
                 int height = board.getHeight();
                 for (int row = 0; row < height; row++) {

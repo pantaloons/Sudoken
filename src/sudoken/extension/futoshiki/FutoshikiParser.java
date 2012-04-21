@@ -14,13 +14,13 @@ public class FutoshikiParser implements SectionParser {
     @Override
     public Collection<Constraint> load(String config, int width, int height) {
         Scanner sc = new Scanner(config);
-        List<Constraint> c = new ArrayList<Constraint>();
+        List<Constraint> inequalityConstraints = new ArrayList<Constraint>();
         while (sc.hasNext()) {
             Position p1 = new Position(sc.nextInt(), sc.nextInt());
             String type = sc.next();
             Position p2 = new Position(sc.nextInt(), sc.nextInt());
-            c.add(new InequalityConstraint(p1, p2, type.equals("<")));
+            inequalityConstraints.add(new InequalityConstraint(p1, p2, type.equals("<")));
         }
-        return c;
+        return inequalityConstraints;
     }
 }
