@@ -12,7 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 import sudoken.domain.*;
-import sudoken.persistence.*;
+import sudoken.parser.*;
 
 public class ExtensionManager {
     /** Registry mapping extension identifiers to {@link Extension} instances */

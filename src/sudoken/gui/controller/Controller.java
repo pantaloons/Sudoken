@@ -9,7 +9,7 @@ import sudoken.extension.NoMatchingExtensionException;
 import sudoken.gui.SudokenGUI;
 import sudoken.gui.util.errordisplay.ErrorDisplay;
 import sudoken.gui.util.errordisplay.PopupErrorDisplay;
-import sudoken.persistence.Parser;
+import sudoken.parser.Parser;
 import sudoken.solver.Solver;
 
 public class Controller {

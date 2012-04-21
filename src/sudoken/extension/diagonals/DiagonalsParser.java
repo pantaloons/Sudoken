@@ -7,7 +7,7 @@ import java.util.List;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 import sudoken.domain.UniqueConstraint;
-import sudoken.persistence.SectionParser;
+import sudoken.parser.SectionParser;
 
 public class DiagonalsParser implements SectionParser {
     /**

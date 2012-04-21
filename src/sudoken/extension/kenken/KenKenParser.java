@@ -12,7 +12,7 @@ import java.util.Set;
 
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
-import sudoken.persistence.SectionParser;
+import sudoken.parser.SectionParser;
 
 public class KenKenParser implements SectionParser {
 	
@@ -77,15 +77,19 @@ public class KenKenParser implements SectionParser {
         		operator = OperatorConstraint.SUBTRACTION;
         	else if (opStr.equals("*"))
         		operator = OperatorConstraint.MULTIPLICATION;
-        	else
+        	else if (opStr.equals("/"))
         		operator = OperatorConstraint.DIVISION;
+        	else
+        		throw new IOException("Parse error: Unknown operator.");
         	List<Position> positions = cagesPositions.remove(cageNum);
         	if (positions == null)
-        		throw new IOException("Parse error");
+        		throw new IOException("Parse error: Unknown cage number.");
         	if (!arePositionsAdjacent(positions))
-        		throw new IOException("Parse error");
+        		throw new IOException("Parse error: Cage positions nonadjacent.");
         	cageConstraints.add(new OperatorConstraint(positions, target, operator));
         }
+        if (cagesPositions.size() > 0)
+        	throw new IOException("Parse error: All cages must have constraints specified.");
         return cageConstraints;
     }
     
