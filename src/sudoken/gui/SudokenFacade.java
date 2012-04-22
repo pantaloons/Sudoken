@@ -2,6 +2,8 @@ package sudoken.gui;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -39,6 +41,7 @@ public class SudokenFacade {
         Solver puzzleSolver = new BacktrackingSolver();
         Controller.createController(puzzleSolver, gui);
         wrappingFrame = new WrappingFrame("Sudoken", gui.getPanel()).getFrame();
+        wrappingFrame.setJMenuBar(gui.getMenuBar());
         //This only works for the .jar, as we don't really want to import resources into our src directory
         if(getClass().getClassLoader().getResource("icon.png") != null) {
             wrappingFrame.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("icon.png")).getImage());

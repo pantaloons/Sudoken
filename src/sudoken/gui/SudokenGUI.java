@@ -2,6 +2,7 @@ package sudoken.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -19,7 +20,7 @@ import sudoken.solver.BoardChangeListener;
  * 
  * @author Joshua Leung & Kevin Doran
  */
-public class SudokenGUI implements BoardChangeListener {
+public class SudokenGUI implements BoardChangeListener, ActionListener {
 
     private Controller controller;
     private JPanel panel;
@@ -29,12 +30,15 @@ public class SudokenGUI implements BoardChangeListener {
     private JButton solveButton;
     private JButton loadButton;
     private JProgressBar progressBar;
+	private JMenuBar menuBar;
+	private JMenu fileMenu, settingsMenu, helpMenu;
 
     // FIXME: this should eventually contain the body of the other again
     public SudokenGUI() {
 
         createComponents();
         layoutComponents();
+        createMenu();
         setIsPuzzleLoaded(false);
     }
 
@@ -67,6 +71,40 @@ public class SudokenGUI implements BoardChangeListener {
         panel.add(progressBar, "span, growx");
         panel.setPreferredSize(new Dimension(500, 500)); 
     }
+    
+    
+    private void createMenu()
+    {
+    	menuBar = new JMenuBar();
+    	
+    	fileMenu = new JMenu("File");
+    	JMenuItem menuOpen = new JMenuItem("Open Puzzle");
+    	menuOpen.setActionCommand("menu_open");
+    	menuOpen.addActionListener(this);
+    	JMenuItem menuExit = new JMenuItem("Exit");
+    	menuExit.setActionCommand("menu_exit");
+    	menuExit.addActionListener(this);
+    	fileMenu.add(menuOpen);
+    	fileMenu.add(menuExit);
+    	
+    	settingsMenu = new JMenu("Settings");
+    	JMenuItem menuDisplay = new JMenu("Display Plugin");
+    	JMenuItem menuDisplayPlugin = new JMenuItem("Example Plugin");
+    	menuDisplay.add(menuDisplayPlugin);
+    	settingsMenu.add(menuDisplay);
+    	
+    	
+    	helpMenu = new JMenu("Help");
+    	JMenuItem menuAbout = new JMenuItem("About");
+    	helpMenu.add(menuAbout);
+    	
+    	
+    	menuBar.add(fileMenu);
+    	menuBar.add(settingsMenu);
+    	menuBar.add(helpMenu);
+    }
+    
+
 
     public void setController(Controller controller) {
         this.controller = controller;
@@ -145,4 +183,23 @@ public class SudokenGUI implements BoardChangeListener {
     public JPanel getPanel() {
         return panel;
     }
+    
+    public JMenuBar getMenuBar(){
+    	return menuBar;
+    }
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		
+		String command = event.getActionCommand();
+		
+		if ("menu_exit".equals(command)){
+			System.exit(0);
+		
+		} else if ("menu_open".equals(command)){
+			labelledFileChooser.getFileChooser().showOpenDialog(panel);
+			controller.loadPuzzle(labelledFileChooser.getFileChooser().getSelectedFile().getAbsolutePath() );
+		}
+	}
+    
 }
