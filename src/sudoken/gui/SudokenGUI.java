@@ -64,7 +64,7 @@ public class SudokenGUI implements BoardChangeListener {
         panel.add(loadButton);
         panel.add(solveButton, "wrap");
         panel.add(boardWidget, "align center, span, wrap");
-        panel.add(progressBar, "align center, span, growx");
+        panel.add(progressBar, "span, growx");
         panel.setPreferredSize(new Dimension(500, 500)); 
     }
 
