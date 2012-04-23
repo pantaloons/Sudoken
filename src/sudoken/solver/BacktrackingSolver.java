@@ -27,8 +27,7 @@ public class BacktrackingSolver extends Solver {
      *         solved. {@code false} if it cannot be solved.
      */
     private boolean solve(Position p) {
-        notifyListeners(board);
-        
+        //notifyListeners(board);
         if (p.getX() == board.getWidth()) {
         	p = new Position(0, p.getY() + 1);
             if (p.getY() == board.getHeight()) {

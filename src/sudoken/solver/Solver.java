@@ -29,6 +29,10 @@ public abstract class Solver {
         board = sudokuBoard;
         notifyListeners(board);
     }
+    
+    public Board getSudokuBoard() {
+    	return board;
+    }
 
     /**
      * Solves the sudoku board.

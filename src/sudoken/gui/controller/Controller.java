@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 
+import javax.swing.Timer;
+
 import sudoken.domain.Board;
 import sudoken.extension.NoMatchingExtensionException;
 import sudoken.gui.SudokenGUI;
@@ -12,15 +14,26 @@ import sudoken.gui.util.errordisplay.PopupErrorDisplay;
 import sudoken.parser.Parser;
 import sudoken.solver.Solver;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class Controller {
 
     private Solver puzzleSolver;
     private ErrorDisplay errorDisplay = new PopupErrorDisplay();
     private SudokenGUI gui;
 	private boolean solverRunning;
+	private Timer guiUpdateTimer;
+	protected boolean puzzleSolved;
 
     private Controller() {
         super();
+        guiUpdateTimer = new Timer(20, new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				gui.processUpdatedBoard(puzzleSolver.getSudokuBoard());
+			}
+        });
+        guiUpdateTimer.stop();
     }
 
     /**
@@ -94,10 +107,13 @@ public class Controller {
     public void solve() {
     	if (!solverRunning) {
     		solverRunning = true;
+    		puzzleSolved = false;
+    		guiUpdateTimer.start();
 	    	Runnable runSolver = new Runnable() {
 	    		public void run() {
-	    			boolean isSolved = puzzleSolver.solve();
+	    			puzzleSolved = puzzleSolver.solve();
 	    			solverRunning = false;
+	    			guiUpdateTimer.stop();
 	    			
 	    	    }
 	    	};
