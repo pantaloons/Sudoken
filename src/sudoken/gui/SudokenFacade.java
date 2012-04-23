@@ -41,7 +41,7 @@ public class SudokenFacade {
         Solver puzzleSolver = new BacktrackingSolver();
         Controller.createController(puzzleSolver, gui);
         wrappingFrame = new WrappingFrame("Sudoken", gui.getPanel()).getFrame();
-        wrappingFrame.setJMenuBar(gui.getMenuBar());
+        //wrappingFrame.setJMenuBar(gui.getMenuBar());
         //This only works for the .jar, as we don't really want to import resources into our src directory
         if(getClass().getClassLoader().getResource("icon.png") != null) {
             wrappingFrame.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("icon.png")).getImage());

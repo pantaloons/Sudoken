@@ -17,6 +17,7 @@ public class Controller {
     private Solver puzzleSolver;
     private ErrorDisplay errorDisplay = new PopupErrorDisplay();
     private SudokenGUI gui;
+	private boolean solverRunning;
 
     private Controller() {
         super();
@@ -91,7 +92,18 @@ public class Controller {
     }
 
     public void solve() {
-        boolean isSolved = puzzleSolver.solve();
+    	if (!solverRunning) {
+    		solverRunning = true;
+	    	Runnable runSolver = new Runnable() {
+	    		public void run() {
+	    			boolean isSolved = puzzleSolver.solve();
+	    			solverRunning = false;
+	    			
+	    	    }
+	    	};
+	    	new Thread(runSolver).start();
+    	}
+
         // show message;
     }
 
