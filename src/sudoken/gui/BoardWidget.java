@@ -51,7 +51,10 @@ public class BoardWidget extends JPanel {
     }
     
     public void updateUI(final Board b) {
-        if(board == null) setBoard(b);
+    	// The width and height checks are temporary hacks to make sure the GUI board is properly updated
+    	// when a new puzzle (of different dimensions) has been loaded.
+        if(board == null || board.getWidth() != b.getWidth() || board.getHeight() != b.getHeight())
+        	setBoard(b);
         
         SwingUtilities.invokeLater(new Runnable() {
             @Override
