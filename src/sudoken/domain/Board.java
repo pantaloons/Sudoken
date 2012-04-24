@@ -1,6 +1,8 @@
 package sudoken.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * A game board.
@@ -49,4 +51,9 @@ public class Board {
     public Collection<Constraint> getConstraints() {
         return constraints;
     }
+
+	public List<BoardDecorator> getDecorators() {
+		// TODO Auto-generated method stub
+		return new ArrayList<BoardDecorator>();
+	}
 }
