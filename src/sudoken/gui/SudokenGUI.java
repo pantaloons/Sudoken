@@ -11,6 +11,9 @@ import net.miginfocom.swing.MigLayout;
 
 import sudoken.domain.*;
 import sudoken.extension.Extension;
+import sudoken.gui.controller.Controller;
+import sudoken.gui.util.LabelledFileChooser;
+import sudoken.solver.BoardChangeListener;
 
 /**
  * Main user interface for Sudoku puzzles solvers

@@ -1,11 +1,18 @@
 package sudoken.gui;
 
-import javax.swing.*;
-import javax.swing.UIManager.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
-import sudoken.domain.BacktrackingSolver;
-import sudoken.domain.Solver;
 import sudoken.extension.ExtensionManager;
+import sudoken.gui.controller.Controller;
+import sudoken.gui.util.WrappingFrame;
+import sudoken.solver.BacktrackingSolver;
+import sudoken.solver.Solver;
 
 /**
  * Connects the GUI, controller and the solver together and starts the system.

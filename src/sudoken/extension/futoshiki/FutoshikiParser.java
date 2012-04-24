@@ -2,7 +2,7 @@ package sudoken.extension.futoshiki;
 
 import java.util.*;
 
-import sudoken.persistence.*;
+import sudoken.parser.*;
 import sudoken.domain.*;
 
 public class FutoshikiParser implements SectionParser {

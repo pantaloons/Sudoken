@@ -12,7 +12,7 @@ import java.util.Set;
 
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
-import sudoken.persistence.SectionParser;
+import sudoken.parser.SectionParser;
 
 public class KenKenParser implements SectionParser {
 	
