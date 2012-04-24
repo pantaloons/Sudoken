@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import sudoken.domain.Board;
 import sudoken.domain.Position;
 
-class CellGraphics extends JComponent {
+class CellGraphics extends JPanel {
 	private static final long serialVersionUID = 3126607752896973719L;
 	
 	public static final int BORDER_TOP = 0;
@@ -49,7 +49,7 @@ class CellGraphics extends JComponent {
 	}
 }
 
-class GapGraphics extends JComponent {
+class GapGraphics extends JPanel {
 	private static final long serialVersionUID = 2654728970861543683L;
 	
 }
