@@ -1,6 +1,5 @@
-package sudoken.solver;
+package sudoken.domain;
 
-import sudoken.domain.Board;
 
 public interface BoardChangeListener {
 

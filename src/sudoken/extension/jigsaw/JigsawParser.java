@@ -11,7 +11,7 @@ import java.util.Set;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 import sudoken.domain.UniqueConstraint;
-import sudoken.parser.SectionParser;
+import sudoken.persistence.SectionParser;
 
 public class JigsawParser implements SectionParser {
 	

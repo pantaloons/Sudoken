@@ -1,6 +1,4 @@
-package sudoken.solver;
-
-import sudoken.domain.*;
+package sudoken.domain;
 
 /**
  * Solves sudoku type puzzles by using a backtracking algorithm.

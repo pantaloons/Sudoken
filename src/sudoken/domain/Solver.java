@@ -1,9 +1,7 @@
-package sudoken.solver;
+package sudoken.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
-import sudoken.domain.*;
 
 /**
  * The main sudoku solver. The sudoku solver solves the given sudoku board while

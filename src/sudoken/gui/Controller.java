@@ -1,4 +1,4 @@
-package sudoken.gui.controller;
+package sudoken.gui;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,12 +7,9 @@ import java.text.ParseException;
 import javax.swing.Timer;
 
 import sudoken.domain.Board;
+import sudoken.domain.Solver;
 import sudoken.extension.NoMatchingExtensionException;
-import sudoken.gui.SudokenGUI;
-import sudoken.gui.util.errordisplay.ErrorDisplay;
-import sudoken.gui.util.errordisplay.PopupErrorDisplay;
-import sudoken.parser.Parser;
-import sudoken.solver.Solver;
+import sudoken.persistence.Parser;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

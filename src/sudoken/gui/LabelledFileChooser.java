@@ -1,4 +1,4 @@
-package sudoken.gui.util;
+package sudoken.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

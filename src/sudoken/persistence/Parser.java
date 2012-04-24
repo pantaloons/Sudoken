@@ -1,4 +1,4 @@
-package sudoken.parser;
+package sudoken.persistence;
 
 import java.io.*;
 import java.text.ParseException;

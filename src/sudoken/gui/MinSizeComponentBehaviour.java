@@ -1,4 +1,4 @@
-package sudoken.gui.util;
+package sudoken.gui;
 
 import java.awt.Component;
 import java.awt.Dimension;

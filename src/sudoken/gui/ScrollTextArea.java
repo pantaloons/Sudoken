@@ -1,4 +1,4 @@
-package sudoken.gui.util.errordisplay;
+package sudoken.gui;
 
 import java.awt.Dimension;
 import java.awt.Insets;
