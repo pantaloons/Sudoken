@@ -1,7 +1,7 @@
 package sudoken.extension;
 
 import sudoken.domain.BoardCreator;
-import sudoken.parser.SectionParser;
+import sudoken.persistence.SectionParser;
 
 public abstract class Extension {
 	private SectionParser parser;
