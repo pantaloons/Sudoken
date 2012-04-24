@@ -1,12 +1,10 @@
 package sudoken.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -40,13 +38,6 @@ class CellGraphics extends JPanel {
 	public void setText(String s) {
 		txt.setText(s);
 	}
-	
-	@Override
-	public void paint(Graphics g) {
-		System.out.println("Painting!\n");
-		// TODO Auto-generated method stub
-		super.paint(g);
-	}
 }
 
 class GapGraphics extends JPanel {
@@ -64,7 +55,6 @@ public class BoardGraphics extends JPanel {
 	
 	public BoardGraphics(Board b) {
 		super(new GridBagLayout());
-		add(new JLabel("Where's the board!"));
 		
 		this.b = b;
 		
@@ -72,8 +62,6 @@ public class BoardGraphics extends JPanel {
 		int height = b.getHeight();
 		
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.ipadx = 20;
-		gbc.ipady = 20;
 		gbc.fill = GridBagConstraints.BOTH;
 		cg = new CellGraphics[width][height];
 		for(int i = 0; i < width; i++) {
