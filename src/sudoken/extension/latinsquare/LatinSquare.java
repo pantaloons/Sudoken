@@ -12,7 +12,7 @@ public class LatinSquare extends Extension {
     }
 
     public LatinSquare() {
-        super(null, new LatinSquareCreator(), null);
+        super(null, new LatinSquareCreator(), new LatinSquareDecorator());
     }
     
     @Override

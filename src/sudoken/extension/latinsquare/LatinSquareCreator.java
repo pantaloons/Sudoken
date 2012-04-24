@@ -29,6 +29,6 @@ public class LatinSquareCreator implements BoardCreator {
             constraints.add(colConstraint);
         }
 
-        return new Board(width, height, grid, width, constraints);
+        return new Board(width, height, grid, width, constraints, new LatinSquareDecorator());
     }
 }

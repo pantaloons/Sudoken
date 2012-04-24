@@ -18,15 +18,11 @@ public class SudokuCreator implements BoardCreator {
     		creator = ExtensionManager.getConstructor(BASE_EXTENSION);
     	else
     		/* TODO: Throw exception. */;
-    		
-    	Board board = creator.create(width, height, grid, constraints);
-    	
+ 
         if ((int) Math.sqrt(width) * (int) Math.sqrt(width) != width)
             throw new IllegalArgumentException(
                     "Board dimension must be a square number.");
         
-        Collection<Constraint> boardConstraints = board.getConstraints();
-
         int size = (int) Math.sqrt(width);
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -36,10 +32,10 @@ public class SudokuCreator implements BoardCreator {
                         boxConstraint.add(new Position(a, b));
                     }
                 }
-                boardConstraints.add(boxConstraint);
+                constraints.add(boxConstraint);
             }
         }
 
-        return board;
+        return creator.create(width, height, grid, constraints);
     }
 }

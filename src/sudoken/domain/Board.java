@@ -1,8 +1,6 @@
 package sudoken.domain;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * A game board.
@@ -18,14 +16,17 @@ public class Board {
     private int[][] values;
     private int numCandidates;
     private Collection<Constraint> constraints;
+    
+    private BoardDecorator bd;
 
     public Board(int width, int height, int[][] values, int numCandidates,
-            Collection<Constraint> c) {
+            Collection<Constraint> c, BoardDecorator bd) {
         this.height = height;
         this.width = width;
         this.values = values;
         this.numCandidates = numCandidates;
         this.constraints = c;
+        this.bd = bd;
     }
 
     public int getWidth() {
@@ -52,8 +53,7 @@ public class Board {
         return constraints;
     }
 
-	public List<BoardDecorator> getDecorators() {
-		// TODO Auto-generated method stub
-		return new ArrayList<BoardDecorator>();
+	public BoardDecorator getDecorator() {
+		return bd;
 	}
 }
