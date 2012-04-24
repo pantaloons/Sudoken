@@ -32,6 +32,7 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
 
     // FIXME: this should eventually contain the body of the other again
     public SudokenGUI() {
+
         createComponents();
         layoutComponents();
         createMenu();
@@ -127,12 +128,11 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
         // add new icon for new extension (Maybe. This is not that important).
     }
     
-    public void processUpdatedBoard() {
+    public void processUpdatedBoard(final Board solvedBoard) {
         EventQueue.invokeLater(new Runnable() {
             @Override
-            //TODO: Board change listener should be implemented by board, not solver
             public void run() {
-                boardWidget.repaint();
+                boardWidget.updateUI(solvedBoard);
             }
         });
     }
@@ -197,11 +197,6 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
 			labelledFileChooser.getFileChooser().showOpenDialog(panel);
 			controller.loadPuzzle(labelledFileChooser.getFileChooser().getSelectedFile().getAbsolutePath() );
 		}
-	}
-
-	public void setPuzzle(Board puzzleBoard) {
-		boardWidget.setBoard(puzzleBoard);
-		setIsPuzzleLoaded(true);
 	}
     
 }

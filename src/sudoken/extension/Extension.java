@@ -1,20 +1,15 @@
 package sudoken.extension;
 
-import java.util.Set;
-
 import sudoken.domain.BoardCreator;
-import sudoken.domain.BoardDecorator;
 import sudoken.persistence.SectionParser;
 
 public abstract class Extension {
 	private SectionParser parser;
 	private BoardCreator creator;
-	private BoardDecorator decorator;
 	
-	public Extension(SectionParser parser, BoardCreator creator, BoardDecorator decorator) {
+	public Extension(SectionParser parser, BoardCreator creator) {
 		this.parser = parser;
 		this.creator = creator;
-		this.decorator = decorator;
 	}
 	
 	public SectionParser getParser() {
@@ -23,10 +18,6 @@ public abstract class Extension {
 	
 	public BoardCreator getCreator() {
 		return creator;
-	}
-	
-	public BoardDecorator getDecorator() {
-		return decorator;
 	}
 	
 	/**
@@ -40,5 +31,5 @@ public abstract class Extension {
 	 * @return   {@code true} if all prerequisites for using this 
 	 *           extension are met
 	 */
-	public abstract Set<String> getPrerequisites();
+	public abstract boolean hasPrerequisites();
 }

@@ -1,8 +1,5 @@
 package sudoken.extension.latinsquare;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import sudoken.extension.Extension;
 import sudoken.extension.ExtensionManager;
 
@@ -12,11 +9,12 @@ public class LatinSquare extends Extension {
     }
 
     public LatinSquare() {
-        super(null, new LatinSquareCreator(), null);
+        super(null, new LatinSquareCreator());
     }
     
     @Override
-    public Set<String> getPrerequisites() {
-    	return new HashSet<String>();
+    public boolean hasPrerequisites() {
+    	// no prerequisites
+    	return true;
     }
 }

@@ -1,8 +1,5 @@
 package sudoken.extension.kenken;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import sudoken.extension.Extension;
 import sudoken.extension.ExtensionManager;
 
@@ -12,11 +9,12 @@ public class KenKen extends Extension {
     }
 
     public KenKen() {
-        super(new KenKenParser(), null, null);
+        super(new KenKenParser(), null);
     }
     
     @Override
-    public Set<String> getPrerequisites() {
-    	return new HashSet<String>();
+    public boolean hasPrerequisites() {
+    	// No dependencies.
+    	return true;
     }
 }

@@ -1,8 +1,5 @@
 package sudoken.extension.sudoku;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import sudoken.extension.Extension;
 import sudoken.extension.ExtensionManager;
 
@@ -12,13 +9,12 @@ public class Sudoku extends Extension {
     }
 
     public Sudoku() {
-        super(null, new SudokuCreator(), null);
+        super(null, new SudokuCreator());
     }
     
     @Override
-    public Set<String> getPrerequisites() {
-    	Set<String> s = new HashSet<String>();
-    	s.add("latinsquare");
-    	return s;
+    public boolean hasPrerequisites() {
+    	// Depends on latin square
+    	return ExtensionManager.hasExtension("latinsquare");
     }
 }

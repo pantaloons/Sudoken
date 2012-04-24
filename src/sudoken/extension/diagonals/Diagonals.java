@@ -1,8 +1,5 @@
 package sudoken.extension.diagonals;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import sudoken.extension.Extension;
 import sudoken.extension.ExtensionManager;
 
@@ -12,11 +9,12 @@ public class Diagonals extends Extension {
     }
 
     public Diagonals() {
-        super(new DiagonalsParser(), null, null);
+        super(new DiagonalsParser(), null);
     }
     
     @Override
-    public Set<String> getPrerequisites() {
-    	return new HashSet<String>();
+    public boolean hasPrerequisites() {
+    	// No prerequisites.
+    	return true;
     }
 }
