@@ -10,7 +10,6 @@ import sudoken.domain.Board;
 import sudoken.domain.Position;
 
 
-
 class GapGraphics extends JPanel {
 	private static final long serialVersionUID = 2654728970861543683L;
 	

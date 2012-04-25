@@ -29,7 +29,7 @@ public class CellGraphics extends JPanel {
     }
     
     public void setColor(Color c) {
-        
+        setBackground(c);
     }
     
     public void setText(String s) {

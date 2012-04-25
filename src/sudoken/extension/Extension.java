@@ -41,4 +41,6 @@ public abstract class Extension {
 	 *           extension are met
 	 */
 	public abstract Set<String> getPrerequisites();
+
+
 }

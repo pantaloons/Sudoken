@@ -11,7 +11,7 @@ public class SudokuCreator implements BoardCreator {
 	
     @Override
     public Board create(int width, int height, int[][] grid,
-            Collection<Constraint> constraints) {
+            Collection<Constraint> constraints, BoardDecorator bd) {
     	
     	BoardCreator creator = null;
     	if (ExtensionManager.hasExtension(BASE_EXTENSION))
@@ -36,6 +36,6 @@ public class SudokuCreator implements BoardCreator {
             }
         }
 
-        return creator.create(width, height, grid, constraints);
+        return creator.create(width, height, grid, constraints, bd);
     }
 }

@@ -8,7 +8,7 @@ public class LatinSquareCreator implements BoardCreator {
 
     @Override
     public Board create(int width, int height, int[][] grid,
-            Collection<Constraint> constraints) {
+            Collection<Constraint> constraints, BoardDecorator bd) {
         if (width != height)
             throw new IllegalArgumentException(
                     "Width and height must be equal.");
@@ -29,6 +29,6 @@ public class LatinSquareCreator implements BoardCreator {
             constraints.add(colConstraint);
         }
 
-        return new Board(width, height, grid, width, constraints, new LatinSquareDecorator());
+        return new Board(width, height, grid, width, constraints, bd);
     }
 }

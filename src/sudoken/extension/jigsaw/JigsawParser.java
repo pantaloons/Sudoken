@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
+import sudoken.domain.BoardDecorator;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 import sudoken.domain.UniqueConstraint;
@@ -22,7 +23,7 @@ public class JigsawParser implements SectionParser {
      * @return
      */
     @Override
-    public Collection<Constraint> load(String config, int width, int height)
+    public Collection<Constraint> load(String config, int width, int height, BoardDecorator bd)
             throws IOException {
         Scanner sc = new Scanner(config);
         List<UniqueConstraint> pieceConstraints = new ArrayList<UniqueConstraint>();

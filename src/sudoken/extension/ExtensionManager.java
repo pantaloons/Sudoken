@@ -85,13 +85,13 @@ public class ExtensionManager {
      * Get decorator for an extension.
      * 
      * @param ext
-     * 			  Identifier for extension. Lower-case.
+     *            Identifier for extension. Lower-case.
      * @Precondition Assumes that <code>hasExtension()</code> has been called
      *               and was successful
      */
-    public static BoardDecorator getDecorator(String ext) {
-    	return m.get(ext).getDecorator();
-    }
+	public static BoardDecorator getDecorator(String ext) {
+		return m.get(ext).getDecorator();
+	}
 
     /**
      * Called from static initialisers of plugins when they are first loaded

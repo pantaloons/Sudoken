@@ -2,7 +2,7 @@ package sudoken.extension.futoshiki;
 
 import sudoken.domain.*;
 
-public class InequalityConstraint implements Constraint {
+public class InequalityConstraint extends Constraint {
     /* cell positions */
     private Position p1, p2;
 

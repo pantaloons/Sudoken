@@ -12,7 +12,7 @@ public class Sudoku extends Extension {
     }
 
     public Sudoku() {
-        super(null, new SudokuCreator(), null);
+        super(null, new SudokuCreator(), new SudokuDecorator());
     }
     
     @Override

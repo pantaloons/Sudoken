@@ -6,7 +6,7 @@ import sudoken.domain.Board;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 
-public class OperatorConstraint implements Constraint {
+public class OperatorConstraint extends Constraint {
 	public static final int       ADDITION = 0;
 	public static final int    SUBTRACTION = 1;
 	public static final int MULTIPLICATION = 2;

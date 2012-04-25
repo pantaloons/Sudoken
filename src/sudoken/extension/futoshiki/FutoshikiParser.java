@@ -12,7 +12,7 @@ public class FutoshikiParser implements SectionParser {
      * @return
      */
     @Override
-    public Collection<Constraint> load(String config, int width, int height) {
+    public Collection<Constraint> load(String config, int width, int height, BoardDecorator bd) {
         Scanner sc = new Scanner(config);
         List<Constraint> inequalityConstraints = new ArrayList<Constraint>();
         while (sc.hasNext()) {
