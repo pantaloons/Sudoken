@@ -35,7 +35,6 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
 
         createComponents();
         layoutComponents();
-        createMenu();
         setIsPuzzleLoaded(false);
     }
 
@@ -68,40 +67,6 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
         panel.add(progressBar, "span, growx");
         panel.setPreferredSize(new Dimension(500, 500)); 
     }
-    
-    
-    private void createMenu()
-    {
-    	menuBar = new JMenuBar();
-    	
-    	fileMenu = new JMenu("File");
-    	JMenuItem menuOpen = new JMenuItem("Open Puzzle");
-    	menuOpen.setActionCommand("menu_open");
-    	menuOpen.addActionListener(this);
-    	JMenuItem menuExit = new JMenuItem("Exit");
-    	menuExit.setActionCommand("menu_exit");
-    	menuExit.addActionListener(this);
-    	fileMenu.add(menuOpen);
-    	fileMenu.add(menuExit);
-    	
-    	settingsMenu = new JMenu("Settings");
-    	JMenuItem menuDisplay = new JMenu("Display Plugin");
-    	JMenuItem menuDisplayPlugin = new JMenuItem("Example Plugin");
-    	menuDisplay.add(menuDisplayPlugin);
-    	settingsMenu.add(menuDisplay);
-    	
-    	
-    	helpMenu = new JMenu("Help");
-    	JMenuItem menuAbout = new JMenuItem("About");
-    	helpMenu.add(menuAbout);
-    	
-    	
-    	menuBar.add(fileMenu);
-    	menuBar.add(settingsMenu);
-    	menuBar.add(helpMenu);
-    }
-    
-
 
     public void setController(Controller controller) {
         this.controller = controller;
