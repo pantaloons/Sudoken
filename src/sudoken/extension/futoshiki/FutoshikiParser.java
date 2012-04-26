@@ -6,6 +6,9 @@ import sudoken.persistence.*;
 import sudoken.domain.*;
 
 public class FutoshikiParser implements SectionParser {
+	
+	private static final String EXTENSION_NAME = "futoshiki";
+	
     /**
      * Format: cella inequality cellb Eg: 0 5 < 0 6
      * 
@@ -19,8 +22,14 @@ public class FutoshikiParser implements SectionParser {
             Position p1 = new Position(sc.nextInt(), sc.nextInt());
             String type = sc.next();
             Position p2 = new Position(sc.nextInt(), sc.nextInt());
-            inequalityConstraints.add(new InequalityConstraint(p1, p2, type.equals("<")));
+            inequalityConstraints.add(new InequalityConstraint(EXTENSION_NAME, p1, p2, type.equals("<")));
         }
         return inequalityConstraints;
+    }
+    
+    @Override
+    public List<String> getConfig(Collection<Constraint> constraints) {
+    	// TODO: Return list of lines to be saved in puzzle file, as determined by constraints.
+    	return new ArrayList<String>();
     }
 }

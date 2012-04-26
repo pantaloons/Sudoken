@@ -10,6 +10,9 @@ import sudoken.domain.UniqueConstraint;
 import sudoken.persistence.SectionParser;
 
 public class DiagonalsParser implements SectionParser {
+	
+	private static final String EXTENSION_NAME = "diagonals";
+	
     /**
      * Format: No additional formatting.
      * 
@@ -24,18 +27,24 @@ public class DiagonalsParser implements SectionParser {
             throw new IllegalArgumentException(
                     "Width and height must be equal.");
         
-		UniqueConstraint forwardConstraint = new UniqueConstraint();
+		UniqueConstraint forwardConstraint = new UniqueConstraint(EXTENSION_NAME);
 		for (int i = 0; i < width; i++) {
 			forwardConstraint.add(new Position(i, i));
 		}
 		diagonalConstraints.add(forwardConstraint);
 		
-		UniqueConstraint backwardsConstraint = new UniqueConstraint();
+		UniqueConstraint backwardsConstraint = new UniqueConstraint(EXTENSION_NAME);
 		for (int i = 0; i < width; i++) {
 			backwardsConstraint.add(new Position(width - i - 1, i));
 		}
 		diagonalConstraints.add(backwardsConstraint);
 		
 		return diagonalConstraints;
+    }
+    
+    @Override
+    public List<String> getConfig(Collection<Constraint> constraints) {
+    	// No extra config needed, so just return empty list.
+    	return new ArrayList<String>();
     }
 }

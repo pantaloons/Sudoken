@@ -15,6 +15,8 @@ import sudoken.persistence.SectionParser;
 
 public class JigsawParser implements SectionParser {
 	
+	private static final String EXTENSION_NAME = "jigsaw";
+	
     /**
      * Format: Positive integers in a grid the same size as puzzle, with each
      * number specifying a cell's membership to a jigsaw piece.
@@ -28,7 +30,7 @@ public class JigsawParser implements SectionParser {
         List<UniqueConstraint> pieceConstraints = new ArrayList<UniqueConstraint>();
         List<List<Position>> piecesPositions = new ArrayList<List<Position>>();
         for (int i = 0; i < width; i++) {
-            pieceConstraints.add(new UniqueConstraint());
+            pieceConstraints.add(new UniqueConstraint(EXTENSION_NAME));
             piecesPositions.add(new ArrayList<Position>());
         }
         for (int i = 0; i < height; i++) {
@@ -54,6 +56,12 @@ public class JigsawParser implements SectionParser {
         List<Constraint> c = new ArrayList<Constraint>();
         c.addAll(pieceConstraints);
         return c;
+    }
+    
+    @Override
+    public List<String> getConfig(Collection<Constraint> constraints) {
+    	// TODO: Return list of lines to be saved in puzzle file, as determined by constraints.
+    	return new ArrayList<String>();
     }
     
     /* Returns true if positions are fully adjacent. */

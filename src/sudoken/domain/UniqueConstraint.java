@@ -8,12 +8,13 @@ import java.util.*;
  * @author Adam Freeth
  * @author Joshua Leung
  */
-public class UniqueConstraint implements Constraint {
+public class UniqueConstraint extends Constraint {
 
     /* list of cells that constraint is concerned about */
     private List<Position> positions;
 
-    public UniqueConstraint() {
+    public UniqueConstraint(String ext) {
+    	super(ext);
         positions = new ArrayList<Position>();
     }
 

@@ -2,14 +2,15 @@ package sudoken.extension.futoshiki;
 
 import sudoken.domain.*;
 
-public class InequalityConstraint implements Constraint {
+public class InequalityConstraint extends Constraint {
     /* cell positions */
     private Position p1, p2;
 
     /* which way inequality points (1 should be less than 2 if true) */
     private boolean less;
 
-    public InequalityConstraint(Position position1, Position position2, boolean isLess) {
+    public InequalityConstraint(String ext, Position position1, Position position2, boolean isLess) {
+    	super(ext);
         /* cell 1 */
         this.p1 = position1;
 

@@ -16,6 +16,8 @@ import sudoken.persistence.SectionParser;
 
 public class KenKenParser implements SectionParser {
 	
+	private static final String EXTENSION_NAME = "kenken";
+	
     /**
      * Format: Positive integers in a grid the same size as puzzle, with each
      * number specifying a cell's membership to a cage. After this, the
@@ -86,11 +88,17 @@ public class KenKenParser implements SectionParser {
         		throw new IOException("Parse error: Unknown cage number.");
         	if (!arePositionsAdjacent(positions))
         		throw new IOException("Parse error: Cage positions nonadjacent.");
-        	cageConstraints.add(new OperatorConstraint(positions, target, operator));
+        	cageConstraints.add(new OperatorConstraint(EXTENSION_NAME, positions, target, operator));
         }
         if (cagesPositions.size() > 0)
         	throw new IOException("Parse error: All cages must have constraints specified.");
         return cageConstraints;
+    }
+
+    @Override
+    public List<String> getConfig(Collection<Constraint> constraints) {
+    	// TODO: Return list of lines to be saved in puzzle file, as determined by constraints.
+    	return new ArrayList<String>();
     }
     
     /* Returns true if positions are fully adjacent. */

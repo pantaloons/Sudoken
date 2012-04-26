@@ -6,7 +6,7 @@ import sudoken.domain.Board;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 
-public class OperatorConstraint implements Constraint {
+public class OperatorConstraint extends Constraint {
 	public static final int       ADDITION = 0;
 	public static final int    SUBTRACTION = 1;
 	public static final int MULTIPLICATION = 2;
@@ -18,7 +18,8 @@ public class OperatorConstraint implements Constraint {
     /* list of cells that constraint is concerned about */
     private List<Position> positions;
 
-    public OperatorConstraint(List<Position> positions, int target, int operator) {
+    public OperatorConstraint(String ext, List<Position> positions, int target, int operator) {
+    	super(ext);
     	if (operator < ADDITION && operator > DIVISION)
     		throw new IllegalArgumentException("Unknown operator.");
     	if (positions.size() < 2)
