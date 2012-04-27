@@ -33,8 +33,8 @@ public class SudokenFacade {
         }
         
         SudokenGUI gui = new SudokenGUI();
-        //Solver puzzleSolver = new BacktrackingSolver();
-        Solver puzzleSolver = new SmartBacktrackingSolver();
+        Solver puzzleSolver = new BacktrackingSolver();
+        //Solver puzzleSolver = new SmartBacktrackingSolver();
         Controller.createController(puzzleSolver, gui);
         wrappingFrame = new WrappingFrame("Sudoken", gui.getPanel()).getFrame();
         //wrappingFrame.setJMenuBar(gui.getMenuBar());
