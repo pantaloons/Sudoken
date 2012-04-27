@@ -1,5 +1,8 @@
 package sudoken.domain;
 
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Solves sudoku type puzzles by using a backtracking algorithm.
  * 
@@ -7,9 +10,26 @@ package sudoken.domain;
  * 
  */
 public class BacktrackingSolver extends Solver {
+    private static final int MAX_LAG = 2;
+    private Semaphore rateControl = new Semaphore(MAX_LAG);
+    
     @Override
     public boolean solve() {
         return solve(new Position(0, 0));
+    }
+    
+    private class RateController implements Runnable {
+
+        @Override
+        public void run() {
+            rateControl.release();
+            try {
+                TimeUnit.MILLISECONDS.sleep(getMilisecondDelay());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                // End thread without action.
+            }
+        }
     }
 
     /**
@@ -30,7 +50,7 @@ public class BacktrackingSolver extends Solver {
         	p = new Position(0, p.getY() + 1);
             if (p.getY() == board.getHeight()) {
                 // Reached the end of the board.
-                notifyListeners(board);
+                //notifyListeners(board);
                 return true;
             }
         }
@@ -40,6 +60,11 @@ public class BacktrackingSolver extends Solver {
         }
 
         for (int value = 1; value <= board.getNumCandidates(); value++) {
+            try {
+                rateControl.acquire();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
             board.setValue(p, value);
             // board.print();System.out.println(board.getNumCandidates());
             boolean legal = true;

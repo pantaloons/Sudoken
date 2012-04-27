@@ -120,4 +120,8 @@ public class Controller {
         // show message;
     }
 
+    public void setSolveSpeed(int value) {
+        puzzleSolver.setStepsPerSecond(value);
+    }
+
 }
