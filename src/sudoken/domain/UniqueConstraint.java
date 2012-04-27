@@ -63,4 +63,8 @@ public class UniqueConstraint extends Constraint {
         // constraint is violated if board isn't valid
         return (valid == false);
     }
+    
+    public List<Position> getPositions() {
+    	return positions;
+    }
 }

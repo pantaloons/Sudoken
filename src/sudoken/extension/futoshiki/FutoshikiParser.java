@@ -29,13 +29,13 @@ public class FutoshikiParser implements SectionParser {
     }
     
     @Override
-    public List<String> save(Collection<Constraint> constraints) {
+    public List<String> save(Collection<Constraint> constraints) throws ParseException {
     	List<String> lines = new ArrayList<String>();
     	
     	for (Constraint c : constraints) {
     		if (!(c instanceof InequalityConstraint))
     			// TODO: Throw exception, as constraint that references Futoshiki is not an InequalityConstraint.
-    			new ParseException("Invalid constraint", 0); 
+    			throw new ParseException("Invalid constraint", 0); 
     		InequalityConstraint ic = (InequalityConstraint) c;
     		Position p1 = ic.getFirstPosition();
     		Position p2 = ic.getSecondPosition();

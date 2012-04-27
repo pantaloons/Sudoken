@@ -1,10 +1,13 @@
 package sudoken.extension.jigsaw;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -59,9 +62,34 @@ public class JigsawParser implements SectionParser {
     }
     
     @Override
-    public List<String> save(Collection<Constraint> constraints) {
-    	// TODO: Return list of lines to be saved in puzzle file, as determined by constraints.
-    	return new ArrayList<String>();
+    public List<String> save(Collection<Constraint> constraints) throws ParseException {
+    	List<String> lines = new ArrayList<String>();
+    	
+    	int size = constraints.size();
+    	
+    	Map<Position, Integer> positionPieces = new HashMap<Position, Integer>();
+    	int i = 0;
+    	for (Constraint c : constraints) {
+    		i++;
+    		if (!(c instanceof UniqueConstraint))
+    			throw new ParseException("Invalid constraint", 0);
+    		UniqueConstraint uc = (UniqueConstraint) c;
+    		for (Position p : uc.getPositions())
+    			positionPieces.put(p, i);
+    	}
+    	
+    	for (int row = 0; row < size; row++) {
+    		String curLine = "";
+    		for (int col = 0; col < size; col++) {
+    			Position p = new Position(col, row);
+    			if (!positionPieces.containsKey(p))
+    				throw new ParseException("Missing position", 0);
+    			curLine += positionPieces.get(p) + " ";
+    		}
+    		lines.add(curLine);
+    	}
+    	
+    	return lines;
     }
     
     /* Returns true if positions are fully adjacent. */
