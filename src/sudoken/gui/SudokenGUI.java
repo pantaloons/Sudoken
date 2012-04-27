@@ -28,7 +28,6 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
     private JButton loadButton;
     private JProgressBar progressBar;
 	private JMenuBar menuBar;
-	private JMenu fileMenu, settingsMenu, helpMenu;
 
     // FIXME: this should eventually contain the body of the other again
     public SudokenGUI() {
