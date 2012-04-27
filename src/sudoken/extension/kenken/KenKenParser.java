@@ -108,8 +108,7 @@ public class KenKenParser implements SectionParser {
     	int j = 0;
     	for (Constraint c : constraints) {
     		j++;
-    		if (!(c instanceof OperatorConstraint))
-    			throw new ParseException("Invalid constraint", 0);
+    		// TODO: Getting weird ClassCastExceptions. Alternative to casting?
     		OperatorConstraint oc = (OperatorConstraint) c;
     		cageTargets.add(oc.getTarget());
     		cageOperators.add(oc.getOperator());
@@ -135,7 +134,12 @@ public class KenKenParser implements SectionParser {
     		lines.add(curLine);
     	}
     	
-    	// TODO: Format width for lower part.
+    	int maxTarget = 0;
+    	for (int target : cageTargets)
+    		if (target > maxTarget)
+    			maxTarget = target;
+    	int cageNumFormatWidth = 1 + (int) Math.floor(Math.log10(cageTargets.size()));
+    	int targetFormatWidth = 1 + (int) Math.floor(Math.log10(maxTarget));
     	
     	for (int i = 0; i < cageTargets.size(); i++) {
     		String op = "+";
@@ -145,7 +149,8 @@ public class KenKenParser implements SectionParser {
     			op = "*";
     		else if (cageOperators.get(i) == OperatorConstraint.DIVISION)
     			op = "/";
-    		lines.add((i+1) + " " + cageTargets.get(i) + " " + op);
+    		lines.add(String.format("%-" + cageNumFormatWidth + "d %" + targetFormatWidth + "d %s",
+    				(i+1), cageTargets.get(i), op));
     	}
     	
     	return lines;

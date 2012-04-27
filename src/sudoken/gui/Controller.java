@@ -91,7 +91,7 @@ public class Controller {
             return;
         } catch (ParseException e) {
             errorDisplay
-                    .showErrorMessage("An error occured while trying to parse "
+                    .showErrorMessage("An error occurred while trying to parse "
                             + "the file. The file was opened successfully and a "
                             + "sudoku extension was found to read the file; "
                             + "however, there is an error in the files syntax.");
@@ -99,6 +99,34 @@ public class Controller {
             return;
         }
         gui.setIsPuzzleLoaded(true);
+    }
+    
+    public void savePuzzle(String fileName) {
+    	File saveFile = new File(fileName);
+    	if (!saveFile.exists()) {
+    			try {
+					saveFile.createNewFile();
+				} catch (IOException e) {
+					errorDisplay.showErrorMessage("An error occurred while trying to create "
+							+ "a new file.");
+					return;
+				}
+    	}
+    	if (!saveFile.canWrite()) {
+    		errorDisplay.showErrorMessage("The file is unable to be written to.");
+    		return;
+    	}
+    	try {
+			Parser.save(puzzleSolver.getSudokuBoard(), saveFile);
+		} catch (IOException e) {
+            errorDisplay.showErrorMessage("An error occurred while trying to write "
+                    + "to the file. The file was opened successfully, but "
+                    + "writing the file contents failed.");
+		} catch (ParseException e) {
+			errorDisplay.showErrorMessage("An error occurred while trying to convert "
+					+ "the loaded puzzle to its save file format.");
+		}
+    	// TODO: Save feedback in GUI.
     }
 
     public void solve() {

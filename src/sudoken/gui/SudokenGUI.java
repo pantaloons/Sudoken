@@ -2,6 +2,7 @@ package sudoken.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -24,10 +25,12 @@ public class SudokenGUI implements BoardChangeListener {
     private Controller controller;
     private JPanel panel;
     private LabelledFileChooser labelledFileChooser;
+    private JFileChooser saveFileChooser;
     private BoardWidget boardWidget;
 
     private JButton solveButton;
     private JButton loadButton;
+    private JButton saveButton;
     private JProgressBar progressBar;
 	private JSlider solverSpeedSlider;
 	private JLabel sliderLabel;
@@ -45,12 +48,16 @@ public class SudokenGUI implements BoardChangeListener {
         boardWidget = new BoardWidget();
         solveButton = new JButton("Solve");
         loadButton = new JButton("Load Puzzle");
+        saveButton = new JButton("Save Puzzle");
         progressBar = new JProgressBar();
         sliderLabel = new JLabel("Solve Speed: ");
         createSlider();
         createFileChooser();
+        saveFileChooser = new JFileChooser();
+        saveFileChooser.setCurrentDirectory(new File("../test"));
         solveButton.addActionListener(new SolveButtonListener());
         loadButton.addActionListener(new LoadButtonListener());
+        saveButton.addActionListener(new SaveButtonListener());
     }
     
     private void createSlider() {
@@ -74,6 +81,7 @@ public class SudokenGUI implements BoardChangeListener {
         panel.setLayout(layout);
         panel.add(labelledFileChooser, "growx");
         panel.add(loadButton);
+        panel.add(saveButton);
         panel.add(solveButton, "wrap");
         panel.add(boardWidget, "align center, span, wrap");
         panel.add(sliderLabel, "split, span");
@@ -109,6 +117,16 @@ public class SudokenGUI implements BoardChangeListener {
         public void stateChanged(ChangeEvent e) {
             controller.setSolveSpeed(solverSpeedSlider.getValue());            
         }
+    }
+    
+    private class SaveButtonListener implements ActionListener {
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+            int returnStatus = saveFileChooser.showSaveDialog(saveButton);
+            if (returnStatus == JFileChooser.APPROVE_OPTION)
+                controller.savePuzzle(saveFileChooser.getSelectedFile().getAbsolutePath());
+    	}
     }
 
     public void processNewExtension(Extension newlyLoadedExtension) {
