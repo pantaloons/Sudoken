@@ -10,28 +10,12 @@ import java.util.concurrent.TimeUnit;
  * 
  */
 public class BacktrackingSolver extends Solver {
-    private static final int MAX_LAG = 2;
-    private Semaphore rateControl = new Semaphore(MAX_LAG);
     
     @Override
-    public boolean solve() {
+    public boolean solve() throws InterruptedException {
         return solve(new Position(0, 0));
     }
     
-    private class RateController implements Runnable {
-
-        @Override
-        public void run() {
-            rateControl.release();
-            try {
-                TimeUnit.MILLISECONDS.sleep(getMilisecondDelay());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                // End thread without action.
-            }
-        }
-    }
-
     /**
      * Attempts to solve the remainder of the sudoku board starting at the given
      * position. This method is called recursively to solve a sudoku board in a
@@ -43,14 +27,15 @@ public class BacktrackingSolver extends Solver {
      *            the y-position to start solving the sudoku board.
      * @return {@code true} if the board, starting from the start position, is
      *         solved. {@code false} if it cannot be solved.
+     * @throws InterruptedException 
      */
-    private boolean solve(Position p) {
+    private boolean solve(Position p) throws InterruptedException {
+        
         //notifyListeners(board);
         if (p.getX() == board.getWidth()) {
         	p = new Position(0, p.getY() + 1);
             if (p.getY() == board.getHeight()) {
                 // Reached the end of the board.
-                //notifyListeners(board);
                 return true;
             }
         }
@@ -60,11 +45,8 @@ public class BacktrackingSolver extends Solver {
         }
 
         for (int value = 1; value <= board.getNumCandidates(); value++) {
-            try {
-                rateControl.acquire();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            // Assume the computation time is minimal in comparison to the sleep time. 
+            TimeUnit.MILLISECONDS.sleep(getMilisecondDelay());
             board.setValue(p, value);
             boolean legal = true;
             for (Constraint c : board.getConstraints()) {

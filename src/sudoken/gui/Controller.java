@@ -108,7 +108,11 @@ public class Controller {
     		guiUpdateTimer.start();
 	    	Runnable runSolver = new Runnable() {
 	    		public void run() {
-	    			puzzleSolved = puzzleSolver.solve();
+	    			try {
+                        puzzleSolved = puzzleSolver.solve();
+                    } catch (InterruptedException e) {
+                        // continue. Just set the gui to false state.
+                    }
 	    			solverRunning = false;
 	    			guiUpdateTimer.stop();
 	    			

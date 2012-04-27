@@ -17,7 +17,6 @@ public abstract class Solver {
     protected Board board;
     private Collection<BoardChangeListener> listeners = new ArrayList<BoardChangeListener>();
     private AtomicLong milisecondDelay = new AtomicLong();
-    private AtomicBoolean running = new AtomicBoolean(true);
     
     public Solver() {
     }
@@ -43,7 +42,7 @@ public abstract class Solver {
      * @return {@code true} if the board is solvable, {@code false} if it is
      *         not.
      */
-    public abstract boolean solve();
+    public abstract boolean solve() throws InterruptedException;
 
     /**
      * Subscribes a SolverListener to this solver. The BoardChangeListener will
@@ -72,11 +71,9 @@ public abstract class Solver {
         }
     }
     
-    public void setStepsPerSecond(int stepsPerSecond) {
-        if(stepsPerSecond == 0) {
-            running.set(false);
-        }
-        running.set(true);
+    public void setStepsPerSecond(int logOfStepsPerSecond) {
+        int base = 2;
+        long stepsPerSecond = new Double(Math.pow(base, logOfStepsPerSecond)).longValue();
         long delay = 1000 / stepsPerSecond;
         this.milisecondDelay.set(delay);
     }
