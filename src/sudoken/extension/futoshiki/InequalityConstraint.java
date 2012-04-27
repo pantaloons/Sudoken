@@ -46,4 +46,14 @@ public class InequalityConstraint extends Constraint {
             }
         }
     }
+    
+    public Position getPosition(int index) {
+    	if (index == 0) return p1;
+    	else if (index == 1) return p2;
+    	else return null;
+    }
+    
+    public boolean isLess() {
+    	return less;
+    }
 }

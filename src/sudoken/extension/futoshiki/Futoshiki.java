@@ -3,6 +3,7 @@ package sudoken.extension.futoshiki;
 import java.util.HashSet;
 import java.util.Set;
 
+import sudoken.domain.BoardDecorator;
 import sudoken.extension.Extension;
 import sudoken.extension.ExtensionManager;
 
@@ -21,4 +22,9 @@ public class Futoshiki extends Extension {
     	s.add("latinsquare");
     	return s;
     }
+    
+    @Override
+	public BoardDecorator getDecorator() {
+		return new FutoshikiDecorator();
+	}
 }
