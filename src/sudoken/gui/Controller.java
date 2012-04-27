@@ -126,6 +126,7 @@ public class Controller {
 			errorDisplay.showErrorMessage("An error occurred while trying to convert "
 					+ "the loaded puzzle to its save file format.");
 		}
+    	// TODO: Save feedback in GUI.
     }
 
     public void solve() {
