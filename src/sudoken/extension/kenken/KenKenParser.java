@@ -108,8 +108,7 @@ public class KenKenParser implements SectionParser {
     	int j = 0;
     	for (Constraint c : constraints) {
     		j++;
-    		if (!(c instanceof OperatorConstraint))
-    			throw new ParseException("Invalid constraint", 0);
+    		// TODO: Getting weird ClassCastExceptions. Alternative to casting?
     		OperatorConstraint oc = (OperatorConstraint) c;
     		cageTargets.add(oc.getTarget());
     		cageOperators.add(oc.getOperator());

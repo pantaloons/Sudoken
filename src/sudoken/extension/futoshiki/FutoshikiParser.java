@@ -33,9 +33,6 @@ public class FutoshikiParser implements SectionParser {
     	List<String> lines = new ArrayList<String>();
     	
     	for (Constraint c : constraints) {
-    		if (!(c instanceof InequalityConstraint))
-    			// TODO: Throw exception, as constraint that references Futoshiki is not an InequalityConstraint.
-    			throw new ParseException("Invalid constraint", 0); 
     		InequalityConstraint ic = (InequalityConstraint) c;
     		Position p1 = ic.getFirstPosition();
     		Position p2 = ic.getSecondPosition();

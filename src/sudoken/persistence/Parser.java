@@ -86,7 +86,7 @@ public class Parser {
                 grid, constraints);
     }
     
-    public static void save(Board board, File f) throws IOException, ParseException {
+    public static void save(Board board, File f) throws IOException, ParseException, ClassCastException {
     	// Open a writer for the save file.
     	PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(f)));
     	String primaryExt = ExtensionManager.getCurrentPrimaryExtension();

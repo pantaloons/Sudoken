@@ -2,6 +2,7 @@ package sudoken.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -22,10 +23,12 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
     private Controller controller;
     private JPanel panel;
     private LabelledFileChooser labelledFileChooser;
+    private JFileChooser saveFileChooser;
     private BoardWidget boardWidget;
 
     private JButton solveButton;
     private JButton loadButton;
+    private JButton saveButton;
     private JProgressBar progressBar;
 	private JMenuBar menuBar;
 
@@ -42,10 +45,14 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
         boardWidget = new BoardWidget();
         solveButton = new JButton("Solve");
         loadButton = new JButton("Load Puzzle");
+        saveButton = new JButton("Save Puzzle");
         progressBar = new JProgressBar();
         solveButton.addActionListener(new SolveButtonListener());
         loadButton.addActionListener(new LoadButtonListener());
+        saveButton.addActionListener(new SaveButtonListener());
         createFileChooser();
+        saveFileChooser = new JFileChooser();
+        saveFileChooser.setCurrentDirectory(new File("../test"));
     }
 
     private void createFileChooser() {
@@ -61,6 +68,7 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
         panel.setLayout(layout);
         panel.add(labelledFileChooser, "growx");
         panel.add(loadButton);
+        panel.add(saveButton);
         panel.add(solveButton, "wrap");
         panel.add(boardWidget, "align center, span, wrap");
         panel.add(progressBar, "span, growx");
@@ -86,6 +94,16 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
             String fileName = labelledFileChooser.getTextField().getText();
             controller.loadPuzzle(fileName);
         }
+    }
+    
+    private class SaveButtonListener implements ActionListener {
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+            int returnStatus = saveFileChooser.showSaveDialog(saveButton);
+            if (returnStatus == JFileChooser.APPROVE_OPTION)
+                controller.savePuzzle(saveFileChooser.getSelectedFile().getAbsolutePath());
+    	}
     }
 
     public void processNewExtension(Extension newlyLoadedExtension) {

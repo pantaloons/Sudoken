@@ -71,8 +71,7 @@ public class JigsawParser implements SectionParser {
     	int i = 0;
     	for (Constraint c : constraints) {
     		i++;
-    		if (!(c instanceof UniqueConstraint))
-    			throw new ParseException("Invalid constraint", 0);
+    		// TODO: Getting weird ClassCastExceptions. Alternative to casting?
     		UniqueConstraint uc = (UniqueConstraint) c;
     		for (Position p : uc.getPositions())
     			positionPieces.put(p, i);
