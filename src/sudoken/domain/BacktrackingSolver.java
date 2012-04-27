@@ -1,5 +1,11 @@
 package sudoken.domain;
 
+import java.io.File;
+import java.io.IOException;
+
+import sudoken.extension.ExtensionManager;
+import sudoken.persistence.Parser;
+
 /**
  * Solves sudoku type puzzles by using a backtracking algorithm.
  * 

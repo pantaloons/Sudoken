@@ -96,7 +96,11 @@ public class Parser {
     	out.println(board.getWidth() + " " + board.getHeight());
     	for (int row = 0; row < board.getHeight(); row++) {
     		for (int col = 0; col < board.getWidth(); col++) {
-    			out.print(board.getValue(new Position(col, row)) + " ");
+    			int v = board.getValue(new Position(col, row));
+    			if (v == Board.UNSET)
+    				out.print("- ");
+    			else
+    				out.print(v + " ");
     		}
     		out.println();
     	}
@@ -117,7 +121,7 @@ public class Parser {
     	}
     	
     	// Get extension save configurations, starting with primary extension if applicable.
-    	if (extConstraints.containsKey(primaryExt)) {
+    	if (extConstraints.containsKey(primaryExt) && ExtensionManager.hasParser(primaryExt)) {
     		List<String> primaryExtConfig = ExtensionManager.getParser(primaryExt).getConfig(extConstraints.get(primaryExt));
     		if (primaryExtConfig.size() > 0) {
     			out.println("." + primaryExt);
@@ -131,11 +135,13 @@ public class Parser {
     	// Get the rest of the extensions' save configurations.
     	Set<String> extNames = extConstraints.keySet();
     	for (String ext : extNames) {
-    		List<String> extConfig = ExtensionManager.getParser(ext).getConfig(extConstraints.get(ext));
-    		if (extConfig.size() > 0) {
-    			for (String line : extConfig)
-    				out.println(line);
-    			out.println();
+    		if (ExtensionManager.hasParser(ext)) {
+	    		List<String> extConfig = ExtensionManager.getParser(ext).getConfig(extConstraints.get(ext));
+	    		if (extConfig.size() > 0) {
+	    			for (String line : extConfig)
+	    				out.println(line);
+	    			out.println();
+	    		}
     		}
     	}
     	
