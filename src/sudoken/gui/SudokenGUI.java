@@ -55,8 +55,8 @@ public class SudokenGUI implements BoardChangeListener {
     
     private void createSlider() {
         final int minSpeed = 0;
-        final int maxSpeed = 20;
-        final int initialSpeed = 15;
+        final int maxSpeed = 15;
+        final int initialSpeed = 5;
         solverSpeedSlider = new JSlider(JSlider.HORIZONTAL, minSpeed, maxSpeed, initialSpeed);
         solverSpeedSlider.addChangeListener(new SliderListener());
     }
