@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.io.File;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -18,7 +20,7 @@ import sudoken.extension.Extension;
  * 
  * @author Joshua Leung & Kevin Doran
  */
-public class SudokenGUI implements BoardChangeListener, ActionListener {
+public class SudokenGUI implements BoardChangeListener {
 
     private Controller controller;
     private JPanel panel;
@@ -30,7 +32,8 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
     private JButton loadButton;
     private JButton saveButton;
     private JProgressBar progressBar;
-	private JMenuBar menuBar;
+	private JSlider solverSpeedSlider;
+	private JLabel sliderLabel;
 
     // FIXME: this should eventually contain the body of the other again
     public SudokenGUI() {
@@ -47,12 +50,22 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
         loadButton = new JButton("Load Puzzle");
         saveButton = new JButton("Save Puzzle");
         progressBar = new JProgressBar();
-        solveButton.addActionListener(new SolveButtonListener());
-        loadButton.addActionListener(new LoadButtonListener());
-        saveButton.addActionListener(new SaveButtonListener());
+        sliderLabel = new JLabel("Solve Speed: ");
+        createSlider();
         createFileChooser();
         saveFileChooser = new JFileChooser();
         saveFileChooser.setCurrentDirectory(new File("../test"));
+        solveButton.addActionListener(new SolveButtonListener());
+        loadButton.addActionListener(new LoadButtonListener());
+        saveButton.addActionListener(new SaveButtonListener());
+    }
+    
+    private void createSlider() {
+        final int minSpeed = 0;
+        final int maxSpeed = 15;
+        final int initialSpeed = 5;
+        solverSpeedSlider = new JSlider(JSlider.HORIZONTAL, minSpeed, maxSpeed, initialSpeed);
+        solverSpeedSlider.addChangeListener(new SliderListener());
     }
 
     private void createFileChooser() {
@@ -71,6 +84,8 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
         panel.add(saveButton);
         panel.add(solveButton, "wrap");
         panel.add(boardWidget, "align center, span, wrap");
+        panel.add(sliderLabel, "split, span");
+        panel.add(solverSpeedSlider, "grow, wrap");
         panel.add(progressBar, "span, growx");
         panel.setPreferredSize(new Dimension(500, 500)); 
     }
@@ -93,6 +108,14 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
         public void actionPerformed(ActionEvent e) {
             String fileName = labelledFileChooser.getTextField().getText();
             controller.loadPuzzle(fileName);
+        }
+    }
+    
+    private class SliderListener implements ChangeListener {
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            controller.setSolveSpeed(solverSpeedSlider.getValue());            
         }
     }
     
@@ -161,24 +184,5 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
      */
     public JPanel getPanel() {
         return panel;
-    }
-    
-    public JMenuBar getMenuBar(){
-    	return menuBar;
-    }
-
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		
-		String command = event.getActionCommand();
-		
-		if ("menu_exit".equals(command)){
-			System.exit(0);
-		
-		} else if ("menu_open".equals(command)){
-			labelledFileChooser.getFileChooser().showOpenDialog(panel);
-			controller.loadPuzzle(labelledFileChooser.getFileChooser().getSelectedFile().getAbsolutePath() );
-		}
-	}
-    
+    }  
 }

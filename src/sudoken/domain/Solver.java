@@ -2,6 +2,9 @@ package sudoken.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * The main sudoku solver. The sudoku solver solves the given sudoku board while
@@ -13,6 +16,7 @@ import java.util.Collection;
 public abstract class Solver {
     protected Board board;
     private Collection<BoardChangeListener> listeners = new ArrayList<BoardChangeListener>();
+    private AtomicLong milisecondDelay = new AtomicLong();
     
     public Solver() {
     }
@@ -38,7 +42,7 @@ public abstract class Solver {
      * @return {@code true} if the board is solvable, {@code false} if it is
      *         not.
      */
-    public abstract boolean solve();
+    public abstract boolean solve() throws InterruptedException;
 
     /**
      * Subscribes a SolverListener to this solver. The BoardChangeListener will
@@ -65,5 +69,16 @@ public abstract class Solver {
         for (BoardChangeListener listener : listeners) {
             listener.processUpdatedBoard(solvedBoard);
         }
+    }
+    
+    public void setStepsPerSecond(int logOfStepsPerSecond) {
+        int base = 2;
+        long stepsPerSecond = new Double(Math.pow(base, logOfStepsPerSecond)).longValue();
+        long delay = 1000 / stepsPerSecond;
+        this.milisecondDelay.set(delay);
+    }
+    
+    protected long getMilisecondDelay() {
+        return this.milisecondDelay.get();
     }
 }
