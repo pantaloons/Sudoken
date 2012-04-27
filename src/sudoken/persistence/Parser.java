@@ -122,7 +122,7 @@ public class Parser {
     	
     	// Get extension save configurations, starting with primary extension if applicable.
     	if (extConstraints.containsKey(primaryExt) && ExtensionManager.hasParser(primaryExt)) {
-    		List<String> primaryExtConfig = ExtensionManager.getParser(primaryExt).getConfig(extConstraints.get(primaryExt));
+    		List<String> primaryExtConfig = ExtensionManager.getParser(primaryExt).save(extConstraints.get(primaryExt));
     		if (primaryExtConfig.size() > 0) {
     			out.println("." + primaryExt);
     			for (String line : primaryExtConfig)
@@ -136,7 +136,7 @@ public class Parser {
     	Set<String> extNames = extConstraints.keySet();
     	for (String ext : extNames) {
     		if (ExtensionManager.hasParser(ext)) {
-	    		List<String> extConfig = ExtensionManager.getParser(ext).getConfig(extConstraints.get(ext));
+	    		List<String> extConfig = ExtensionManager.getParser(ext).save(extConstraints.get(ext));
 	    		if (extConfig.size() > 0) {
 	    			for (String line : extConfig)
 	    				out.println(line);

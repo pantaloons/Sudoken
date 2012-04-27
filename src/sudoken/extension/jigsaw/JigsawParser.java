@@ -59,7 +59,7 @@ public class JigsawParser implements SectionParser {
     }
     
     @Override
-    public List<String> getConfig(Collection<Constraint> constraints) {
+    public List<String> save(Collection<Constraint> constraints) {
     	// TODO: Return list of lines to be saved in puzzle file, as determined by constraints.
     	return new ArrayList<String>();
     }

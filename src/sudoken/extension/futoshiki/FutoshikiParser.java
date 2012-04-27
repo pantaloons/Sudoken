@@ -1,5 +1,6 @@
 package sudoken.extension.futoshiki;
 
+import java.text.ParseException;
 import java.util.*;
 
 import sudoken.persistence.*;
@@ -28,8 +29,22 @@ public class FutoshikiParser implements SectionParser {
     }
     
     @Override
-    public List<String> getConfig(Collection<Constraint> constraints) {
-    	// TODO: Return list of lines to be saved in puzzle file, as determined by constraints.
-    	return new ArrayList<String>();
+    public List<String> save(Collection<Constraint> constraints) {
+    	List<String> lines = new ArrayList<String>();
+    	
+    	for (Constraint c : constraints) {
+    		if (!(c instanceof InequalityConstraint))
+    			// TODO: Throw exception, as constraint that references Futoshiki is not an InequalityConstraint.
+    			new ParseException("Invalid constraint", 0); 
+    		InequalityConstraint ic = (InequalityConstraint) c;
+    		Position p1 = ic.getFirstPosition();
+    		Position p2 = ic.getSecondPosition();
+    		String sign = ">";
+    		if (ic.isLess())
+    			sign = "<";
+    		lines.add(p1.getX() + " " + p1.getY() + " " + sign + " " + p2.getX() + " " + p2.getY());
+    	}
+    	
+    	return lines;
     }
 }

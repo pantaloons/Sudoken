@@ -1,11 +1,5 @@
 package sudoken.domain;
 
-import java.io.File;
-import java.io.IOException;
-
-import sudoken.extension.ExtensionManager;
-import sudoken.persistence.Parser;
-
 /**
  * Solves sudoku type puzzles by using a backtracking algorithm.
  * 
@@ -47,7 +41,6 @@ public class BacktrackingSolver extends Solver {
 
         for (int value = 1; value <= board.getNumCandidates(); value++) {
             board.setValue(p, value);
-            // board.print();System.out.println(board.getNumCandidates());
             boolean legal = true;
             for (Constraint c : board.getConstraints()) {
                 if (c.canHandle(p)) {

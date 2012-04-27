@@ -43,7 +43,7 @@ public class DiagonalsParser implements SectionParser {
     }
     
     @Override
-    public List<String> getConfig(Collection<Constraint> constraints) {
+    public List<String> save(Collection<Constraint> constraints) {
     	// No extra config needed, so just return empty list.
     	return new ArrayList<String>();
     }
