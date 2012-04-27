@@ -94,8 +94,8 @@ public class Parser {
     	// Print out the main board configuration.
     	out.println(primaryExt);
     	out.println(board.getWidth() + " " + board.getHeight());
-    	// Guess size of formatting
-    	int formatWidth = 1 + (int) Math.floor(Math.log10(board.getWidth()));
+    	
+    	int formatWidth = 1 + (int) Math.floor(Math.log10(board.getNumCandidates()));
     	for (int row = 0; row < board.getHeight(); row++) {
     		for (int col = 0; col < board.getWidth(); col++) {
     			int v = board.getValue(new Position(col, row));

@@ -6,8 +6,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import sudoken.domain.BacktrackingSolver;
-import sudoken.domain.Solver;
+import sudoken.domain.*;
 import sudoken.extension.ExtensionManager;
 
 /**
@@ -34,7 +33,8 @@ public class SudokenFacade {
         }
         
         SudokenGUI gui = new SudokenGUI();
-        Solver puzzleSolver = new BacktrackingSolver();
+        //Solver puzzleSolver = new BacktrackingSolver();
+        Solver puzzleSolver = new SmartBacktrackingSolver();
         Controller.createController(puzzleSolver, gui);
         wrappingFrame = new WrappingFrame("Sudoken", gui.getPanel()).getFrame();
         //wrappingFrame.setJMenuBar(gui.getMenuBar());
