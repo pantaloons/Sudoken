@@ -5,7 +5,6 @@ import java.util.Set;
 
 import sudoken.extension.Extension;
 import sudoken.extension.ExtensionManager;
-import sudoken.extension.latinsquare.LatinSquareDecorator;
 
 public class Jigsaw extends Extension {
     static {
@@ -13,7 +12,7 @@ public class Jigsaw extends Extension {
     }
 
     public Jigsaw() {
-        super(new JigsawParser(), new JigsawCreator(), new LatinSquareDecorator());
+        super(new JigsawParser(), new JigsawCreator(), ExtensionManager.getDecorator("latinsquare"));
     }
     
     @Override

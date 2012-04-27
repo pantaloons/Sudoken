@@ -184,12 +184,18 @@ public class ExtensionManager {
                 if (f.isFile()) {
                     int i = f.getName().lastIndexOf('.');
                     if (i >= 0 && f.getName().substring(i + 1).equals("jar")) {
-                        ClassLoader cl = loadJAR(f);
-                        ServiceLoader<Extension> extensionLoader = 
-                        		ServiceLoader.load(Extension.class, cl);
-                        
-                        for (Extension newlyLoadedExtension : extensionLoader) {
-                        	notifyListeners(newlyLoadedExtension);
+                        try {
+                            ClassLoader cl = loadJAR(f);
+                            ServiceLoader<Extension> extensionLoader = 
+                                    ServiceLoader.load(Extension.class, cl);
+                            
+                            for (Extension newlyLoadedExtension : extensionLoader) {
+                                notifyListeners(newlyLoadedExtension);
+                            }
+                        }
+                        catch (Throwable ex) {
+                            // FIXME: hack to prevent problem with LatinSquare + Jigsaw
+                            System.err.println("Caught loading error");
                         }
                     }
                 }
