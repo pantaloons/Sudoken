@@ -30,6 +30,7 @@ public class WrappingFrame {
         frame.setMinimumSize(frame.getPreferredSize());
         frame.addComponentListener(new MinSizeComponentBehaviour());
         frame.pack();
+        frame.setLocationRelativeTo(null); // centered - only as last, to prevent alignment errors
     }
 
     /**

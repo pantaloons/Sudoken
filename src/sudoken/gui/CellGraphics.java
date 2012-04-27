@@ -5,9 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class CellGraphics extends JPanel {
     private static final long serialVersionUID = 3126607752896973719L;
@@ -16,11 +14,17 @@ public class CellGraphics extends JPanel {
     
     public CellGraphics(String label) {
         super(new GridBagLayout());
+        
+        //setBackground(UIManager.getColor("nimbusLightBackground"));
+        setBackground(Color.WHITE);
+        
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
-        txt = new JLabel(label);
         setPreferredSize(new Dimension(35, 35));
+        
+        txt = new JLabel(label);
         add(txt, gbc);
+        
         revalidate();
     }
     
