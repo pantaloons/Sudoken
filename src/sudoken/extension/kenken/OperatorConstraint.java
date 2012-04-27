@@ -109,4 +109,16 @@ public class OperatorConstraint extends Constraint {
     	else
     		return (v1 / v2 * v2 != v1 || v1 / v2 != target) && (v2 / v1 * v1 != v2 || v2 / v1 != target);
     }
+    
+    List<Position> getPositions() {
+    	return positions;
+    }
+    
+    int getTarget() {
+    	return target;
+    }
+    
+    int getOperator() {
+    	return operator;
+    }
 }

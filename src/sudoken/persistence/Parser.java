@@ -138,6 +138,7 @@ public class Parser {
     		if (ExtensionManager.hasParser(ext)) {
 	    		List<String> extConfig = ExtensionManager.getParser(ext).save(extConstraints.get(ext));
 	    		if (extConfig.size() > 0) {
+	    			out.println("." + ext);
 	    			for (String line : extConfig)
 	    				out.println(line);
 	    			out.println();
