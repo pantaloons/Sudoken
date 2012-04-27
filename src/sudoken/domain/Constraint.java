@@ -6,7 +6,12 @@ package sudoken.domain;
  * @author Kevin Doran
  * @author Joshua Leung
  */
-public interface Constraint {
+public abstract class Constraint {
+	protected String extension;
+	
+	public Constraint(String ext) {
+		extension = ext;
+	}
     /**
      * Called by the solver to check if the constraint is interested in the cell
      * at the given position (for finding constraint violations).
@@ -17,7 +22,7 @@ public interface Constraint {
      *            The y-position of the cell that has changed. Zero-based.
      * @return {@code true} if constraint is interested in the cell
      */
-    boolean canHandle(Position position);
+    public abstract boolean canHandle(Position position);
 
     /**
      * Called by the solver to check if the current board state violates any
@@ -32,5 +37,9 @@ public interface Constraint {
      * @precondition {@code canHandle()} should have been called to verify that
      *               cell has changed
      */
-    boolean isViolated(Board board);
+    public abstract boolean isViolated(Board board);
+    
+    public String getExtensionName() {
+    	return extension;
+    }
 }

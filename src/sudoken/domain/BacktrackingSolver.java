@@ -66,7 +66,6 @@ public class BacktrackingSolver extends Solver {
                 Thread.currentThread().interrupt();
             }
             board.setValue(p, value);
-            // board.print();System.out.println(board.getNumCandidates());
             boolean legal = true;
             for (Constraint c : board.getConstraints()) {
                 if (c.canHandle(p)) {

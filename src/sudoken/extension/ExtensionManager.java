@@ -17,6 +17,9 @@ import sudoken.persistence.*;
 public class ExtensionManager {
     /** Registry mapping extension identifiers to {@link Extension} instances */
     private static Map<String, Extension> m;
+    
+    // Name of the primary extension of the currently loaded puzzle.
+    private static String currentPrimaryExtension;
 
     // This collection is accessed in multiple threads, thus needs to be a
     // thread safe implementation.
@@ -59,6 +62,17 @@ public class ExtensionManager {
      */
     public static SectionParser getParser(String ext) {
         return m.get(ext).getParser();
+    }
+    
+    /**
+     * Checks if the named extension supplies a parser.
+     * 
+     * @param ext
+     *             Identifier for extension. Lower-case.
+     * @return {@code true} if the extension has a parser
+     */
+    public static boolean hasParser(String ext) {
+    	return m.get(ext).getParser() != null;
     }
 
     /**
@@ -181,5 +195,13 @@ public class ExtensionManager {
 
     private static ClassLoader loadJAR(File f) throws MalformedURLException {
         return new URLClassLoader(new URL[] { f.toURI().toURL() });
+    }
+    
+    public static void setCurrentPrimaryExtension(String ext) {
+    	currentPrimaryExtension = ext;
+    }
+    
+    public static String getCurrentPrimaryExtension() {
+    	return currentPrimaryExtension;
     }
 }

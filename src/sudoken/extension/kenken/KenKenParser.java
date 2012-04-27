@@ -1,6 +1,7 @@
 package sudoken.extension.kenken;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,6 +16,8 @@ import sudoken.domain.Position;
 import sudoken.persistence.SectionParser;
 
 public class KenKenParser implements SectionParser {
+	
+	private static final String EXTENSION_NAME = "kenken";
 	
     /**
      * Format: Positive integers in a grid the same size as puzzle, with each
@@ -86,11 +89,66 @@ public class KenKenParser implements SectionParser {
         		throw new IOException("Parse error: Unknown cage number.");
         	if (!arePositionsAdjacent(positions))
         		throw new IOException("Parse error: Cage positions nonadjacent.");
-        	cageConstraints.add(new OperatorConstraint(positions, target, operator));
+        	cageConstraints.add(new OperatorConstraint(EXTENSION_NAME, positions, target, operator));
         }
         if (cagesPositions.size() > 0)
         	throw new IOException("Parse error: All cages must have constraints specified.");
         return cageConstraints;
+    }
+
+    @Override
+    public List<String> save(Collection<Constraint> constraints) throws ParseException {
+    	List<String> lines = new ArrayList<String>();
+    	
+    	Map<Position, Integer> positionCages = new HashMap<Position, Integer>();
+    	List<Integer> cageTargets = new ArrayList<Integer>();
+    	List<Integer> cageOperators = new ArrayList<Integer>();
+    	int width = 0;
+    	int height = 0;
+    	int j = 0;
+    	for (Constraint c : constraints) {
+    		j++;
+    		if (!(c instanceof OperatorConstraint))
+    			throw new ParseException("Invalid constraint", 0);
+    		OperatorConstraint oc = (OperatorConstraint) c;
+    		cageTargets.add(oc.getTarget());
+    		cageOperators.add(oc.getOperator());
+    		for (Position p : oc.getPositions()) {
+    			positionCages.put(p, j);
+    			if (p.getX() >= width)
+    				width = p.getX() + 1;
+    			if (p.getY() >= height)
+    				height = p.getY() + 1;
+    		}
+    	}
+    	
+    	int formatWidth = 1 + (int) Math.floor(Math.log10(constraints.size()));
+    	
+    	for (int row = 0; row < height; row++) {
+    		String curLine = "";
+    		for (int col = 0; col < width; col++) {
+    			Position p = new Position(col, row);
+    			if (!positionCages.containsKey(p))
+    				throw new ParseException("Missing position", 0);
+    			curLine += String.format("%" + formatWidth + "s", positionCages.get(p)) + " ";
+    		}
+    		lines.add(curLine);
+    	}
+    	
+    	// TODO: Format width for lower part.
+    	
+    	for (int i = 0; i < cageTargets.size(); i++) {
+    		String op = "+";
+    		if (cageOperators.get(i) == OperatorConstraint.SUBTRACTION)
+    			op = "-";
+    		else if (cageOperators.get(i) == OperatorConstraint.MULTIPLICATION)
+    			op = "*";
+    		else if (cageOperators.get(i) == OperatorConstraint.DIVISION)
+    			op = "/";
+    		lines.add((i+1) + " " + cageTargets.get(i) + " " + op);
+    	}
+    	
+    	return lines;
     }
     
     /* Returns true if positions are fully adjacent. */
