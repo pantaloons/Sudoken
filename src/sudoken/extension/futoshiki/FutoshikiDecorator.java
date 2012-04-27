@@ -56,7 +56,7 @@ public class FutoshikiDecorator extends BoardDecorator {
 			if (ic.isLess() == p1.getX() < p2.getX()) ret = "<";
 			else ret = ">";
 		}
-		else if (p1.getY() == p2.getY()) {
+		else if (p1.getX() == p2.getX()) {
 			if (ic.isLess() == p1.getY() < p2.getY()) ret = "^";
 			else ret = "v";
 		}
