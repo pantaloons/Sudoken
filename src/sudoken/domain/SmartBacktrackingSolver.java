@@ -3,6 +3,7 @@ package sudoken.domain;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Solves sudoku type puzzles by using a "smart" version of the backtracking
@@ -13,7 +14,7 @@ import java.util.Set;
  */
 public class SmartBacktrackingSolver extends Solver {
     @Override
-    public boolean solve() {
+    public boolean solve() throws InterruptedException {
         return solve(getNextPositions());
     }
 
@@ -26,8 +27,9 @@ public class SmartBacktrackingSolver extends Solver {
      *            the candidates for the next position to try
      * @return {@code true} if the board, starting from the start position, is
      *         solved. {@code false} if it cannot be solved.
+     * @throws InterruptedException 
      */
-    private boolean solve(Set<Position> nextPos) {
+    private boolean solve(Set<Position> nextPos) throws InterruptedException {
     	Iterator<Position> it = nextPos.iterator();
     	
         //notifyListeners(board);
@@ -40,6 +42,8 @@ public class SmartBacktrackingSolver extends Solver {
         nextPos.remove(p);
 
         for (int value = 1; value <= board.getNumCandidates(); value++) {
+        	// Assume the computation time is minimal in comparison to the sleep time. 
+            TimeUnit.MILLISECONDS.sleep(getMilisecondDelay());
             board.setValue(p, value);
             boolean legal = true;
             for (Constraint c : board.getConstraints()) {
