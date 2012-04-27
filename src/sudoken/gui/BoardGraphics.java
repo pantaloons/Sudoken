@@ -66,6 +66,10 @@ public class BoardGraphics extends JPanel {
 		return cg[p.getX()][p.getY()];
 	}
 	
+	public CellGraphics getCell(int x, int y) {
+		return cg[x][y];
+	}
+	
 	public GapGraphics getGap(Position p, int border) {
 		return null;
 	}
