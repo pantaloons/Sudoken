@@ -155,6 +155,7 @@ public class SudokenGUI implements BoardChangeListener {
             @Override
             public void run() {
                 solveButton.setEnabled(isLoaded);
+                saveButton.setEnabled(isLoaded);
             }
         });
     }
