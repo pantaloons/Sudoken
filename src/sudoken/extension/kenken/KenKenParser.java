@@ -15,6 +15,9 @@ import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 import sudoken.persistence.SectionParser;
 
+import sudoken.extension.kenken.OperatorConstraint;
+import sudoken.extension.kenken.Operator;
+
 public class KenKenParser implements SectionParser {
 	
 	private static final String EXTENSION_NAME = "kenken";
@@ -73,22 +76,21 @@ public class KenKenParser implements SectionParser {
         	int cageNum = sc.nextInt() - 1;
         	int target = sc.nextInt();
         	String opStr = sc.next();
-        	int operator;
-        	if (opStr.equals("+"))
-        		operator = OperatorConstraint.ADDITION;
-        	else if (opStr.equals("-"))
-        		operator = OperatorConstraint.SUBTRACTION;
-        	else if (opStr.equals("*"))
-        		operator = OperatorConstraint.MULTIPLICATION;
-        	else if (opStr.equals("/"))
-        		operator = OperatorConstraint.DIVISION;
-        	else
+        	
+        	Operator operator;
+        	try {
+        		operator = Operator.fromSymbol(opStr);
+        	}
+        	catch (IllegalArgumentException iae) {
         		throw new IOException("Parse error: Unknown operator.");
+        	}
+        	
         	List<Position> positions = cagesPositions.remove(cageNum);
         	if (positions == null)
         		throw new IOException("Parse error: Unknown cage number.");
         	if (!arePositionsAdjacent(positions))
         		throw new IOException("Parse error: Cage positions nonadjacent.");
+        	
         	cageConstraints.add(new OperatorConstraint(EXTENSION_NAME, positions, target, operator));
         }
         if (cagesPositions.size() > 0)
@@ -102,7 +104,7 @@ public class KenKenParser implements SectionParser {
     	
     	Map<Position, Integer> positionCages = new HashMap<Position, Integer>();
     	List<Integer> cageTargets = new ArrayList<Integer>();
-    	List<Integer> cageOperators = new ArrayList<Integer>();
+    	List<Operator> cageOperators = new ArrayList<Operator>();
     	int width = 0;
     	int height = 0;
     	int j = 0;
@@ -142,15 +144,11 @@ public class KenKenParser implements SectionParser {
     	int targetFormatWidth = 1 + (int) Math.floor(Math.log10(maxTarget));
     	
     	for (int i = 0; i < cageTargets.size(); i++) {
-    		String op = "+";
-    		if (cageOperators.get(i) == OperatorConstraint.SUBTRACTION)
-    			op = "-";
-    		else if (cageOperators.get(i) == OperatorConstraint.MULTIPLICATION)
-    			op = "*";
-    		else if (cageOperators.get(i) == OperatorConstraint.DIVISION)
-    			op = "/";
+    		Operator op = cageOperators.get(i);
+    		int target = cageTargets.get(i);
+    		
     		lines.add(String.format("%-" + cageNumFormatWidth + "d %" + targetFormatWidth + "d %s",
-    				(i+1), cageTargets.get(i), op));
+    				(i+1), target, op));
     	}
     	
     	return lines;
