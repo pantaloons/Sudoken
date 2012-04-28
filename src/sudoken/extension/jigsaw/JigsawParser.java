@@ -18,8 +18,8 @@ public class JigsawParser implements SectionParser {
 	private static final String EXTENSION_NAME = "jigsaw";
 	
     /**
-     * Format: Positive integers in a grid the same size as puzzle, with each
-     * number specifying a cell's membership to a jigsaw piece.
+     * Format: Each line represents a puzzle piece, and is a list of positions
+     * that make up that puzzle piece in the format x1 y1 x2 y2...
      * 
      * @return
      * @throws ParseException 

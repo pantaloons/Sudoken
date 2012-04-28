@@ -18,7 +18,17 @@ import sudoken.extension.kenken.Operator;
 public class KenKenParser implements SectionParser {
 	
 	private static final String EXTENSION_NAME = "kenken";
-
+	
+	/* Format: Each line represents a "cage", and consists of the target, then the
+	 * operator, then number of positions, then the x and y coordinates of the
+	 * positions themselves in the format x1 y1 x2 y2...
+	 * 
+	 * E.g.: 12 * 2 0 0 0 1
+	 * 
+	 * I.e., positions (0, 0) and (0, 1) must multiply to 12.
+	 * 
+	 */
+	
     @Override
     public Collection<Constraint> load(String config, int width, int height)
             throws ParseException {
