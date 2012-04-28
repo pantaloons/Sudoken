@@ -18,7 +18,6 @@ public class BoardGraphics extends JPanel {
 	private GapGraphics[][] gg;
 	
 	private Board b;
-	private int gapHeight[], gapWidth[];
 	
 	public BoardGraphics(Board b) {
 		super(new GridBagLayout());
@@ -33,14 +32,8 @@ public class BoardGraphics extends JPanel {
 		cg = new CellGraphics[width][height];
 		gg = new GapGraphics[2*width-1][2*height-1];
 		
-		
-		gapHeight = new int[height - 1];
-		gapWidth = new int[width - 1];
-		
-		
 		for(int i = 0; i < width * 2 - 1; i++) {
 			for(int j = 0; j < height * 2 - 1; j++) {
-				
 				gbc.gridx = i;
 				gbc.gridy = j;
 				
@@ -53,28 +46,9 @@ public class BoardGraphics extends JPanel {
 				else { //If a gap
 					gg[i][j] = new GapGraphics("");
 					add(gg[i][j], gbc);
-		
 				}
 			}
 		}
-		
-		
-		
-		gbc.weightx = 0;
-		gbc.weighty = 0;
-		gbc.ipadx = 0;
-		gbc.ipady = 0;
-		/*
-		gg = new GapGraphics[width - 1][height - 1];
-		for(int i = 0; i < width - 1; i++) {
-			for(int j = 0; j < height - 1; j++) {
-				gbc.gridx = i * 2 + 1;
-				gbc.gridy = j * 2 + 1;
-
-				gg[i][j] = new GapGraphics();
-				add(gg[i][j], gbc);
-			}
-		}*/
 	}
 	
 	public CellGraphics getCell(Position p) {
@@ -98,25 +72,19 @@ public class BoardGraphics extends JPanel {
 	 */
 	public static Position getPositionBetween(Position p1, Position p2){
 		Position ret = null;
-		
-		
-		
 		if (p1.getX() == p2.getX() && Math.abs(p1.getY() - p2.getY()) == 1) {
 			ret = new Position(p1.getX()*2,2*Math.min(p1.getY(), p2.getY())+1);
 		}
 		else if (p1.getY() == p2.getY() && Math.abs(p1.getX() - p2.getX()) == 1){
 			ret = new Position(2*Math.min(p1.getX(), p2.getX())+1,p1.getY()*2);
 		}
-
-		
-		
 		return ret;
 	}
 	
 	public void setBorderWidths(int width) {
         for(int i = 0; i < b.getWidth(); i++) {
             for(int j = 0; j < b.getHeight(); j++) {
-                cg[i][j].setBorderWidth(width, width, width, width);
+                cg[i][j].setBorderWidths(width);
             }
         }
 	}

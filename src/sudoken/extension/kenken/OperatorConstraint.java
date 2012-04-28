@@ -5,6 +5,7 @@ import java.util.List;
 import sudoken.domain.Board;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
+import sudoken.gui.BoardGraphics;
 
 public class OperatorConstraint extends Constraint {
 	/* operator defining behaviour of constraint */
@@ -62,4 +63,10 @@ public class OperatorConstraint extends Constraint {
     		saveStr += p.getX() + " " + p.getY() + " ";
     	return saveStr;
     }
+
+	@Override
+	public void decorate(BoardGraphics bg) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,5 +1,7 @@
 package sudoken.domain;
 
+import sudoken.gui.BoardGraphics;
+
 /**
  * The extension point for plugins to add constraints to the solving process.
  * 
@@ -51,4 +53,6 @@ public abstract class Constraint {
     public boolean shouldSave() {
     	return shouldSave;
     }
+    
+    public abstract void decorate(BoardGraphics bg);
 }

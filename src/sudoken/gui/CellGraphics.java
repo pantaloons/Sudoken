@@ -8,14 +8,21 @@ import java.awt.GridBagLayout;
 import javax.swing.*;
 
 public class CellGraphics extends JPanel {
+	public static final int NORTH = 0;
+	public static final int WEST = 1;
+	public static final int SOUTH = 2;
+	public static final int EAST = 3;
+	
     private static final long serialVersionUID = 3126607752896973719L;
+    private int[] borders;
     
     private JLabel txt;
     
     public CellGraphics(String label) {
         super(new GridBagLayout());
         
-        //setBackground(UIManager.getColor("nimbusLightBackground"));
+        borders = new int[]{0, 0, 0, 0};
+        
         setBackground(Color.WHITE);
         
         GridBagConstraints gbc = new GridBagConstraints();
@@ -28,8 +35,18 @@ public class CellGraphics extends JPanel {
         revalidate();
     }
     
-    public void setBorderWidth(int top, int right, int bottom, int left) {
-        setBorder(BorderFactory.createMatteBorder(top,left, bottom, right, Color.BLACK));
+    private void updateBorders() {
+    	setBorder(BorderFactory.createMatteBorder(borders[0], borders[1], borders[2], borders[3], Color.BLACK));
+    }
+    
+    public void setBorderWidths(int size) {
+    	for(int i = 0; i < 4; i++) borders[i] = size;
+    	updateBorders();
+    }
+    
+    public void setBorderWidth(int border, int size) {
+    	borders[border] = size;
+    	updateBorders();
     }
     
     public void setColor(Color c) {
