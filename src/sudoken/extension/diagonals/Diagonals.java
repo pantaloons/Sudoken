@@ -8,7 +8,7 @@ import sudoken.extension.Extension;
 public class Diagonals extends Extension {
 
     public Diagonals() {
-        super(new DiagonalsParser(), null, null);
+        super(new DiagonalsParser(), null, new DiagonalsDecorator());
     }
     
     @Override
