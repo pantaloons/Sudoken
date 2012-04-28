@@ -142,6 +142,7 @@ public class SudokenGUI implements BoardChangeListener {
         // add new icon for new extension (Maybe. This is not that important).
     }
     
+    /* update UI in response to changes to the board state */
     public void processUpdatedBoard(final Board solvedBoard) {
         EventQueue.invokeLater(new Runnable() {
             @Override

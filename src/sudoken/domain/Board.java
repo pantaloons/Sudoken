@@ -9,6 +9,7 @@ import java.util.Collection;
  * 
  */
 public class Board {
+	/* value used to denote empty cells (i.e. those that can get values) */
     public static final int UNSET = -1;
     
     /* dimensions of the board */
@@ -25,7 +26,6 @@ public class Board {
     private Collection<Constraint> constraints;
     
     
-    /* ctor */
     public Board(int width, int height, int[][] values, int numCandidates,
             Collection<Constraint> c) {
         this.height = height;
@@ -34,7 +34,7 @@ public class Board {
         this.numCandidates = numCandidates;
         this.constraints = c;
     }
-
+    
     public int getWidth() {
         return width;
     }

@@ -49,8 +49,12 @@ public class BoardWidget extends JPanel {
 	public void updateUI(final Board b) {
 		// The width and height checks are temporary hacks to make sure the GUI board is properly updated
 		// when a new puzzle (of different dimensions) has been loaded.
-		if(board == null || board.getWidth() != b.getWidth() || board.getHeight() != b.getHeight())
+		if ((board == null) || 
+			(board.getWidth() != b.getWidth()) || 
+			(board.getHeight() != b.getHeight()))
+		{
 			setBoard(b);
+		}
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -60,7 +64,7 @@ public class BoardWidget extends JPanel {
 				int height = board.getHeight();
 				for (int row = 0; row < height; row++) {
 					for (int col = 0; col < width; col++) {
-						if (b.getValue(col, row) == -1)
+						if (b.getValue(col, row) == Board.UNSET)
 							boardLabels[col][row].setText("");
 						else
 							boardLabels[col][row].setText(b.getValue(col, row) + "");
@@ -83,11 +87,10 @@ public class BoardWidget extends JPanel {
 		
 		boardLabels = new JLabel[width][height];
 		for (int row = 0; row < height; row++) {
-			
 			for (int col = 0; col < width; col++) {
 				int value = board.getValue(col, row);
-				String txt = (value == Board.UNSET) ? " " : Integer
-						.toString(value);
+				String txt = (value == Board.UNSET) ? " " : 
+							Integer.toString(value);
 				
 				boardLabels[col][row] = new JLabel(txt);
 				add(boardLabels[col][row], "width 20, height 20");
