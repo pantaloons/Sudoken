@@ -86,6 +86,7 @@ public class SudokenGUI implements BoardChangeListener {
         panel.add(solveButton, "align center");
         panel.add(saveButton, "align right, wrap");
         
+        // TODO: show the type of puzzle?
         panel.add(boardWidget, "align center, span, wrap");
         
         panel.add(sliderLabel, "split, span");

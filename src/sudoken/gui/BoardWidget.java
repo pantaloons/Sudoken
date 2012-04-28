@@ -60,10 +60,10 @@ public class BoardWidget extends JPanel {
 				int height = board.getHeight();
 				for (int row = 0; row < height; row++) {
 					for (int col = 0; col < width; col++) {
-						if (b.getValue(new Position(col, row)) == -1)
+						if (b.getValue(col, row) == -1)
 							boardLabels[col][row].setText("");
 						else
-							boardLabels[col][row].setText(b.getValue(new Position(col, row)) + "");
+							boardLabels[col][row].setText(b.getValue(col, row) + "");
 					}
 				}
 				revalidate();
@@ -85,7 +85,7 @@ public class BoardWidget extends JPanel {
 		for (int row = 0; row < height; row++) {
 			
 			for (int col = 0; col < width; col++) {
-				int value = board.getValue(new Position(col, row));
+				int value = board.getValue(col, row);
 				String txt = (value == Board.UNSET) ? " " : Integer
 						.toString(value);
 				
