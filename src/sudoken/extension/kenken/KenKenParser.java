@@ -12,10 +12,13 @@ import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 import sudoken.persistence.SectionParser;
 
+import sudoken.extension.kenken.OperatorConstraint;
+import sudoken.extension.kenken.Operator;
+
 public class KenKenParser implements SectionParser {
 	
 	private static final String EXTENSION_NAME = "kenken";
-	
+
     @Override
     public Collection<Constraint> load(String config, int width, int height)
             throws ParseException {
@@ -24,17 +27,13 @@ public class KenKenParser implements SectionParser {
         while (sc.hasNext()) {
         	int target = sc.nextInt();
         	String opStr = sc.next();
-        	int operator;
-        	if (opStr.equals("+"))
-        		operator = OperatorConstraint.ADDITION;
-        	else if (opStr.equals("-"))
-        		operator = OperatorConstraint.SUBTRACTION;
-        	else if (opStr.equals("*"))
-        		operator = OperatorConstraint.MULTIPLICATION;
-        	else if (opStr.equals("/"))
-        		operator = OperatorConstraint.DIVISION;
-        	else
-        		throw new ParseException("Unknown operator.", 0);
+        	Operator operator;
+			try {
+				operator = Operator.fromSymbol(opStr);
+			}
+			catch (IllegalArgumentException iae) {
+				throw new ParseException("Unknown operator.", 0);
+			}
         	int numPositions = sc.nextInt();
         	List<Position> positions = new ArrayList<Position>();
         	for (int i = 0; i < numPositions; i++)

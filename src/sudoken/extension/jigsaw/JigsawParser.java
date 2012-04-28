@@ -90,4 +90,5 @@ public class JigsawParser implements SectionParser {
     	boolean vAdj = (Math.abs(p1.getY() - p2.getY()) == 1);
     	return (hAdj && p1.getY() == p2.getY()) || (vAdj && p1.getX() == p2.getX());
     }
+
 }

@@ -18,14 +18,14 @@ import sudoken.extension.Extension;
 /**
  * Main user interface for Sudoku puzzles solvers
  * 
- * @author Joshua Leung & Kevin Doran
+ * @author Joshua Leung
+ * @author Kevin Doran
  */
 public class SudokenGUI implements BoardChangeListener {
 
     private Controller controller;
     private JPanel panel;
-    private LabelledFileChooser labelledFileChooser;
-    private JFileChooser saveFileChooser;
+    private JFileChooser fileChooser;
     private BoardWidget boardWidget;
 
     private JButton solveButton;
@@ -34,8 +34,7 @@ public class SudokenGUI implements BoardChangeListener {
     private JProgressBar progressBar;
 	private JSlider solverSpeedSlider;
 	private JLabel sliderLabel;
-
-    // FIXME: this should eventually contain the body of the other again
+	
     public SudokenGUI() {
 
         createComponents();
@@ -53,8 +52,7 @@ public class SudokenGUI implements BoardChangeListener {
         sliderLabel = new JLabel("Solve Speed: ");
         createSlider();
         createFileChooser();
-        saveFileChooser = new JFileChooser();
-        saveFileChooser.setCurrentDirectory(new File("../test"));
+        
         solveButton.addActionListener(new SolveButtonListener());
         loadButton.addActionListener(new LoadButtonListener());
         saveButton.addActionListener(new SaveButtonListener());
@@ -69,25 +67,31 @@ public class SudokenGUI implements BoardChangeListener {
     }
 
     private void createFileChooser() {
-        labelledFileChooser = new LabelledFileChooser("Browse");
-        FileFilter fileExtension = new FileNameExtensionFilter("Sudoken Config", "sudoken");
-        labelledFileChooser.getFileChooser().setAcceptAllFileFilterUsed(false);
-        labelledFileChooser.getFileChooser().addChoosableFileFilter(fileExtension);
-        labelledFileChooser.getFileChooser().setFileSelectionMode(JFileChooser.FILES_ONLY);
+    	final FileFilter fileExtension = new FileNameExtensionFilter("Sudoken Puzzle", "sudoken");
+    	final File curDir = new File("../test");
+    	
+    	fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(curDir);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.addChoosableFileFilter(fileExtension);
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
     }
 
     private void layoutComponents() {
-        LayoutManager layout = new MigLayout("", "[grow][]", "[]20[grow][]");
+        LayoutManager layout = new MigLayout("", "[][grow][]", "[]20[grow][]");        
+        panel.setPreferredSize(new Dimension(500, 500)); 
         panel.setLayout(layout);
-        panel.add(labelledFileChooser, "growx");
+        
         panel.add(loadButton);
-        panel.add(saveButton);
-        panel.add(solveButton, "wrap");
+        panel.add(solveButton, "align center");
+        panel.add(saveButton, "align right, wrap");
+        
+        // TODO: show the type of puzzle?
         panel.add(boardWidget, "align center, span, wrap");
+        
         panel.add(sliderLabel, "split, span");
         panel.add(solverSpeedSlider, "grow, wrap");
-        panel.add(progressBar, "span, growx");
-        panel.setPreferredSize(new Dimension(500, 500)); 
+        panel.add(progressBar, "span, growx");        
     }
 
     public void setController(Controller controller) {
@@ -106,8 +110,11 @@ public class SudokenGUI implements BoardChangeListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String fileName = labelledFileChooser.getTextField().getText();
-            controller.loadPuzzle(fileName);
+            int returnStatus = fileChooser.showOpenDialog(saveButton);
+            if (returnStatus == JFileChooser.APPROVE_OPTION) {
+            	String fileName = fileChooser.getSelectedFile().getAbsolutePath();
+                controller.loadPuzzle(fileName);
+            }
         }
     }
     
@@ -123,9 +130,11 @@ public class SudokenGUI implements BoardChangeListener {
     	
     	@Override
     	public void actionPerformed(ActionEvent e) {
-            int returnStatus = saveFileChooser.showSaveDialog(saveButton);
-            if (returnStatus == JFileChooser.APPROVE_OPTION)
-                controller.savePuzzle(saveFileChooser.getSelectedFile().getAbsolutePath());
+            int returnStatus = fileChooser.showSaveDialog(saveButton);
+            if (returnStatus == JFileChooser.APPROVE_OPTION) {
+            	String fileName = fileChooser.getSelectedFile().getAbsolutePath();
+                controller.savePuzzle(fileName);
+            }
     	}
     }
 

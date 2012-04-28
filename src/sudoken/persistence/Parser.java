@@ -14,7 +14,6 @@ import sudoken.extension.NoMatchingExtensionException;
  * 
  */
 public class Parser {
-
     /**
      * Loads a board from a file.
      * 
@@ -45,7 +44,8 @@ public class Parser {
                         grid[j][i] = nextInt;
                     else
                         throw new IOException("Parse error...");
-                } else {
+                }
+                else {
                     if (sc.next().equals("-"))
                         grid[j][i] = -1;
                     else
@@ -98,7 +98,7 @@ public class Parser {
     	int formatWidth = 1 + (int) Math.floor(Math.log10(board.getNumCandidates()));
     	for (int row = 0; row < board.getHeight(); row++) {
     		for (int col = 0; col < board.getWidth(); col++) {
-    			int v = board.getValue(new Position(col, row));
+    			int v = board.getValue(col, row);
     			if (v == Board.UNSET)
     				out.print(String.format("%" + formatWidth + "s ", "-"));
     			else

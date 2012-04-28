@@ -14,6 +14,7 @@ public abstract class Constraint {
 		this.provider = provider;
 		this.shouldSave = shouldSave;
 	}
+	
     /**
      * Called by the solver to check if the constraint is interested in the cell
      * at the given position (for finding constraint violations).

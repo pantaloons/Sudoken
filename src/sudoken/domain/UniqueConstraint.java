@@ -53,7 +53,8 @@ public class UniqueConstraint extends Constraint {
                     /* cell already had item = duplicate = invalid */
                     valid = false;
                     break;
-                } else {
+                } 
+                else {
                     /* value hasn't been seen yet */
                     cellValues.add(value);
                 }
