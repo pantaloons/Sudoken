@@ -24,15 +24,16 @@ public class Board {
     /* constraints on the board solution */
     private Collection<Constraint> constraints;
     
-    
-    /* ctor */
+    private BoardDecorator bd;
+
     public Board(int width, int height, int[][] values, int numCandidates,
-            Collection<Constraint> c) {
+            Collection<Constraint> c, BoardDecorator bd) {
         this.height = height;
         this.width = width;
         this.values = values;
         this.numCandidates = numCandidates;
         this.constraints = c;
+        this.bd = bd;
     }
 
     public int getWidth() {
@@ -62,4 +63,8 @@ public class Board {
     public Collection<Constraint> getConstraints() {
         return constraints;
     }
+
+	public BoardDecorator getDecorator() {
+		return bd;
+	}
 }

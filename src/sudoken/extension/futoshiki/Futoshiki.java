@@ -1,17 +1,20 @@
 package sudoken.extension.futoshiki;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import sudoken.extension.Extension;
-import sudoken.extension.ExtensionManager;
 
 public class Futoshiki extends Extension {
 
     public Futoshiki() {
-        super(new FutoshikiParser(), new FutoshikiCreator());
+        super(new FutoshikiParser(), new FutoshikiCreator(), new FutoshikiDecorator());
     }
     
     @Override
-    public boolean hasPrerequisites() {
-    	// Depends on latin square
-    	return ExtensionManager.hasExtension("latinsquare");
+    public Set<String> getPrerequisites() {
+    	Set<String> s = new HashSet<String>();
+    	s.add("latinsquare");
+    	return s;
     }
 }

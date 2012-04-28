@@ -50,15 +50,21 @@ public class InequalityConstraint extends Constraint {
         }
     }
     
-    Position getFirstPosition() {
+    public Position getPosition(int index) {
+    	if (index == 0) return p1;
+    	else if (index == 1) return p2;
+    	else return null;
+    }
+    
+    public Position getFirstPosition() {
     	return p1;
     }
     
-    Position getSecondPosition() {
+    public Position getSecondPosition() {
     	return p2;
     }
     
-    boolean isLess() {
+    public boolean isLess() {
     	return less;
     }
 }

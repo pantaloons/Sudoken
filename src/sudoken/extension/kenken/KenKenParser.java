@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import sudoken.domain.BoardDecorator;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 import sudoken.persistence.SectionParser;
@@ -19,7 +20,6 @@ import sudoken.extension.kenken.OperatorConstraint;
 import sudoken.extension.kenken.Operator;
 
 public class KenKenParser implements SectionParser {
-	
 	private static final String EXTENSION_NAME = "kenken";
 	
 	/**
@@ -57,7 +57,7 @@ public class KenKenParser implements SectionParser {
 	 * @return
 	 */
 	@Override
-	public Collection<Constraint> load(String config, int width, int height)
+	public Collection<Constraint> load(String config, int width, int height, BoardDecorator bd)
 	throws IOException {
 		Scanner sc = new Scanner(config);
 		Map<Integer, List<Position>> cagesPositions = new HashMap<Integer, List<Position>>();

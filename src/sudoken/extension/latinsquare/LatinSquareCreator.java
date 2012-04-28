@@ -4,13 +4,12 @@ import java.util.Collection;
 
 import sudoken.domain.*;
 
-public class LatinSquareCreator implements BoardCreator {
-	
+public class LatinSquareCreator implements BoardCreator {	
 	private static final String EXTENSION_NAME = "latinsquare";
 	
 	@Override
 	public Board create(int width, int height, int[][] grid,
-			Collection<Constraint> constraints) {
+			Collection<Constraint> constraints, BoardDecorator bd) {
 		if (width != height)
 			throw new IllegalArgumentException(
 					"Width and height must be equal.");
@@ -31,6 +30,6 @@ public class LatinSquareCreator implements BoardCreator {
 			constraints.add(colConstraint);
 		}
 		
-		return new Board(width, height, grid, width, constraints);
+		return new Board(width, height, grid, width, constraints, bd);
 	}
 }

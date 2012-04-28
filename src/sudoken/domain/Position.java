@@ -30,4 +30,9 @@ public class Position {
     public int hashCode() {
         return 131 * x + 139 * y;
     }
+    
+    @Override
+    public String toString() {
+    	return "(" + x + ", " + y + ")";
+    }
 }

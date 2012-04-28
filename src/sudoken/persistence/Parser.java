@@ -80,10 +80,10 @@ public class Parser {
                 conf += cur;
             }
             constraints.addAll(ExtensionManager.getParser(ext).load(conf,
-                    width, height));
+                    width, height, ExtensionManager.getDecorator(ext)));
         }
         return ExtensionManager.getConstructor(type).create(width, height,
-                grid, constraints);
+                grid, constraints, ExtensionManager.getDecorator(type));
     }
     
     public static void save(Board board, File f) throws IOException, ParseException, ClassCastException {

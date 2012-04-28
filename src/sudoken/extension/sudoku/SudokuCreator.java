@@ -12,7 +12,7 @@ public class SudokuCreator implements BoardCreator {
 	
 	@Override
 	public Board create(int width, int height, int[][] grid,
-			Collection<Constraint> constraints) {
+			Collection<Constraint> constraints, BoardDecorator bd) {
 		
 		BoardCreator creator = null;
 		if (ExtensionManager.hasExtension(BASE_EXTENSION))
@@ -20,7 +20,7 @@ public class SudokuCreator implements BoardCreator {
 		else
 			/* TODO: Throw exception. */;
 		
-		Board board = creator.create(width, height, grid, constraints);
+		Board board = creator.create(width, height, grid, constraints, bd);
 		
 		if ((int) Math.sqrt(width) * (int) Math.sqrt(width) != width)
 			throw new IllegalArgumentException(

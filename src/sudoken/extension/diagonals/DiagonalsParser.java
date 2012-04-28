@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import sudoken.domain.BoardDecorator;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 import sudoken.domain.UniqueConstraint;
@@ -19,7 +20,7 @@ public class DiagonalsParser implements SectionParser {
      * @return
      */
     @Override
-    public Collection<Constraint> load(String config, int width, int height) {
+    public Collection<Constraint> load(String config, int width, int height, BoardDecorator bd) {
     	
         List<Constraint> diagonalConstraints = new ArrayList<Constraint>();
         

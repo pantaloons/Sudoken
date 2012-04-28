@@ -2,8 +2,6 @@ package sudoken.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -57,17 +55,12 @@ public abstract class Solver {
      *         previously.
      */
     public boolean addListener(BoardChangeListener listener) {
-        boolean added = listeners.add(listener);
-        if (board != null) {
-            // Inform listeners of the current board.
-            listener.processUpdatedBoard(board);
-        }
-        return added;
+    	return listeners.add(listener);
     }
     
     protected void notifyListeners(Board solvedBoard) {
         for (BoardChangeListener listener : listeners) {
-            listener.processUpdatedBoard(solvedBoard);
+            listener.processUpdatedBoard();
         }
     }
     

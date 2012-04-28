@@ -142,11 +142,11 @@ public class SudokenGUI implements BoardChangeListener {
         // add new icon for new extension (Maybe. This is not that important).
     }
     
-    public void processUpdatedBoard(final Board solvedBoard) {
+    public void processUpdatedBoard() {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                boardWidget.updateUI(solvedBoard);
+                boardWidget.repaint();
             }
         });
     }
@@ -193,5 +193,10 @@ public class SudokenGUI implements BoardChangeListener {
      */
     public JPanel getPanel() {
         return panel;
-    }  
+    }
+    
+	public void setPuzzle(Board puzzleBoard) {
+		boardWidget.setBoard(puzzleBoard);
+		setIsPuzzleLoaded(true);
+	}
 }
