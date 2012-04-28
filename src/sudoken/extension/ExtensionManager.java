@@ -184,6 +184,7 @@ public class ExtensionManager {
                         		ServiceLoader.load(Extension.class, cl);
                         
                         for (Extension newlyLoadedExtension : extensionLoader) {
+                            register(newlyLoadedExtension);
                         	notifyListeners(newlyLoadedExtension);
                         }
                     }
