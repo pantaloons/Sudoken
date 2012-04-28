@@ -31,7 +31,6 @@ public class SudokenGUI implements BoardChangeListener {
     private JButton solveButton;
     private JButton loadButton;
     private JButton saveButton;
-    private JProgressBar progressBar;
 	private JSlider solverSpeedSlider;
 	private JLabel sliderLabel;
 	
@@ -48,7 +47,6 @@ public class SudokenGUI implements BoardChangeListener {
         solveButton = new JButton("Solve");
         loadButton = new JButton("Load Puzzle");
         saveButton = new JButton("Save Puzzle");
-        progressBar = new JProgressBar();
         sliderLabel = new JLabel("Solve Speed: ");
         createSlider();
         createFileChooser();
@@ -91,7 +89,6 @@ public class SudokenGUI implements BoardChangeListener {
         
         panel.add(sliderLabel, "split, span");
         panel.add(solverSpeedSlider, "grow, wrap");
-        panel.add(progressBar, "span, growx");        
     }
 
     public void setController(Controller controller) {
