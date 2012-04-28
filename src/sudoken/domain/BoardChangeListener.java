@@ -3,5 +3,5 @@ package sudoken.domain;
 
 public interface BoardChangeListener {
 
-    public void processUpdatedBoard();
+    public void processUpdatedBoard(double progress);
 }

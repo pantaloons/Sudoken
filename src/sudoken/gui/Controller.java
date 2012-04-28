@@ -27,7 +27,7 @@ public class Controller {
 		super();
 		guiUpdateTimer = new Timer(20, new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				gui.processUpdatedBoard();
+				gui.processUpdatedBoard(puzzleSolver.getProgress());
 			}
 		});
 		guiUpdateTimer.stop();

@@ -27,7 +27,7 @@ public abstract class Solver {
      */
     public void setSudokuBoard(Board sudokuBoard) {
         board = sudokuBoard;
-        notifyListeners(board);
+        notifyListeners(0.0);
     }
     
     public Board getSudokuBoard() {
@@ -58,9 +58,9 @@ public abstract class Solver {
     	return listeners.add(listener);
     }
     
-    protected void notifyListeners(Board solvedBoard) {
+    protected void notifyListeners(double progress) {
         for (BoardChangeListener listener : listeners) {
-            listener.processUpdatedBoard();
+            listener.processUpdatedBoard(progress);
         }
     }
     
@@ -74,4 +74,6 @@ public abstract class Solver {
     protected long getMilisecondDelay() {
         return this.milisecondDelay.get();
     }
+
+	public abstract double getProgress();
 }

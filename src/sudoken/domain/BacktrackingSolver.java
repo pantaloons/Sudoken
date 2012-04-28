@@ -1,5 +1,6 @@
 package sudoken.domain;
 
+import java.math.BigInteger;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -9,10 +10,14 @@ import java.util.concurrent.TimeUnit;
  * 
  */
 public class BacktrackingSolver extends Solver {
+	private BigInteger checked;
+	private BigInteger total;
     
     @Override
     public boolean solve() throws InterruptedException {
-        return solve(new Position(0, 0));
+    	checked = BigInteger.ZERO;
+    	total = BigInteger.valueOf(board.getNumCandidates()).pow(board.getFreeSquares());
+        return solve(new Position(0, 0), board.getFreeSquares());
     }
     
     /**
@@ -28,22 +33,23 @@ public class BacktrackingSolver extends Solver {
      *         solved. {@code false} if it cannot be solved.
      * @throws InterruptedException 
      */
-    private boolean solve(Position p) throws InterruptedException {
+    private boolean solve(Position p, int free) throws InterruptedException {
         
         //notifyListeners(board);
         if (p.getX() == board.getWidth()) {
         	p = new Position(0, p.getY() + 1);
             if (p.getY() == board.getHeight()) {
                 // Reached the end of the board.
-                notifyListeners(board);
+                notifyListeners(1.0);
                 return true;
             }
         }
 
         if (board.getValue(p) != Board.UNSET) {
-            return solve(new Position(p.getX() + 1, p.getY()));
+            return solve(new Position(p.getX() + 1, p.getY()), free);
         }
 
+        BigInteger each = BigInteger.valueOf(board.getNumCandidates()).pow(free - 1);
         for (int value = 1; value <= board.getNumCandidates(); value++) {
             // Assume the computation time is minimal in comparison to the sleep time. 
             TimeUnit.MILLISECONDS.sleep(getMilisecondDelay());
@@ -57,12 +63,18 @@ public class BacktrackingSolver extends Solver {
                     }
                 }
             }
-
-            if (legal && solve(new Position(p.getX() + 1, p.getY()))) {
-                return true;
-            }
+            
+            if(legal && solve(new Position(p.getX() + 1, p.getY()), free - 1)) {
+        		return true;
+        	}
+            checked = checked.add(each);
         }
         board.setValue(p, Board.UNSET);
         return false;
     }
+
+	@Override
+	public double getProgress() {
+		return checked.multiply(BigInteger.valueOf(2000)).divide(total).doubleValue() / 1000.0;
+	}
 }

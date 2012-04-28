@@ -67,4 +67,14 @@ public class Board {
 	public BoardDecorator getDecorator() {
 		return bd;
 	}
+	
+	public int getFreeSquares() {
+		int free = 0;
+		for(int i = 0; i < width; i++) {
+			for(int j = 0; j < height; j++) {
+				if(values[i][j] == -1) free++;
+			}
+		}
+		return free;
+	}
 }

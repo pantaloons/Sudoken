@@ -57,24 +57,6 @@ public class BoardGraphics extends JPanel {
 				}
 			}
 		}
-		
-		
-		
-		gbc.weightx = 0;
-		gbc.weighty = 0;
-		gbc.ipadx = 0;
-		gbc.ipady = 0;
-		/*
-		gg = new GapGraphics[width - 1][height - 1];
-		for(int i = 0; i < width - 1; i++) {
-			for(int j = 0; j < height - 1; j++) {
-				gbc.gridx = i * 2 + 1;
-				gbc.gridy = j * 2 + 1;
-
-				gg[i][j] = new GapGraphics();
-				add(gg[i][j], gbc);
-			}
-		}*/
 	}
 	
 	public CellGraphics getCell(Position p) {

@@ -32,9 +32,8 @@ public class SmartBacktrackingSolver extends Solver {
     private boolean solve(Set<Position> nextPos) throws InterruptedException {
     	Iterator<Position> it = nextPos.iterator();
     	
-        //notifyListeners(board);
         if (!it.hasNext()) {
-            notifyListeners(board);
+            notifyListeners(1.0);
             return true;
         }
         
@@ -107,4 +106,10 @@ public class SmartBacktrackingSolver extends Solver {
     	}
     	return nextPos;
     }
+
+	@Override
+	public double getProgress() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

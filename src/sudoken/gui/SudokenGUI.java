@@ -49,6 +49,9 @@ public class SudokenGUI implements BoardChangeListener {
         loadButton = new JButton("Load Puzzle");
         saveButton = new JButton("Save Puzzle");
         progressBar = new JProgressBar();
+        progressBar.setMinimum(0);
+        progressBar.setMaximum(1000);
+        progressBar.setValue(0);
         sliderLabel = new JLabel("Solve Speed: ");
         createSlider();
         createFileChooser();
@@ -142,10 +145,11 @@ public class SudokenGUI implements BoardChangeListener {
         // add new icon for new extension (Maybe. This is not that important).
     }
     
-    public void processUpdatedBoard() {
+    public void processUpdatedBoard(final double progress) {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
+            	progressBar.setValue((int)(progress * 1000));
                 boardWidget.repaint();
             }
         });
