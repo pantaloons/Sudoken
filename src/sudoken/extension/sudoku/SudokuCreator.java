@@ -31,7 +31,7 @@ public class SudokuCreator implements BoardCreator {
         int size = (int) Math.sqrt(width);
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                UniqueConstraint boxConstraint = new UniqueConstraint(EXTENSION_NAME);
+                UniqueConstraint boxConstraint = new UniqueConstraint(EXTENSION_NAME, false);
                 for (int a = i * size; a < (i + 1) * size; a++) {
                     for (int b = j * size; b < (j + 1) * size; b++) {
                         boxConstraint.add(new Position(a, b));

@@ -13,8 +13,8 @@ public class UniqueConstraint extends Constraint {
     /* list of cells that constraint is concerned about */
     private List<Position> positions;
 
-    public UniqueConstraint(String ext) {
-    	super(ext);
+    public UniqueConstraint(String provider, boolean shouldSave) {
+    	super(provider, shouldSave);
         positions = new ArrayList<Position>();
     }
 
@@ -64,7 +64,11 @@ public class UniqueConstraint extends Constraint {
         return (valid == false);
     }
     
-    public List<Position> getPositions() {
-    	return positions;
+    @Override
+    public String save() {
+    	String saveStr = "";
+    	for (Position p : positions)
+    		saveStr += p.getX() + " " + p.getY() + " ";
+    	return saveStr;
     }
 }

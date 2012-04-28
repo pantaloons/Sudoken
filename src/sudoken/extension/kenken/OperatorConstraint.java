@@ -18,8 +18,8 @@ public class OperatorConstraint extends Constraint {
     /* list of cells that constraint is concerned about */
     private List<Position> positions;
 
-    public OperatorConstraint(String ext, List<Position> positions, int target, int operator) {
-    	super(ext);
+    public OperatorConstraint(String provider, boolean shouldSave, List<Position> positions, int target, int operator) {
+    	super(provider, shouldSave);
     	if (operator < ADDITION && operator > DIVISION)
     		throw new IllegalArgumentException("Unknown operator.");
     	if (positions.size() < 2)
@@ -110,15 +110,19 @@ public class OperatorConstraint extends Constraint {
     		return (v1 / v2 * v2 != v1 || v1 / v2 != target) && (v2 / v1 * v1 != v2 || v2 / v1 != target);
     }
     
-    List<Position> getPositions() {
-    	return positions;
-    }
-    
-    int getTarget() {
-    	return target;
-    }
-    
-    int getOperator() {
-    	return operator;
+    public String save() {
+    	String saveStr = target + " ";
+    	if (operator == ADDITION)
+    		saveStr += "+ ";
+    	else if (operator == SUBTRACTION)
+    		saveStr += "- ";
+    	else if (operator == MULTIPLICATION)
+    		saveStr += "* ";
+    	else
+    		saveStr += "/ ";
+    	saveStr += positions.size() + " ";
+    	for (Position p : positions)
+    		saveStr += p.getX() + " " + p.getY() + " ";
+    	return saveStr;
     }
 }

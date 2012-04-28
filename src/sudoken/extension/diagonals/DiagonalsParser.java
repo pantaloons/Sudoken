@@ -27,24 +27,18 @@ public class DiagonalsParser implements SectionParser {
             throw new IllegalArgumentException(
                     "Width and height must be equal.");
         
-		UniqueConstraint forwardConstraint = new UniqueConstraint(EXTENSION_NAME);
+		UniqueConstraint forwardConstraint = new UniqueConstraint(EXTENSION_NAME, false);
 		for (int i = 0; i < width; i++) {
 			forwardConstraint.add(new Position(i, i));
 		}
 		diagonalConstraints.add(forwardConstraint);
 		
-		UniqueConstraint backwardsConstraint = new UniqueConstraint(EXTENSION_NAME);
+		UniqueConstraint backwardsConstraint = new UniqueConstraint(EXTENSION_NAME, false);
 		for (int i = 0; i < width; i++) {
 			backwardsConstraint.add(new Position(width - i - 1, i));
 		}
 		diagonalConstraints.add(backwardsConstraint);
 		
 		return diagonalConstraints;
-    }
-    
-    @Override
-    public List<String> save(Collection<Constraint> constraints) {
-    	// No extra config needed, so just return empty list.
-    	return new ArrayList<String>();
     }
 }

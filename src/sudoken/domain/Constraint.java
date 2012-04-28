@@ -7,10 +7,12 @@ package sudoken.domain;
  * @author Joshua Leung
  */
 public abstract class Constraint {
-	protected String extension;
+	private String provider;
+	private boolean shouldSave;
 	
-	public Constraint(String ext) {
-		extension = ext;
+	public Constraint(String provider, boolean shouldSave) {
+		this.provider = provider;
+		this.shouldSave = shouldSave;
 	}
     /**
      * Called by the solver to check if the constraint is interested in the cell
@@ -39,7 +41,13 @@ public abstract class Constraint {
      */
     public abstract boolean isViolated(Board board);
     
-    public String getExtensionName() {
-    	return extension;
+    public String getPluginProvider() {
+    	return provider;
+    }
+    
+    public abstract String save();
+    
+    public boolean shouldSave() {
+    	return shouldSave;
     }
 }
