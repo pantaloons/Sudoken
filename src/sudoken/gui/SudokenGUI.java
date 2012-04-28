@@ -99,7 +99,6 @@ public class SudokenGUI implements BoardChangeListener {
     }
 
     private class SolveButtonListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             controller.solve();
@@ -107,7 +106,6 @@ public class SudokenGUI implements BoardChangeListener {
     }
 
     private class LoadButtonListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             int returnStatus = fileChooser.showOpenDialog(saveButton);
@@ -119,7 +117,6 @@ public class SudokenGUI implements BoardChangeListener {
     }
     
     private class SliderListener implements ChangeListener {
-
         @Override
         public void stateChanged(ChangeEvent e) {
             controller.setSolveSpeed(solverSpeedSlider.getValue());            
@@ -127,7 +124,6 @@ public class SudokenGUI implements BoardChangeListener {
     }
     
     private class SaveButtonListener implements ActionListener {
-    	
     	@Override
     	public void actionPerformed(ActionEvent e) {
             int returnStatus = fileChooser.showSaveDialog(saveButton);
@@ -143,11 +139,11 @@ public class SudokenGUI implements BoardChangeListener {
     }
     
     /* update UI in response to changes to the board state */
-    public void processUpdatedBoard(final Board solvedBoard) {
+    public void processUpdatedBoard() {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                boardWidget.updateUI(solvedBoard);
+                boardWidget.repaint();
             }
         });
     }
@@ -165,6 +161,7 @@ public class SudokenGUI implements BoardChangeListener {
             @Override
             public void run() {
                 solveButton.setEnabled(isLoaded);
+                saveButton.setEnabled(isLoaded);
             }
         });
     }
@@ -194,5 +191,10 @@ public class SudokenGUI implements BoardChangeListener {
      */
     public JPanel getPanel() {
         return panel;
-    }  
+    }
+    
+	public void setPuzzle(Board puzzleBoard) {
+		boardWidget.setBoard(puzzleBoard);
+		setIsPuzzleLoaded(true);
+	}
 }

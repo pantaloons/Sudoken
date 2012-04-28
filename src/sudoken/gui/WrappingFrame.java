@@ -11,7 +11,6 @@ import javax.swing.WindowConstants;
  * @author Kevin Doran
  */
 public class WrappingFrame {
-	
 	JFrame frame;
 	
 	/**

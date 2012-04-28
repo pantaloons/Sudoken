@@ -27,7 +27,7 @@ public class Controller {
 		super();
 		guiUpdateTimer = new Timer(20, new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				gui.processUpdatedBoard(puzzleSolver.getSudokuBoard());
+				gui.processUpdatedBoard();
 			}
 		});
 		guiUpdateTimer.stop();
@@ -65,6 +65,7 @@ public class Controller {
 	
 	public void loadPuzzle(String fileName) {
 		File puzzleFile = new File(fileName);
+		Board puzzleBoard;
 		if (!puzzleFile.canRead()) {
 			errorDisplay
 			.showErrorMessage("The choosen file cannot be read. "
@@ -74,8 +75,7 @@ public class Controller {
 		}
 		
 		try {
-			Board puzzleBoard = Parser.load(puzzleFile);
-			puzzleSolver.setSudokuBoard(puzzleBoard);
+			puzzleBoard = Parser.load(puzzleFile);
 		} 
 		catch (IOException e) {
 			errorDisplay
@@ -100,7 +100,8 @@ public class Controller {
 			e.printStackTrace();
 			return;
 		}
-		gui.setIsPuzzleLoaded(true);
+		puzzleSolver.setSudokuBoard(puzzleBoard);
+		gui.setPuzzle(puzzleBoard);
 	}
 	
 	public void savePuzzle(String fileName) {

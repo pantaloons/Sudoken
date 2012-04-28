@@ -7,10 +7,12 @@ package sudoken.domain;
  * @author Joshua Leung
  */
 public abstract class Constraint {
-	protected String extension;
+	private String provider;
+	private boolean shouldSave;
 	
-	public Constraint(String ext) {
-		extension = ext;
+	public Constraint(String provider, boolean shouldSave) {
+		this.provider = provider;
+		this.shouldSave = shouldSave;
 	}
 	
     /**
@@ -40,11 +42,13 @@ public abstract class Constraint {
      */
     public abstract boolean isViolated(Board board);
     
-    /**
-     * @return for saving, the name of the extension that constraint should get
-     *         saved under.
-     */
-    public String getExtensionName() {
-    	return extension;
+    public String getPluginProvider() {
+    	return provider;
+    }
+    
+    public abstract String save();
+    
+    public boolean shouldSave() {
+    	return shouldSave;
     }
 }
