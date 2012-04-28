@@ -16,8 +16,8 @@ public class OperatorConstraint extends Constraint {
 	/* list of cells that constraint is concerned about */
 	private List<Position> positions;
 	
-	public OperatorConstraint(String ext, List<Position> positions, int target, Operator operator) {
-		super(ext);
+	public OperatorConstraint(String provider, boolean shouldSave, List<Position> positions, int target, Operator operator) {
+		super(provider, shouldSave);
 		
 		if (positions.size() < 2) {
 			throw new IllegalArgumentException("Must have more than two positions.");
@@ -47,15 +47,19 @@ public class OperatorConstraint extends Constraint {
 		return operator.isViolated(board, positions, target);
 	}
 	
-	List<Position> getPositions() {
-		return positions;
-	}
-	
-	int getTarget() {
-		return target;
-	}
-	
-	Operator getOperator() {
-		return operator;
-	}
+	public String save() {
+    	String saveStr = target + " ";
+    	if (operator == Operator.ADDITION)
+    		saveStr += "+ ";
+    	else if (operator == Operator.SUBTRACTION)
+    		saveStr += "- ";
+    	else if (operator == Operator.MULTIPLICATION)
+    		saveStr += "* ";
+    	else
+    		saveStr += "/ ";
+    	saveStr += positions.size() + " ";
+    	for (Position p : positions)
+    		saveStr += p.getX() + " " + p.getY() + " ";
+    	return saveStr;
+    }
 }

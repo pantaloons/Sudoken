@@ -9,8 +9,8 @@ public class InequalityConstraint extends Constraint {
     /* which way inequality points (1 should be less than 2 if true) */
     private boolean less;
 
-    public InequalityConstraint(String ext, Position position1, Position position2, boolean isLess) {
-    	super(ext);
+    public InequalityConstraint(String provider, boolean shouldSave, Position position1, Position position2, boolean isLess) {
+    	super(provider, shouldSave);
         /* cell 1 */
         this.p1 = position1;
 
@@ -66,5 +66,11 @@ public class InequalityConstraint extends Constraint {
     
     public boolean isLess() {
     	return less;
+    }
+    
+    public String save() {
+    	String ineq = ">";
+    	if (less) ineq = "<";
+    	return p1.getX() + " " + p1.getY() + " " + ineq + " " + p2.getX() + " " + p2.getY();
     }
 }
