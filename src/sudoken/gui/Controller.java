@@ -139,6 +139,7 @@ public class Controller {
 	    			try {
                         puzzleSolved = puzzleSolver.solve();
                     } catch (InterruptedException e) {
+                        e.printStackTrace();
                         // continue. Just set the gui to false state.
                     }
 	    			solverRunning = false;

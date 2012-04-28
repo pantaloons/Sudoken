@@ -35,6 +35,7 @@ public class BacktrackingSolver extends Solver {
         	p = new Position(0, p.getY() + 1);
             if (p.getY() == board.getHeight()) {
                 // Reached the end of the board.
+                notifyListeners(board);
                 return true;
             }
         }
