@@ -10,8 +10,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class BacktrackingSolver extends Solver {
     
+	private boolean stop = false;
+	
     @Override
     public boolean solve() throws InterruptedException {
+    	stop = false;
         return solve(new Position(0, 0));
     }
     
@@ -29,7 +32,7 @@ public class BacktrackingSolver extends Solver {
      * @throws InterruptedException 
      */
     private boolean solve(Position p) throws InterruptedException {
-        
+        if (stop) return false;
         //notifyListeners(board);
         if (p.getX() == board.getWidth()) {
         	p = new Position(0, p.getY() + 1);
@@ -65,4 +68,10 @@ public class BacktrackingSolver extends Solver {
         board.setValue(p, Board.UNSET);
         return false;
     }
+
+	@Override
+	public void stop() {
+		stop = true;
+		
+	}
 }

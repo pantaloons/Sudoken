@@ -13,8 +13,11 @@ import java.util.concurrent.TimeUnit;
  * 
  */
 public class SmartBacktrackingSolver extends Solver {
-    @Override
+    private boolean stop;
+
+	@Override
     public boolean solve() throws InterruptedException {
+		stop = false;
         return solve(getNextPositions());
     }
 
@@ -107,4 +110,10 @@ public class SmartBacktrackingSolver extends Solver {
     	}
     	return nextPos;
     }
+    
+	@Override
+	public void stop() {
+		stop = true;
+		
+	}
 }

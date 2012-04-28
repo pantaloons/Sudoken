@@ -41,6 +41,8 @@ public abstract class Solver {
      *         not.
      */
     public abstract boolean solve() throws InterruptedException;
+    
+    public abstract void stop();
 
     /**
      * Subscribes a SolverListener to this solver. The BoardChangeListener will

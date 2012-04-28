@@ -21,6 +21,7 @@ public class Controller {
 	private SudokenGUI gui;
 	private boolean solverRunning;
 	private Timer guiUpdateTimer;
+	private Thread solverThread;
 	protected boolean puzzleSolved;
 	
 	private Controller() {
@@ -64,6 +65,7 @@ public class Controller {
 	}
 	
 	public void loadPuzzle(String fileName) {
+		stopSolver();
 		File puzzleFile = new File(fileName);
 		Board puzzleBoard;
 		if (!puzzleFile.canRead()) {
@@ -154,10 +156,29 @@ public class Controller {
 					
 				}
 			};
-			new Thread(runSolver).start();
+			solverThread = new Thread(runSolver);
+			solverThread.start();
 		}
 		
 		// show message;
+	}
+	
+	private void stopSolver() {
+		if (solverThread != null && solverThread.getState() != Thread.State.TERMINATED) {
+			puzzleSolver.stop();
+			try {
+				
+				solverThread.join();
+				while (solverThread.getState() != Thread.State.TERMINATED) {
+					Thread.sleep(100);
+				}
+				
+			} catch (InterruptedException e1) {
+				
+				e1.printStackTrace();
+			}
+
+		}
 	}
 	
 	public void setSolveSpeed(int value) {
