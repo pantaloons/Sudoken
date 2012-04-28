@@ -12,6 +12,7 @@ public abstract class Constraint {
 	public Constraint(String ext) {
 		extension = ext;
 	}
+	
     /**
      * Called by the solver to check if the constraint is interested in the cell
      * at the given position (for finding constraint violations).
@@ -39,6 +40,10 @@ public abstract class Constraint {
      */
     public abstract boolean isViolated(Board board);
     
+    /**
+     * @return for saving, the name of the extension that constraint should get
+     *         saved under.
+     */
     public String getExtensionName() {
     	return extension;
     }

@@ -146,9 +146,11 @@ public class ExtensionManager {
         public void run() {
             try {
                 loadExtensions();
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 // Nothing needs to be cleaned up. The thread will now end.
-            } catch (MalformedURLException e) {
+            }
+            catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

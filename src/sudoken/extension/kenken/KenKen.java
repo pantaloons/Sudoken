@@ -1,7 +1,6 @@
 package sudoken.extension.kenken;
 
 import sudoken.extension.Extension;
-import sudoken.extension.ExtensionManager;
 
 public class KenKen extends Extension {
 

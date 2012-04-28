@@ -14,7 +14,6 @@ import sudoken.extension.NoMatchingExtensionException;
  * 
  */
 public class Parser {
-
     /**
      * Loads a board from a file.
      * 
@@ -45,7 +44,8 @@ public class Parser {
                         grid[j][i] = nextInt;
                     else
                         throw new IOException("Parse error...");
-                } else {
+                }
+                else {
                     if (sc.next().equals("-"))
                         grid[j][i] = -1;
                     else
@@ -113,8 +113,9 @@ public class Parser {
     	Map<String, Collection<Constraint>> extConstraints = new HashMap<String, Collection<Constraint>>();
     	for (Constraint c : constraints) {
     		String ext = c.getExtensionName();
-    		if (extConstraints.containsKey(ext))
+    		if (extConstraints.containsKey(ext)) {
     			extConstraints.get(ext).add(c);
+    		}
     		else {
     			Collection<Constraint> constraintCol = new ArrayList<Constraint>();
     			constraintCol.add(c);

@@ -35,14 +35,16 @@ public class InequalityConstraint extends Constraint {
         if ((v1 == Board.UNSET) || (v2 == Board.UNSET)) {
             /* not violated: cannot compare undefined */
             return false;
-        } else {
+        }
+        else {
             /*
              * violated: if relationship represents inverse inequality to the
              * valid state
              */
             if (less) {
                 return v1 > v2;
-            } else {
+            }
+            else {
                 return v1 < v2;
             }
         }
