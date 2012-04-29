@@ -4,19 +4,18 @@ import java.util.Collection;
 
 import sudoken.domain.*;
 
-public class LatinSquareCreator implements BoardCreator {
-	
+public class LatinSquareCreator implements BoardCreator {	
 	private static final String EXTENSION_NAME = "latinsquare";
 
     @Override
     public Board create(int width, int height, int[][] grid,
-            Collection<Constraint> constraints) {
+            Collection<Constraint> constraints, BoardDecorator bd) {
         if (width != height)
             throw new IllegalArgumentException(
                     "Width and height must be equal.");
 
         for (int i = 0; i < height; i++) {
-            UniqueConstraint rowConstraint = new UniqueConstraint(EXTENSION_NAME);
+            UniqueConstraint rowConstraint = new UniqueConstraint(EXTENSION_NAME, false, false);
             for (int j = 0; j < width; j++) {
                 rowConstraint.add(new Position(j, i));
             }
@@ -24,13 +23,13 @@ public class LatinSquareCreator implements BoardCreator {
         }
 
         for (int i = 0; i < width; i++) {
-            UniqueConstraint colConstraint = new UniqueConstraint(EXTENSION_NAME);
+            UniqueConstraint colConstraint = new UniqueConstraint(EXTENSION_NAME, false, false);
             for (int j = 0; j < height; j++) {
                 colConstraint.add(new Position(i, j));
             }
             constraints.add(colConstraint);
         }
 
-        return new Board(width, height, grid, width, constraints);
+        return new Board(width, height, grid, width, constraints, bd);
     }
 }

@@ -2,8 +2,11 @@ package sudoken.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -15,22 +18,22 @@ import sudoken.extension.Extension;
 /**
  * Main user interface for Sudoku puzzles solvers
  * 
- * @author Joshua Leung & Kevin Doran
+ * @author Joshua Leung
+ * @author Kevin Doran
  */
-public class SudokenGUI implements BoardChangeListener, ActionListener {
+public class SudokenGUI implements BoardChangeListener {
 
     private Controller controller;
     private JPanel panel;
-    private LabelledFileChooser labelledFileChooser;
+    private JFileChooser fileChooser;
     private BoardWidget boardWidget;
 
     private JButton solveButton;
     private JButton loadButton;
-    private JProgressBar progressBar;
-	private JMenuBar menuBar;
-	private JMenu fileMenu, settingsMenu, helpMenu;
-
-    // FIXME: this should eventually contain the body of the other again
+    private JButton saveButton;
+	private JSlider solverSpeedSlider;
+	private JLabel sliderLabel;
+	
     public SudokenGUI() {
 
         createComponents();
@@ -43,29 +46,49 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
         boardWidget = new BoardWidget();
         solveButton = new JButton("Solve");
         loadButton = new JButton("Load Puzzle");
-        progressBar = new JProgressBar();
+        saveButton = new JButton("Save Puzzle");
+        sliderLabel = new JLabel("Solve Speed: ");
+        createSlider();
+        createFileChooser();
+        
         solveButton.addActionListener(new SolveButtonListener());
         loadButton.addActionListener(new LoadButtonListener());
-        createFileChooser();
+        saveButton.addActionListener(new SaveButtonListener());
+    }
+    
+    private void createSlider() {
+        final int minSpeed = 0;
+        final int maxSpeed = 15;
+        final int initialSpeed = 5;
+        solverSpeedSlider = new JSlider(JSlider.HORIZONTAL, minSpeed, maxSpeed, initialSpeed);
+        solverSpeedSlider.addChangeListener(new SliderListener());
     }
 
     private void createFileChooser() {
-        labelledFileChooser = new LabelledFileChooser("Browse");
-        FileFilter fileExtension = new FileNameExtensionFilter("Sudoken Config", "sudoken");
-        labelledFileChooser.getFileChooser().setAcceptAllFileFilterUsed(false);
-        labelledFileChooser.getFileChooser().addChoosableFileFilter(fileExtension);
-        labelledFileChooser.getFileChooser().setFileSelectionMode(JFileChooser.FILES_ONLY);
+    	final FileFilter fileExtension = new FileNameExtensionFilter("Sudoken Puzzle", "sudoken");
+    	final File curDir = new File("../test");
+    	
+    	fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(curDir);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.addChoosableFileFilter(fileExtension);
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
     }
 
     private void layoutComponents() {
-        LayoutManager layout = new MigLayout("", "[grow][]", "[]20[grow][]");
-        panel.setLayout(layout);
-        panel.add(labelledFileChooser, "growx");
-        panel.add(loadButton);
-        panel.add(solveButton, "wrap");
-        panel.add(boardWidget, "align center, span, wrap");
-        panel.add(progressBar, "span, growx");
+        LayoutManager layout = new MigLayout("", "[][grow][]", "[]20[grow][]");        
         panel.setPreferredSize(new Dimension(500, 500)); 
+        panel.setLayout(layout);
+        
+        panel.add(loadButton);
+        panel.add(solveButton, "align center");
+        panel.add(saveButton, "align right, wrap");
+        
+        // TODO: show the type of puzzle?
+        panel.add(boardWidget, "align center, span, wrap");
+        
+        panel.add(sliderLabel, "split, span");
+        panel.add(solverSpeedSlider, "grow, wrap");
     }
 
     public void setController(Controller controller) {
@@ -73,7 +96,6 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
     }
 
     private class SolveButtonListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             controller.solve();
@@ -81,23 +103,44 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
     }
 
     private class LoadButtonListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-            String fileName = labelledFileChooser.getTextField().getText();
-            controller.loadPuzzle(fileName);
+            int returnStatus = fileChooser.showOpenDialog(saveButton);
+            if (returnStatus == JFileChooser.APPROVE_OPTION) {
+            	String fileName = fileChooser.getSelectedFile().getAbsolutePath();
+                controller.loadPuzzle(fileName);
+            }
         }
+    }
+    
+    private class SliderListener implements ChangeListener {
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            controller.setSolveSpeed(solverSpeedSlider.getValue());            
+        }
+    }
+    
+    private class SaveButtonListener implements ActionListener {
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+            int returnStatus = fileChooser.showSaveDialog(saveButton);
+            if (returnStatus == JFileChooser.APPROVE_OPTION) {
+            	String fileName = fileChooser.getSelectedFile().getAbsolutePath();
+                controller.savePuzzle(fileName);
+            }
+    	}
     }
 
     public void processNewExtension(Extension newlyLoadedExtension) {
         // add new icon for new extension (Maybe. This is not that important).
     }
     
-    public void processUpdatedBoard(final Board solvedBoard) {
+    /* update UI in response to changes to the board state */
+    public void processUpdatedBoard() {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                boardWidget.updateUI(solvedBoard);
+                boardWidget.repaint();
             }
         });
     }
@@ -115,6 +158,7 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
             @Override
             public void run() {
                 solveButton.setEnabled(isLoaded);
+                saveButton.setEnabled(isLoaded);
             }
         });
     }
@@ -146,22 +190,8 @@ public class SudokenGUI implements BoardChangeListener, ActionListener {
         return panel;
     }
     
-    public JMenuBar getMenuBar(){
-    	return menuBar;
-    }
-
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		
-		String command = event.getActionCommand();
-		
-		if ("menu_exit".equals(command)){
-			System.exit(0);
-		
-		} else if ("menu_open".equals(command)){
-			labelledFileChooser.getFileChooser().showOpenDialog(panel);
-			controller.loadPuzzle(labelledFileChooser.getFileChooser().getSelectedFile().getAbsolutePath() );
-		}
+	public void setPuzzle(Board puzzleBoard) {
+		boardWidget.setBoard(puzzleBoard);
+		setIsPuzzleLoaded(true);
 	}
-    
 }

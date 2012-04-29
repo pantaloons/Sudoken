@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -34,6 +35,13 @@ public class ExtensionManager {
         m = new HashMap<String, Extension>();
         // TODO: Load property files
     }
+    
+    private static boolean hasAllExtensions(Set<String> exts) {
+    	for(String s : exts) {
+    		if(!m.containsKey(s) || !hasExtension(s)) return false;
+    	}
+    	return true;
+    }
 
     /**
      * Checks if the named extension is currently registered with us
@@ -44,12 +52,11 @@ public class ExtensionManager {
      */
     public static boolean hasExtension(String ext) {
     	// 1) extension must be registered
-        if (m.containsKey(ext) == false)
-        	return false;
+        if (!m.containsKey(ext)) return false;
         
         // 2) extension's prerequisites must be met at this point in time
-        Extension extension = m.get(ext);
-        return extension.hasPrerequisites();
+        Extension e = m.get(ext);
+        return hasAllExtensions(e.getPrerequisites());
     }
 
     /**
@@ -87,6 +94,18 @@ public class ExtensionManager {
     public static BoardCreator getConstructor(String ext) {
         return m.get(ext).getCreator();
     }
+    
+    /**
+     * Get decorator for an extension.
+     * 
+     * @param ext
+     *            Identifier for extension. Lower-case.
+     * @Precondition Assumes that <code>hasExtension()</code> has been called
+     *               and was successful
+     */
+	public static BoardDecorator getDecorator(String ext) {
+		return m.get(ext).getDecorator();
+	}
 
     /**
      * Called from static initialisers of plugins when they are first loaded
@@ -113,8 +132,7 @@ public class ExtensionManager {
      *         already been added.
      */
     public static boolean addExtensionListener(ExtensionListener listener) {
-        boolean isAdded = listeners.add(listener);
-        return isAdded;
+        return listeners.add(listener);
     }
 
     private static void notifyListeners(Extension newlyLoadedExtension) {
@@ -146,9 +164,11 @@ public class ExtensionManager {
         public void run() {
             try {
                 loadExtensions();
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 // Nothing needs to be cleaned up. The thread will now end.
-            } catch (MalformedURLException e) {
+            }
+            catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -184,6 +204,7 @@ public class ExtensionManager {
                         		ServiceLoader.load(Extension.class, cl);
                         
                         for (Extension newlyLoadedExtension : extensionLoader) {
+                            register(newlyLoadedExtension);
                         	notifyListeners(newlyLoadedExtension);
                         }
                     }

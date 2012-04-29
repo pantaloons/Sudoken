@@ -14,7 +14,6 @@ import sudoken.extension.NoMatchingExtensionException;
  * 
  */
 public class Parser {
-
     /**
      * Loads a board from a file.
      * 
@@ -45,7 +44,8 @@ public class Parser {
                         grid[j][i] = nextInt;
                     else
                         throw new IOException("Parse error...");
-                } else {
+                }
+                else {
                     if (sc.next().equals("-"))
                         grid[j][i] = -1;
                     else
@@ -80,10 +80,10 @@ public class Parser {
                 conf += cur;
             }
             constraints.addAll(ExtensionManager.getParser(ext).load(conf,
-                    width, height));
+                    width, height, ExtensionManager.getDecorator(ext)));
         }
         return ExtensionManager.getConstructor(type).create(width, height,
-                grid, constraints);
+                grid, constraints, ExtensionManager.getDecorator(type));
     }
     
     public static void save(Board board, File f) throws IOException, ParseException {
@@ -94,13 +94,15 @@ public class Parser {
     	// Print out the main board configuration.
     	out.println(primaryExt);
     	out.println(board.getWidth() + " " + board.getHeight());
+    	
+    	int formatWidth = 1 + (int) Math.floor(Math.log10(board.getNumCandidates()));
     	for (int row = 0; row < board.getHeight(); row++) {
     		for (int col = 0; col < board.getWidth(); col++) {
-    			int v = board.getValue(new Position(col, row));
+    			int v = board.getValue(col, row);
     			if (v == Board.UNSET)
-    				out.print("- ");
+    				out.print(String.format("%" + formatWidth + "s ", "-"));
     			else
-    				out.print(v + " ");
+    				out.print(String.format("%" + formatWidth + "d ", v));
     		}
     		out.println();
     	}
@@ -109,40 +111,51 @@ public class Parser {
     	// Gather the board's constraints by extension.
     	Collection<Constraint> constraints = board.getConstraints();
     	Map<String, Collection<Constraint>> extConstraints = new HashMap<String, Collection<Constraint>>();
+    	// Extensions that go in parser section, but have no constraints to specify.
+    	Set<String> otherExtensions = new HashSet<String>();
     	for (Constraint c : constraints) {
-    		String ext = c.getExtensionName();
-    		if (extConstraints.containsKey(ext))
-    			extConstraints.get(ext).add(c);
-    		else {
-    			Collection<Constraint> constraintCol = new ArrayList<Constraint>();
-    			constraintCol.add(c);
-    			extConstraints.put(ext, constraintCol);
+    		if (c.shouldSave()) {
+	    		String ext = c.getPluginProvider();
+	    		if (extConstraints.containsKey(ext))
+	    			extConstraints.get(ext).add(c);
+	    		else {
+	    			Collection<Constraint> constraintCol = new ArrayList<Constraint>();
+	    			constraintCol.add(c);
+	    			extConstraints.put(ext, constraintCol);
+	    		}
     		}
+    		else if (ExtensionManager.hasParser(c.getPluginProvider()))
+    			otherExtensions.add(c.getPluginProvider());
     	}
     	
     	// Get extension save configurations, starting with primary extension if applicable.
-    	if (extConstraints.containsKey(primaryExt) && ExtensionManager.hasParser(primaryExt)) {
-    		List<String> primaryExtConfig = ExtensionManager.getParser(primaryExt).save(extConstraints.get(primaryExt));
-    		if (primaryExtConfig.size() > 0) {
+    	if (extConstraints.containsKey(primaryExt)) {
+    		Collection<Constraint> primaryConstraints = extConstraints.get(primaryExt);
+    		if (primaryConstraints.size() > 0) {
     			out.println("." + primaryExt);
-    			for (String line : primaryExtConfig)
-    				out.println(line);
+    			for (Constraint c : primaryConstraints)
+    				out.println(c.save());
     			out.println();
     		}
     		extConstraints.remove(primaryExt);
     	}
     	
-    	// Get the rest of the extensions' save configurations.
+    	// Get save configurations of rest of extensions with constraints specified.
     	Set<String> extNames = extConstraints.keySet();
     	for (String ext : extNames) {
-    		if (ExtensionManager.hasParser(ext)) {
-	    		List<String> extConfig = ExtensionManager.getParser(ext).save(extConstraints.get(ext));
-	    		if (extConfig.size() > 0) {
-	    			for (String line : extConfig)
-	    				out.println(line);
-	    			out.println();
-	    		}
+    		Collection<Constraint> extC = extConstraints.get(ext);
+			out.println("." + ext);
+    		if (extC.size() > 0) {
+    			for (Constraint c : extC)
+    				out.println(c.save());
+    			out.println();
     		}
+    	}
+    	
+    	// Save remaining extensions.
+    	for (String ext : otherExtensions) {
+    		out.println("." + ext);
+    		out.println();
     	}
     	
     	// Close the output writer.

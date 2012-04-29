@@ -1,104 +1,58 @@
 package sudoken.extension.kenken;
 
-import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import sudoken.domain.BoardDecorator;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 import sudoken.persistence.SectionParser;
 
+import sudoken.extension.kenken.OperatorConstraint;
+import sudoken.extension.kenken.Operator;
+
 public class KenKenParser implements SectionParser {
-	
 	private static final String EXTENSION_NAME = "kenken";
 	
-    /**
-     * Format: Positive integers in a grid the same size as puzzle, with each
-     * number specifying a cell's membership to a cage. After this, the
-     * constraints for each cage are mapped in the following format:
-     * 
-     * cageNum target operator
-     * 
-     * e.g. (from KenKen puzzle on Wikipedia):
-     * 
-     *  1  2  2  3  4  4
-     *  1  5  5  3  6  4
-     *  7  7  8  8  6  4
-     *  7  7  9 10 11 11
-     * 12 12  9 10 10 13
-     * 14 14 14 15 15 13
-     * 
-     * 1   11 +
-     * 2    2 /
-     * 3   20 *
-     * 4    6 *
-     * 5    3 -
-     * 6    3 /
-     * 7  240 *
-     * 8    6 *
-     * 9    6 *
-     * 10   7 +
-     * 11  30 *
-     * 12   6 *
-     * 13   9 +
-     * 14   8 +
-     * 15   2 /
-     * 
-     * @return
-     */
-    @Override
-    public Collection<Constraint> load(String config, int width, int height)
-            throws IOException {
-        Scanner sc = new Scanner(config);
-        Map<Integer, List<Position>> cagesPositions = new HashMap<Integer, List<Position>>();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                // Change from 1-base to 0-base.
-                int cageNum = sc.nextInt() - 1;
-                if (!cagesPositions.containsKey(cageNum)) {
-                	cagesPositions.put(cageNum, new ArrayList<Position>());
-                }
-                cagesPositions.get(cageNum).add(new Position(j, i));
-            }
-        }
-        List<Constraint> cageConstraints = new ArrayList<Constraint>();
-        while (sc.hasNext()) {
-        	int cageNum = sc.nextInt() - 1;
-        	int target = sc.nextInt();
-        	String opStr = sc.next();
-        	int operator;
-        	if (opStr.equals("+"))
-        		operator = OperatorConstraint.ADDITION;
-        	else if (opStr.equals("-"))
-        		operator = OperatorConstraint.SUBTRACTION;
-        	else if (opStr.equals("*"))
-        		operator = OperatorConstraint.MULTIPLICATION;
-        	else if (opStr.equals("/"))
-        		operator = OperatorConstraint.DIVISION;
-        	else
-        		throw new IOException("Parse error: Unknown operator.");
-        	List<Position> positions = cagesPositions.remove(cageNum);
-        	if (positions == null)
-        		throw new IOException("Parse error: Unknown cage number.");
-        	if (!arePositionsAdjacent(positions))
-        		throw new IOException("Parse error: Cage positions nonadjacent.");
-        	cageConstraints.add(new OperatorConstraint(EXTENSION_NAME, positions, target, operator));
-        }
-        if (cagesPositions.size() > 0)
-        	throw new IOException("Parse error: All cages must have constraints specified.");
-        return cageConstraints;
-    }
+	/* Format: Each line represents a "cage", and consists of the target, then the
+	 * operator, then number of positions, then the x and y coordinates of the
+	 * positions themselves in the format x1 y1 x2 y2...
+	 * 
+	 * E.g.: 12 * 2 0 0 0 1
+	 * 
+	 * I.e., positions (0, 0) and (0, 1) must multiply to 12.
+	 * 
+	 */
 
     @Override
-    public List<String> save(Collection<Constraint> constraints) {
-    	// TODO: Return list of lines to be saved in puzzle file, as determined by constraints.
-    	return new ArrayList<String>();
+    public Collection<Constraint> load(String config, int width, int height, BoardDecorator bd)
+            throws ParseException {
+        Scanner sc = new Scanner(config);
+        List<Constraint> cageConstraints = new ArrayList<Constraint>();
+        while (sc.hasNext()) {
+        	int target = sc.nextInt();
+        	String opStr = sc.next();
+        	Operator operator;
+			try {
+				operator = Operator.fromSymbol(opStr);
+			}
+			catch (IllegalArgumentException iae) {
+				throw new ParseException("Unknown operator.", 0);
+			}
+        	int numPositions = sc.nextInt();
+        	List<Position> positions = new ArrayList<Position>();
+        	for (int i = 0; i < numPositions; i++)
+        		positions.add(new Position(sc.nextInt(), sc.nextInt()));
+        	if (!arePositionsAdjacent(positions))
+        		throw new ParseException("Cage positions nonadjacent.", 0);
+        	cageConstraints.add(new OperatorConstraint(EXTENSION_NAME, true, positions, target, operator));
+        }
+        return cageConstraints;
     }
     
     /* Returns true if positions are fully adjacent. */

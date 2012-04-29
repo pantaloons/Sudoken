@@ -1,6 +1,8 @@
 package sudoken.extension.futoshiki;
 
 import sudoken.domain.*;
+import sudoken.gui.BoardGraphics;
+import sudoken.gui.GapGraphics;
 
 public class InequalityConstraint extends Constraint {
     /* cell positions */
@@ -9,8 +11,8 @@ public class InequalityConstraint extends Constraint {
     /* which way inequality points (1 should be less than 2 if true) */
     private boolean less;
 
-    public InequalityConstraint(String ext, Position position1, Position position2, boolean isLess) {
-    	super(ext);
+    public InequalityConstraint(String provider, boolean shouldSave, Position position1, Position position2, boolean isLess) {
+    	super(provider, shouldSave);
         /* cell 1 */
         this.p1 = position1;
 
@@ -35,28 +37,64 @@ public class InequalityConstraint extends Constraint {
         if ((v1 == Board.UNSET) || (v2 == Board.UNSET)) {
             /* not violated: cannot compare undefined */
             return false;
-        } else {
+        }
+        else {
             /*
              * violated: if relationship represents inverse inequality to the
              * valid state
              */
             if (less) {
                 return v1 > v2;
-            } else {
+            }
+            else {
                 return v1 < v2;
             }
         }
     }
     
-    Position getFirstPosition() {
+    public Position getPosition(int index) {
+    	if (index == 0) return p1;
+    	else if (index == 1) return p2;
+    	else return null;
+    }
+    
+    public Position getFirstPosition() {
     	return p1;
     }
     
-    Position getSecondPosition() {
+    public Position getSecondPosition() {
     	return p2;
     }
     
-    boolean isLess() {
+    public boolean isLess() {
     	return less;
     }
+    
+    public String save() {
+    	String ineq = ">";
+    	if (less) ineq = "<";
+    	return p1.getX() + " " + p1.getY() + " " + ineq + " " + p2.getX() + " " + p2.getY();
+    }
+
+	@Override
+	public void decorate(BoardGraphics bg) {
+		//TODO: Actually draw a nice graphics arrow here instead of text.
+		Position p = BoardGraphics.getPositionBetween(getPosition(0), getPosition(1));
+		GapGraphics gap = bg.getGap(p, 0);
+		gap.setText(inequalityRepresentation());
+	}
+	
+	private String inequalityRepresentation() {
+		String ret = "";
+		Position p1 = getPosition(0), p2 = getPosition(1);
+		if (p1.getY() == p2.getY()) {
+			if (isLess() == p1.getX() < p2.getX()) ret = "<";
+			else ret = ">";
+		}
+		else if (p1.getX() == p2.getX()) {
+			if (isLess() == p1.getY() < p2.getY()) ret = "^";
+			else ret = "v";
+		}
+		return ret;
+	}
 }

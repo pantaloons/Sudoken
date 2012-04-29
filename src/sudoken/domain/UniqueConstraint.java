@@ -2,6 +2,8 @@ package sudoken.domain;
 
 import java.util.*;
 
+import sudoken.gui.BoardGraphics;
+
 /**
  * Ensure that within a set of constraints, each value occurs only once
  * 
@@ -12,10 +14,12 @@ public class UniqueConstraint extends Constraint {
 
     /* list of cells that constraint is concerned about */
     private List<Position> positions;
+    private boolean highlight;
 
-    public UniqueConstraint(String ext) {
-    	super(ext);
+    public UniqueConstraint(String provider, boolean shouldSave, boolean highlight) {
+    	super(provider, shouldSave);
         positions = new ArrayList<Position>();
+        this.highlight = highlight;
     }
 
     public void add(Position newPosition) {
@@ -53,7 +57,8 @@ public class UniqueConstraint extends Constraint {
                     /* cell already had item = duplicate = invalid */
                     valid = false;
                     break;
-                } else {
+                } 
+                else {
                     /* value hasn't been seen yet */
                     cellValues.add(value);
                 }
@@ -64,7 +69,42 @@ public class UniqueConstraint extends Constraint {
         return (valid == false);
     }
     
-    public List<Position> getPositions() {
-    	return positions;
+    @Override
+    public String save() {
+    	String saveStr = "";
+    	for (Position p : positions)
+    		saveStr += p.getX() + " " + p.getY() + " ";
+    	return saveStr;
+    }
+    
+    @Override
+    public void decorate(BoardGraphics bg) {
+    	if(!highlight) return;
+    	
+    	int[] dx = new int[]{0, -1, 0, 1};
+    	int[] dy = new int[]{-1, 0, 1, 0};
+    	
+    	for(int i = 0; i < positions.size(); i++) {
+    		Position p = positions.get(i);
+    		for(int k = 0; k < 4; k++) {
+    			int nx = p.getX() + dx[k];
+    			int ny = p.getY() + dy[k];
+    			
+    			boolean edge = true;
+				for(int j = 0; j < positions.size(); j++) {
+					if(j == i) continue;
+					
+					Position p2 = positions.get(j);
+					if(p2.getX() == nx && p2.getY() == ny) {
+						edge = false;
+						break;
+					}
+				}
+    			
+    			if(edge) {
+    				bg.getCell(p).setBorderWidth(k, 2);
+    			}
+    		}
+    	}
     }
 }

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import sudoken.domain.Board;
 import sudoken.domain.BoardCreator;
+import sudoken.domain.BoardDecorator;
 import sudoken.domain.Constraint;
 import sudoken.extension.ExtensionManager;
 
@@ -13,7 +14,7 @@ public class FutoshikiCreator implements BoardCreator {
 
     @Override
     public Board create(int width, int height, int[][] grid,
-            Collection<Constraint> constraints) {
+            Collection<Constraint> constraints, BoardDecorator bd) {
     	
     	BoardCreator creator = null;
     	if (ExtensionManager.hasExtension(BASE_EXTENSION))
@@ -21,6 +22,6 @@ public class FutoshikiCreator implements BoardCreator {
     	else
     		/* TODO: Throw exception. */;
 
-        return creator.create(width, height, grid, constraints);
+        return creator.create(width, height, grid, constraints, bd);
     }
 }

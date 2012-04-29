@@ -1,95 +1,64 @@
 package sudoken.extension.jigsaw;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import sudoken.domain.BoardDecorator;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 import sudoken.domain.UniqueConstraint;
 import sudoken.persistence.SectionParser;
 
 public class JigsawParser implements SectionParser {
-	
 	private static final String EXTENSION_NAME = "jigsaw";
 	
     /**
-     * Format: Positive integers in a grid the same size as puzzle, with each
-     * number specifying a cell's membership to a jigsaw piece.
+     * Format: Each line represents a puzzle piece, and is a list of positions
+     * that make up that puzzle piece in the format x1 y1 x2 y2...
      * 
      * @return
+     * @throws ParseException 
      */
     @Override
-    public Collection<Constraint> load(String config, int width, int height)
-            throws IOException {
+    public Collection<Constraint> load(String config, int width, int height, BoardDecorator bd)
+            throws ParseException {
         Scanner sc = new Scanner(config);
-        List<UniqueConstraint> pieceConstraints = new ArrayList<UniqueConstraint>();
-        List<List<Position>> piecesPositions = new ArrayList<List<Position>>();
+        List<List<Position>> pieces = new ArrayList<List<Position>>();
+        List<Constraint> constraints = new ArrayList<Constraint>();
         for (int i = 0; i < width; i++) {
-            pieceConstraints.add(new UniqueConstraint(EXTENSION_NAME));
-            piecesPositions.add(new ArrayList<Position>());
+        	List<Position> piece = new ArrayList<Position>();
+        	UniqueConstraint constraint = new UniqueConstraint(EXTENSION_NAME, true, true);
+        	for (int j = 0; j < width; j++) {
+        		int x, y;
+        		if (sc.hasNextInt())
+        			x = sc.nextInt();
+        		else
+        			throw new ParseException("Integer expected.", 0);
+        		if (sc.hasNextInt())
+        			y = sc.nextInt();
+        		else
+        			throw new ParseException("Integer expected.", 0);
+        		if (x >= 0 && x < width && y >= 0 && y < height) {
+        			Position p = new Position(x, y);
+        			piece.add(p);
+        			constraint.add(p);
+        		}
+        		else
+        			throw new ParseException("Invalid coordinates specified.", 0);
+        	}
+        	if (piece.size() != width)
+        		throw new ParseException("Jigsaw piece is incorrect size.", 0);
+        	if (!arePositionsAdjacent(piece))
+        		throw new ParseException("Positions of jigsaw piece are not adjacent.", 0);
+        	pieces.add(piece);
+        	constraints.add(constraint);
         }
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                // Change from 1-base to 0-base.
-                int pieceNum = sc.nextInt() - 1;
-                if (pieceNum >= 0 && pieceNum < width) {
-                	Position p = new Position(j, i);
-                    pieceConstraints.get(pieceNum).add(p);
-                    piecesPositions.get(pieceNum).add(p);
-                } else
-                    throw new IOException("Parse error: Incorrect jigsaw piece number.");
-            }
-        }
-        for (List<Position> piecePositions: piecesPositions) {
-        	if (piecePositions.size() == width) {
-        		// Check that positions are adjacent.
-        		if (!arePositionsAdjacent(piecePositions))
-        			throw new IOException("Parse error: Nonadjacent jigsaw piece.");
-        	} else
-        		throw new IOException("Parse error: Incorrect jigsaw piece size.");
-        }
-        List<Constraint> c = new ArrayList<Constraint>();
-        c.addAll(pieceConstraints);
-        return c;
-    }
-    
-    @Override
-    public List<String> save(Collection<Constraint> constraints) throws ParseException {
-    	List<String> lines = new ArrayList<String>();
-    	
-    	int size = constraints.size();
-    	
-    	Map<Position, Integer> positionPieces = new HashMap<Position, Integer>();
-    	int i = 0;
-    	for (Constraint c : constraints) {
-    		i++;
-    		if (!(c instanceof UniqueConstraint))
-    			throw new ParseException("Invalid constraint", 0);
-    		UniqueConstraint uc = (UniqueConstraint) c;
-    		for (Position p : uc.getPositions())
-    			positionPieces.put(p, i);
-    	}
-    	
-    	for (int row = 0; row < size; row++) {
-    		String curLine = "";
-    		for (int col = 0; col < size; col++) {
-    			Position p = new Position(col, row);
-    			if (!positionPieces.containsKey(p))
-    				throw new ParseException("Missing position", 0);
-    			curLine += positionPieces.get(p) + " ";
-    		}
-    		lines.add(curLine);
-    	}
-    	
-    	return lines;
+        return constraints;
     }
     
     /* Returns true if positions are fully adjacent. */
