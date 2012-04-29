@@ -49,16 +49,7 @@ public class OperatorConstraint extends Constraint {
 	}
 	
 	public String save() {
-    	String saveStr = target + " ";
-    	if (operator == Operator.ADDITION)
-    		saveStr += "+ ";
-    	else if (operator == Operator.SUBTRACTION)
-    		saveStr += "- ";
-    	else if (operator == Operator.MULTIPLICATION)
-    		saveStr += "* ";
-    	else
-    		saveStr += "/ ";
-    	saveStr += positions.size() + " ";
+    	String saveStr = String.format("%d %s %d ", target, operator.toString(), positions.size());
     	for (Position p : positions)
     		saveStr += p.getX() + " " + p.getY() + " ";
     	return saveStr;
