@@ -54,7 +54,7 @@ public class JigsawParser implements SectionParser {
         	if (piece.size() != width)
         		throw new ParseException("Jigsaw piece is incorrect size.", 0);
         	if (!arePositionsAdjacent(piece))
-        		throw new ParseException("Positions of jigsaw piece are not adjacent.", 0);
+        		throw new ParseException("Positions of jigsaw piece " + i + " are not adjacent.", 0);
         	pieces.add(piece);
         	constraints.add(constraint);
         }
