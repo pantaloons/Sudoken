@@ -1,6 +1,7 @@
 package sudoken.gui;
 
 import java.awt.Dimension;
+import java.awt.Color;
 
 public class GapGraphics extends CellGraphics {
 	//TODO: This shouldn't be a CellGraphics (may want non-text in a gap?)
@@ -10,6 +11,7 @@ public class GapGraphics extends CellGraphics {
 		super(text);
 
 		this.setPreferredSize(new Dimension(0,0));
+		setBackground(new Color(0.0f, 0.0f, 0.0f, 0.0f));
 	}
 
 }
