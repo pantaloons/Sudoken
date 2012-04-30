@@ -66,7 +66,7 @@ public class SudokenGUI implements BoardChangeListener {
 
     private void createFileChooser() {
     	final FileFilter fileExtension = new FileNameExtensionFilter("Sudoken Puzzle", "sudoken");
-    	final File curDir = new File("../test");
+    	final File curDir = new File("test/");
     	
     	fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(curDir);

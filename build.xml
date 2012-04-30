@@ -84,6 +84,10 @@
     	<build_plugin name="diagonals" class="Diagonals" />
     	<build_plugin name="kenken" class="KenKen" />
     	
+		
+		<copy todir="${out}/test" >  
+			<fileset dir="test" includes="**"/>  
+		</copy>
     </target>
     
     <target name="clean"
