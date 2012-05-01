@@ -1,11 +1,16 @@
 package sudoken.extension.kenken;
 
+import java.awt.Color;
+import java.awt.GridBagConstraints;
 import java.util.List;
+
+import javax.swing.JLabel;
 
 import sudoken.domain.Board;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 import sudoken.gui.BoardGraphics;
+import sudoken.gui.CellGraphics;
 
 /**
  * OperatorConstraint enforces that the values of a cage meet
@@ -73,10 +78,57 @@ public class OperatorConstraint extends Constraint {
     		saveStr += p.getX() + " " + p.getY() + " ";
     	return saveStr;
     }
+	
+	/**
+	 * Get a string representing the constraint (position dependent)
+	 * @return
+	 */
+	public String getRepresentation() {
+		return operator.toString() + target;
+	}
 
 	@Override
 	public void decorate(BoardGraphics bg) {
-		// TODO Auto-generated method stub
+    	
+		//Put borders around cages
 		
+    	int[] dx = new int[]{0, -1, 0, 1};
+    	int[] dy = new int[]{-1, 0, 1, 0};
+    	
+    	for(int i = 0; i < positions.size(); i++) {
+    		Position p = positions.get(i);
+    		for(int k = 0; k < 4; k++) {
+    			int nx = p.getX() + dx[k];
+    			int ny = p.getY() + dy[k];
+    			
+    			boolean edge = true;
+				for(int j = 0; j < positions.size(); j++) {
+					if(j == i) continue;
+					
+					Position p2 = positions.get(j);
+					if(p2.getX() == nx && p2.getY() == ny) {
+						edge = false;
+						break;
+					}
+				}
+    			
+    			if(edge) {
+    				bg.getCell(p).setBorderWidth(k, 2);
+    			}
+    		}
+    	}
+    	
+		//Draw operator and target to first position
+    	
+    	CellGraphics firstCell = bg.getCell(positions.get(0));
+    	JLabel cageLabel = new JLabel();
+    	cageLabel.setFont(cageLabel.getFont().deriveFont(5));
+    	cageLabel.setText(getRepresentation());
+    	GridBagConstraints gbc = new GridBagConstraints();
+    	gbc.gridy = 1;
+
+    	firstCell.add(cageLabel, gbc);
+    	
+    	
 	}
 }

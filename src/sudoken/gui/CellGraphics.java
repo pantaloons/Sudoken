@@ -41,6 +41,7 @@ public class CellGraphics extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         setPreferredSize(new Dimension(35, 35));
+        gbc.gridy = 5;
         
         txt = new JLabel(label);
         add(txt, gbc);
