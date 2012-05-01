@@ -86,6 +86,13 @@ public class Parser {
                 grid, constraints, ExtensionManager.getDecorator(type));
     }
     
+    /**
+     * Save a  Board to a file
+     * @param board Board to save
+     * @param f File to save to
+     * @throws IOException
+     * @throws ParseException
+     */
     public static void save(Board board, File f) throws IOException, ParseException {
     	// Open a writer for the save file.
     	PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(f)));

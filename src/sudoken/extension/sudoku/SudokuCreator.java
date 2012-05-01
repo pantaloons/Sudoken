@@ -5,9 +5,16 @@ import java.util.Collection;
 import sudoken.domain.*;
 import sudoken.extension.ExtensionManager;
 
+/**
+ * SudokuCreator creates Boards to be used with Sudoku puzzles
+ *
+ */
 public class SudokuCreator implements BoardCreator {
 	
+	/** Name of base prerequisite extension */
 	private static final String BASE_EXTENSION = "latinsquare";
+	
+	/** Name of encompassing Extension */
 	private static final String EXTENSION_NAME = "sudoku";
 	
     @Override

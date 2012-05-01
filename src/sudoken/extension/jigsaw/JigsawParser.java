@@ -14,7 +14,15 @@ import sudoken.domain.Position;
 import sudoken.domain.UniqueConstraint;
 import sudoken.persistence.SectionParser;
 
+/**
+ * JigsawParser reads the constraints for a JigsawPuzzle
+ *
+ */
 public class JigsawParser implements SectionParser {
+	
+	/**
+	 * Name of the encompassing Extension
+	 */
 	private static final String EXTENSION_NAME = "jigsaw";
 	
     /**
@@ -61,11 +69,21 @@ public class JigsawParser implements SectionParser {
         return constraints;
     }
     
-    /* Returns true if positions are fully adjacent. */
+    /**
+     * Check if the Positions in a list are adjacent
+     * @param positions list of Positions to check
+     * @return True if the Positions in the list are adjacent, False otherwise
+     */
     private boolean arePositionsAdjacent(List<Position> positions) {
     	return arePositionsAdjacent(positions, new HashSet<Integer>());
     }
     
+    /**
+     * Check if the Positions in a list are adjacent
+     * @param positions list of Positions to check
+     * @param adjIndices set of Position indices which have been checked to be adjacent
+     * @return True if the Positions in the list are adjacent, False otherwise
+     */
     private boolean arePositionsAdjacent(List<Position> positions, Set<Integer> adjIndices) {
     	if (adjIndices.isEmpty()) adjIndices.add(0);
     	// Find a position adjacent to ones we've found (in adjIndices).
@@ -84,7 +102,12 @@ public class JigsawParser implements SectionParser {
     	return false;
     }
     
-    /* Returns true if two positions are vertically or horizontally adjacent to each other. */
+    /**
+     * Check if two positions are adjacent
+     * @param p1 First Position
+     * @param p2 Second Position
+     * @return True if the Positions are adjacent, False otherwise
+     */
     private boolean arePositionsAdjacent(Position p1, Position p2) {
     	boolean hAdj = (Math.abs(p1.getX() - p2.getX()) == 1);
     	boolean vAdj = (Math.abs(p1.getY() - p2.getY()) == 1);

@@ -4,6 +4,10 @@ import sudoken.domain.BoardDecorator;
 import sudoken.gui.BoardGraphics;
 import sudoken.gui.CellGraphics;
 
+/**
+ * LatinSquareDecorator decorates a Board as a grid for a Latin Square puzzle 
+ *
+ */
 public class LatinSquareDecorator extends BoardDecorator {
 
 	@Override

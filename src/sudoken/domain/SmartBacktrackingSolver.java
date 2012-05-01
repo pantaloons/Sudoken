@@ -15,6 +15,9 @@ import java.util.concurrent.TimeUnit;
 public class SmartBacktrackingSolver extends Solver {
     private boolean stop;
 
+    /**
+     * Solve the puzzle intelligently and recursively
+     */
 	@Override
     public boolean solve() throws InterruptedException {
 		stop = false;
@@ -75,6 +78,10 @@ public class SmartBacktrackingSolver extends Solver {
         return false;
     }
     
+    /**
+     * Get a set of Positions where values can be placed
+     * @return A set of Positions where values can be placed
+     */
     private Set<Position> getNextPositions() {
     	int minPossibilities = board.getNumCandidates() + 1;
     	Set<Position> nextPos = new HashSet<Position>();
@@ -111,6 +118,9 @@ public class SmartBacktrackingSolver extends Solver {
     	return nextPos;
     }
     
+    /**
+     * Stop the solver
+     */
 	@Override
 	public void stop() {
 		stop = true;

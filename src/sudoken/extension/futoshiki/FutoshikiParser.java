@@ -5,8 +5,15 @@ import java.util.*;
 import sudoken.persistence.*;
 import sudoken.domain.*;
 
+/**
+ * FutoshikiParser reads FutoshikiConstraints
+ *
+ */
 public class FutoshikiParser implements SectionParser {
 	
+	/**
+	 * Name of the encompassing Extension
+	 */
 	private static final String EXTENSION_NAME = "futoshiki";
 	
     /**

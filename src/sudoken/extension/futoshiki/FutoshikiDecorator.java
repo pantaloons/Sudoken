@@ -5,7 +5,7 @@ import sudoken.domain.BoardDecorator;
 import sudoken.gui.BoardGraphics;
 
 /***
- * 
+ * FutoshikiDecorator decorates a Board with Futoshiki constraints
  * @author Tim Hobbs
  *
  */

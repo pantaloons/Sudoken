@@ -4,7 +4,14 @@ import java.util.Collection;
 
 import sudoken.domain.*;
 
-public class LatinSquareCreator implements BoardCreator {	
+/**
+ * LatinSquareCreator creates Boards for LatinSquare puzzles
+ *
+ */
+public class LatinSquareCreator implements BoardCreator {
+	/**
+	 * Name of the encompassing Extension
+	 */
 	private static final String EXTENSION_NAME = "latinsquare";
 
     @Override

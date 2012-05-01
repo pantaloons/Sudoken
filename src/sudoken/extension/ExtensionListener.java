@@ -10,5 +10,9 @@ package sudoken.extension;
  */
 public interface ExtensionListener {
 
+	/**
+	 * Act on a newly loaded Extension
+	 * @param newlyLoadedExtension the newly loaded Extension 
+	 */
     public void processNewExtension(Extension newlyLoadedExtension);
 }

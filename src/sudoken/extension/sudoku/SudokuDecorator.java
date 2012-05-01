@@ -4,6 +4,10 @@ import sudoken.domain.BoardDecorator;
 import sudoken.extension.ExtensionManager;
 import sudoken.gui.BoardGraphics;
 
+/**
+ * SudokuDecorator decorates a BoardGraphics with the constraints of a Sudoku
+ *
+ */
 public class SudokuDecorator extends BoardDecorator {
 	@Override
 	public void decorate(BoardGraphics bg) {

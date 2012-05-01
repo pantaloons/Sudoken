@@ -11,14 +11,21 @@ import sudoken.domain.Position;
 //import sudoken.extensions.diagonals.DiagonalsUniqueConstraint;
 import sudoken.persistence.SectionParser;
 
+/**
+ * Parser for Diagonals puzzle Boards
+ *
+ */
 public class DiagonalsParser implements SectionParser {
 	
+	/**
+	 * Name of the encompassing Extension
+	 */
 	private static final String EXTENSION_NAME = "diagonals";
 	
     /**
      * Format: No additional formatting.
      * 
-     * @return
+     * @return 
      */
     @Override
     public Collection<Constraint> load(String config, int width, int height, BoardDecorator bd) {

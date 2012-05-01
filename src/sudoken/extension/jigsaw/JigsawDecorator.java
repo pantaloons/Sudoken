@@ -4,6 +4,10 @@ import sudoken.domain.BoardDecorator;
 import sudoken.extension.ExtensionManager;
 import sudoken.gui.BoardGraphics;
 
+/**
+ * Jigsaw Decorator decorates a Jigsaw Sudoku puzzle
+ *
+ */
 public class JigsawDecorator extends BoardDecorator {
 
 	@Override

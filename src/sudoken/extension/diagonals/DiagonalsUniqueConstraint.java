@@ -5,7 +5,10 @@ import java.awt.*;
 import sudoken.gui.*;
 import sudoken.domain.*;
 
-/* Quick hack... */
+/**
+ * DiagonalsUniqueConstraint is used to enforce Unique constraints on diagonals
+ *
+ */
 public class DiagonalsUniqueConstraint extends UniqueConstraint {
 	public DiagonalsUniqueConstraint(String provider, boolean shouldSave) {
     	super(provider, shouldSave, false);

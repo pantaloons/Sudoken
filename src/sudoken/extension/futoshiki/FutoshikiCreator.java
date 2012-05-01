@@ -8,8 +8,15 @@ import sudoken.domain.BoardDecorator;
 import sudoken.domain.Constraint;
 import sudoken.extension.ExtensionManager;
 
+/**
+ * FutoshikiCreator creates a Board for a Futoshiki Puzzle
+ *
+ */
 public class FutoshikiCreator implements BoardCreator {
 	
+	/**
+	 * Base Extension required by this BoardCreator
+	 */
 	private static final String BASE_EXTENSION = "latinsquare";
 
     @Override

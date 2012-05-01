@@ -11,14 +11,27 @@ import javax.swing.JPanel;
 import sudoken.domain.Board;
 import sudoken.domain.Position;
 
+/**
+ * BoardGraphics is used to contain the graphical components of a board and toact as a Decoration target
+ * @author Tim Hobbs
+ *
+ */
 public class BoardGraphics extends JPanel {
+	/** Serialisation UID */
 	private static final long serialVersionUID = -2312057083961933054L;
 	
+	/** Cell Graphics */
 	private CellGraphics[][] cg;
+	/**Gap Graphics (inbetween cells) */
 	private GapGraphics[][] gg;
 	
+	/** Board to render */
 	private Board b;
 	
+	/**
+	 * Create a BoardGraphics
+	 * @param b Board to base this BoardGraphics off
+	 */
 	public BoardGraphics(Board b) {
 		super(new GridBagLayout());
 		
@@ -51,24 +64,40 @@ public class BoardGraphics extends JPanel {
 		}
 	}
 	
+	/**
+	 * Get a CellGraphics at a Position
+	 * @param p Position of the CellGraphics
+	 * @return CellGraphics at Position
+	 */
 	public CellGraphics getCell(Position p) {
 		return cg[p.getX()][p.getY()];
 	}
 	
+	/**
+	 * Get a CellGraphics at a Position
+	 * @param x x-coordinate of the Position
+	 * @param y y-coordinate of the Position
+	 * @return CellGraphics at Position
+	 */
 	public CellGraphics getCell(int x, int y) {
 		return cg[x][y];
 	}
 	
+	/**
+	 * Get a GapGraphics at a Position
+	 * @param p Position of the GapGraphics
+	 * @return GapGraphics at Position
+	 */
 	public GapGraphics getGap(Position p, int border) {
 		return gg[p.getX()][p.getY()];
 	}
 	
-	/***
+	/**
 	 * Calculate the position of a gap between cell points. Note that gap
 	 * coordinates differ from cell coordinates.
-	 * @param p1
-	 * @param p2
-	 * @return
+	 * @param p1 Position of first cell
+	 * @param p2 Position of second cell
+	 * @return Position of Gap between cells
 	 */
 	public static Position getPositionBetween(Position p1, Position p2){
 		Position ret = null;
@@ -81,6 +110,10 @@ public class BoardGraphics extends JPanel {
 		return ret;
 	}
 	
+	/**
+	 * Set the border width of all cells in this BoardGraphics
+	 * @param width new border width
+	 */
 	public void setBorderWidths(int width) {
         for(int i = 0; i < b.getWidth(); i++) {
             for(int j = 0; j < b.getHeight(); j++) {
@@ -89,6 +122,11 @@ public class BoardGraphics extends JPanel {
         }
 	}
 	
+	/**
+	 * Set the height of gaps in a row
+	 * @param row Row to set gaps for
+	 * @param gap new gap height
+	 */
 	public void setGapHeight(int row, int gap) {
 		if (row >= 0 && row < b.getHeight()) {
 			for (int i = 0; i < b.getWidth()*2 - 1; i++) {
@@ -102,6 +140,11 @@ public class BoardGraphics extends JPanel {
 		}
 	}
 	
+	/**
+	 * Set the width of gaps in a column
+	 * @param col Column to set gaps for
+	 * @param gap new gap width
+	 */
 	public void setGapWidth(int col, int gap) {
 		if (col >= 0 && col < b.getWidth()) {
 			for (int i = 0; i < b.getHeight()*2 - 1; i++) {
@@ -115,6 +158,10 @@ public class BoardGraphics extends JPanel {
 		}		
 	}
 	
+	/**
+	 * Get the Board used by this BoardGraphics
+	 * @return
+	 */
 	public Board getBoard() {
 	    return b;
 	}

@@ -14,16 +14,31 @@ import sudoken.persistence.Parser;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Controller is the Controller part of the MVC pattern, and controls all GUI behaviour.
+ *
+ * @author Tim Hobbs
+ */
 public class Controller {
 	
+	/** Puzzle solver used by this controller */
 	private Solver puzzleSolver;
+	/** Popup for displaying errors */
 	private ErrorDisplay errorDisplay = new PopupErrorDisplay();
+	/** Main GUI */
 	private SudokenGUI gui;
+	/** Is the solver currently running? */
 	private boolean solverRunning;
+	/** Timer for updates */
 	private Timer guiUpdateTimer;
+	/** Thread to run Solver in */
 	private Thread solverThread;
+	/** Is the puzzle solved? */
 	protected boolean puzzleSolved;
 	
+	/**
+	 * Create a Controller
+	 */
 	private Controller() {
 		super();
 		guiUpdateTimer = new Timer(20, new ActionListener() {
@@ -55,15 +70,27 @@ public class Controller {
 		return controller;
 	}
 	
+	/**
+	 * Set the GUI for the Controller to control
+	 * @param gui GUI to control
+	 */
 	private void setGUI(SudokenGUI gui) {
 		this.gui = gui;
 		errorDisplay.setParentComponent(gui.getPanel());
 	}
 	
+	/**
+	 * Set the Solver for this Controller to use
+	 * @param puzzleSolver Solver to use
+	 */
 	private void setSolver(Solver puzzleSolver) {
 		this.puzzleSolver = puzzleSolver;
 	}
 	
+	/**
+	 * Load a puzzle from a file 
+	 * @param fileName
+	 */
 	public void loadPuzzle(String fileName) {
 		stopSolver();
 		File puzzleFile = new File(fileName);
@@ -106,6 +133,10 @@ public class Controller {
 		gui.setPuzzle(puzzleBoard);
 	}
 	
+	/**
+	 * Save a puzzle to a file
+	 * @param fileName filename of file to save to
+	 */
 	public void savePuzzle(String fileName) {
 		File saveFile = new File(fileName);
 		if (!saveFile.exists()) {
@@ -137,6 +168,9 @@ public class Controller {
 		// TODO: Save feedback in GUI.
 	}
 	
+	/**
+	 * Solve the current puzzle, running the solver in a new thread
+	 */
 	public void solve() {
 		if (!solverRunning) {
 			solverRunning = true;
@@ -163,6 +197,9 @@ public class Controller {
 		// show message;
 	}
 	
+	/**
+	 * Stop the Solver
+	 */
 	private void stopSolver() {
 		if (solverThread != null && solverThread.getState() != Thread.State.TERMINATED) {
 			puzzleSolver.stop();
@@ -181,6 +218,10 @@ public class Controller {
 		}
 	}
 	
+	/** 
+	 * Set the solve speed of the solver
+	 * @param value solve speed
+	 */
 	public void setSolveSpeed(int value) {
 		puzzleSolver.setStepsPerSecond(value);
 	}

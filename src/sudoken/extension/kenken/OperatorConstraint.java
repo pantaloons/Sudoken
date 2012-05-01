@@ -7,16 +7,30 @@ import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 import sudoken.gui.BoardGraphics;
 
+/**
+ * OperatorConstraint enforces that the values of a cage meet
+ * the target value of the cage, when operated on by the Operator
+ * of the cage
+ *
+ */
 public class OperatorConstraint extends Constraint {
-	/* operator defining behaviour of constraint */
+	/** operator defining behaviour of constraint */
 	private Operator operator;
 	
-	/* target value that needs to be reached */
+	/** target value that needs to be reached */
 	private int target;
 	
-	/* list of cells that constraint is concerned about */
+	/** list of cells that constraint is concerned about */
 	private List<Position> positions;
 	
+	/**
+	 * Create an Operator Constraint
+	 * @param provider Extension that provided the constraint
+	 * @param shouldSave Should this constraint be saved when the board is saved
+	 * @param positions List of Positions of the cells in the cage
+	 * @param target Target value of the cage
+	 * @param operator Operator used by the cage
+	 */
 	public OperatorConstraint(String provider, boolean shouldSave, List<Position> positions, int target, Operator operator) {
 		super(provider, shouldSave);
 		
@@ -35,12 +49,13 @@ public class OperatorConstraint extends Constraint {
 	
 	@Override
 	public boolean canHandle(Position position) {
-		for (Position p : positions) {
+		return positions.contains(position);
+		/*for (Position p : positions) {
 			if (position.equals(p))
 				return true;
 		}
 		
-		return false;
+		return false;*/
 	}
 	
 	@Override
@@ -48,6 +63,10 @@ public class OperatorConstraint extends Constraint {
 		return operator.isViolated(board, positions, target);
 	}
 	
+	/**
+	 * Save the constraint
+	 * @return String representation of the constraint
+	 */
 	public String save() {
     	String saveStr = String.format("%d %s %d ", target, operator.toString(), positions.size());
     	for (Position p : positions)

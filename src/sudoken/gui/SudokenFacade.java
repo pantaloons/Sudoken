@@ -18,8 +18,12 @@ import sudoken.extension.ExtensionManager;
  *
  */
 public class SudokenFacade {
+	/** Frame to wrap the Facade components in */
 	private JFrame wrappingFrame;
 	
+	/**
+	 * Create a SudokenFacade, initialising the GUI, Solver and Controller
+	 */
 	public SudokenFacade() {
 		// Setting the look and feel should be done as the very first step in an
 		// application (see http://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html).
@@ -48,10 +52,17 @@ public class SudokenFacade {
 		}
 	}
 	
+	/**
+	 * Start the Facade, making it visible
+	 */
 	public void start() {
 		wrappingFrame.setVisible(true);
 	}
 	
+	/**
+	 * Main entry point of Sudoken.
+	 * @param args Command line arguments
+	 */
 	public static void main(String[] args) {
 		ExtensionManager.startLoadingExtensions();
 		

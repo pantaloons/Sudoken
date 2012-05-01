@@ -6,12 +6,16 @@ import java.util.concurrent.TimeUnit;
  * Solves sudoku type puzzles by using a backtracking algorithm.
  * 
  * @author Kevin Doran
+ * @author Tim Hobbs
  * 
  */
 public class BacktrackingSolver extends Solver {
     
 	private boolean stop = false;
 	
+	/**
+	 * Solve the puzzle recursively
+	 */
     @Override
     public boolean solve() throws InterruptedException {
     	stop = false;
@@ -69,6 +73,9 @@ public class BacktrackingSolver extends Solver {
         return false;
     }
 
+    /**
+     * Stop the solver
+     */
 	@Override
 	public void stop() {
 		stop = true;

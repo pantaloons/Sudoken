@@ -15,8 +15,15 @@ import sudoken.persistence.SectionParser;
 
 import sudoken.extension.kenken.OperatorConstraint;
 import sudoken.extension.kenken.Operator;
-
+/**
+ * KenKenParser reads constraints for a KenKen puzzle 
+ *
+ */
 public class KenKenParser implements SectionParser {
+	
+	/**
+	 * Name of the encompassing Extension
+	 */
 	private static final String EXTENSION_NAME = "kenken";
 	
 	/* Format: Each line represents a "cage", and consists of the target, then the
@@ -60,6 +67,12 @@ public class KenKenParser implements SectionParser {
     	return arePositionsAdjacent(positions, new HashSet<Integer>());
     }
     
+    /**
+     * Check if the Positions in a list are adjacent
+     * @param positions list of Positions to check
+     * @param adjIndices set of Position indices which have been checked to be adjacent
+     * @return True if the Positions in the list are adjacent, False otherwise
+     */
     private boolean arePositionsAdjacent(List<Position> positions, Set<Integer> adjIndices) {
     	if (adjIndices.isEmpty()) adjIndices.add(0);
     	// Find a position adjacent to ones we've found (in adjIndices).
@@ -78,7 +91,12 @@ public class KenKenParser implements SectionParser {
     	return false;
     }
     
-    /* Returns true if two positions are vertically or horizontally adjacent to each other. */
+    /**
+     * Check if two positions are adjacent
+     * @param p1 First Position
+     * @param p2 Second Position
+     * @return True if the Positions are adjacent, False otherwise
+     */
     private boolean arePositionsAdjacent(Position p1, Position p2) {
     	boolean hAdj = (Math.abs(p1.getX() - p2.getX()) == 1);
     	boolean vAdj = (Math.abs(p1.getY() - p2.getY()) == 1);

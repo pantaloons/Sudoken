@@ -15,17 +15,29 @@ import java.util.concurrent.TimeUnit;
 import sudoken.domain.*;
 import sudoken.persistence.*;
 
+/**
+ * 
+ * ExtensionManager provides the various components required to load, solve, and render Puzzles.
+ * ExtensionManager is also used to keep track of Extensions in a given folder, periodically checking for changes.
+ *
+ */
 public class ExtensionManager {
     /** Registry mapping extension identifiers to {@link Extension} instances */
     private static Map<String, Extension> m;
     
-    // Name of the primary extension of the currently loaded puzzle.
+    /** Name of the primary extension of the currently loaded puzzle. */
     private static String currentPrimaryExtension;
 
-    // This collection is accessed in multiple threads, thus needs to be a
-    // thread safe implementation.
+    /**
+     * List of Extension update listeners.
+     * This collection is accessed in multiple threads, thus needs to be a
+     * thread safe implementation.
+     */
     private static Collection<ExtensionListener> listeners = new CopyOnWriteArrayList<ExtensionListener>();
 
+    /**
+     * Refresh rate of the Extension scanner
+     */
     private static final int REFRESH_RATE_IN_SECONDS = 10;
 
     // called on first usage of ExtensionManager
@@ -36,6 +48,11 @@ public class ExtensionManager {
         // TODO: Load property files
     }
     
+    /**
+     * Check if the ExtensionManager has a set of Extensions
+     * @param exts Set of Extensions to check for
+     * @return True if ExtensionManager has all of the Extensions in the Set, False otherwise.
+     */
     private static boolean hasAllExtensions(Set<String> exts) {
     	for(String s : exts) {
     		if(!m.containsKey(s) || !hasExtension(s)) return false;
@@ -158,6 +175,9 @@ public class ExtensionManager {
         loadingThread.start();
     }
 
+    /**
+     * Extension Loader is used to poll for Extensions 
+     */
     private static class ExtensionLoader implements Runnable {
 
         @Override
@@ -214,14 +234,28 @@ public class ExtensionManager {
         }
     }
 
+    /**
+     * Load a JAR file
+     * @param f File representing the JAR file
+     * @return a ClassLoader using the JAR file
+     * @throws MalformedURLException
+     */
     private static ClassLoader loadJAR(File f) throws MalformedURLException {
         return new URLClassLoader(new URL[] { f.toURI().toURL() });
     }
     
+    /**
+     * Set the current primary Extension name
+     * @param ext current primary Extension name
+     */
     public static void setCurrentPrimaryExtension(String ext) {
     	currentPrimaryExtension = ext;
     }
     
+    /**
+     * Get the current primary Extension name
+     * @return the current primary Extension name
+     */
     public static String getCurrentPrimaryExtension() {
     	return currentPrimaryExtension;
     }

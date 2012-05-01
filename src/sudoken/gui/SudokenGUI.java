@@ -23,17 +23,30 @@ import sudoken.extension.Extension;
  */
 public class SudokenGUI implements BoardChangeListener {
 
+	/** Controller which controls this GUI */
     private Controller controller;
+    
+    /**Panel to contain components */
     private JPanel panel;
+    /** File chooser for puzzle file selection */
     private JFileChooser fileChooser;
+    /**BoardWidget to display Board*/
     private BoardWidget boardWidget;
 
+    /** Solve Button */
     private JButton solveButton;
+    /** Load Button */
     private JButton loadButton;
+    /** Save Button */
     private JButton saveButton;
-	private JSlider solverSpeedSlider;
+    /** Slider for selection of solving speed */
+    private JSlider solverSpeedSlider;
+    /** Slider label */
 	private JLabel sliderLabel;
 	
+	/**
+	 * Create a SudokenGUI, displaying components and a blank Board
+	 */
     public SudokenGUI() {
 
         createComponents();
@@ -41,6 +54,9 @@ public class SudokenGUI implements BoardChangeListener {
         setIsPuzzleLoaded(false);
     }
 
+    /**
+     * Create the components of the board
+     */
     private void createComponents() {
         panel = new JPanel();
         boardWidget = new BoardWidget();
@@ -56,6 +72,9 @@ public class SudokenGUI implements BoardChangeListener {
         saveButton.addActionListener(new SaveButtonListener());
     }
     
+    /**
+     * Create the slider
+     */
     private void createSlider() {
         final int minSpeed = 0;
         final int maxSpeed = 15;
@@ -64,6 +83,9 @@ public class SudokenGUI implements BoardChangeListener {
         solverSpeedSlider.addChangeListener(new SliderListener());
     }
 
+    /**
+     * Create the file chooser
+     */
     private void createFileChooser() {
     	final FileFilter fileExtension = new FileNameExtensionFilter("Sudoken Puzzle", "sudoken");
     	final File curDir = new File("test/");
@@ -75,6 +97,9 @@ public class SudokenGUI implements BoardChangeListener {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
     }
 
+    /**
+     * Layout the components of the GUI
+     */
     private void layoutComponents() {
         LayoutManager layout = new MigLayout("", "[][grow][]", "[]20[grow][]");        
         panel.setPreferredSize(new Dimension(500, 500)); 
@@ -91,10 +116,18 @@ public class SudokenGUI implements BoardChangeListener {
         panel.add(solverSpeedSlider, "grow, wrap");
     }
 
+    /**
+     * Set the Controller of this GUI
+     * @param controller new Controller for this GUI
+     */
     public void setController(Controller controller) {
         this.controller = controller;
     }
 
+    /**
+     * Listener forthe Solver Button
+     *
+     */
     private class SolveButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -102,6 +135,10 @@ public class SudokenGUI implements BoardChangeListener {
         }
     }
 
+    /**
+     * Listener for the Load Button
+     *
+     */
     private class LoadButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -113,6 +150,10 @@ public class SudokenGUI implements BoardChangeListener {
         }
     }
     
+    /**
+     * Listener for the Slider
+     *
+     */
     private class SliderListener implements ChangeListener {
         @Override
         public void stateChanged(ChangeEvent e) {
@@ -120,6 +161,10 @@ public class SudokenGUI implements BoardChangeListener {
         }
     }
     
+    /**
+     * Listener for the Save button
+     *
+     */
     private class SaveButtonListener implements ActionListener {
     	@Override
     	public void actionPerformed(ActionEvent e) {
@@ -131,11 +176,17 @@ public class SudokenGUI implements BoardChangeListener {
     	}
     }
 
+    /**
+     * Handle the event of a new Extension being loaded
+     * @param newlyLoadedExtension
+     */
     public void processNewExtension(Extension newlyLoadedExtension) {
         // add new icon for new extension (Maybe. This is not that important).
     }
     
-    /* update UI in response to changes to the board state */
+    /** 
+     * Update UI in response to changes to the board state 
+     */
     public void processUpdatedBoard() {
         EventQueue.invokeLater(new Runnable() {
             @Override
@@ -190,6 +241,10 @@ public class SudokenGUI implements BoardChangeListener {
         return panel;
     }
     
+    /**
+     * Set the Board to be displayed by the GUI
+     * @param puzzleBoard Board to be displayed by the GUI
+     */
 	public void setPuzzle(Board puzzleBoard) {
 		boardWidget.setBoard(puzzleBoard);
 		setIsPuzzleLoaded(true);
