@@ -13,7 +13,7 @@ import sudoken.gui.BoardGraphics;
 public class UniqueConstraint extends Constraint {
 
     /* list of cells that constraint is concerned about */
-    private List<Position> positions;
+    protected List<Position> positions;
     private boolean highlight;
 
     public UniqueConstraint(String provider, boolean shouldSave, boolean highlight) {

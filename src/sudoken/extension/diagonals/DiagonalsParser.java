@@ -7,7 +7,8 @@ import java.util.List;
 import sudoken.domain.BoardDecorator;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
-import sudoken.domain.UniqueConstraint;
+//import sudoken.domain.UniqueConstraint;
+//import sudoken.extensions.diagonals.DiagonalsUniqueConstraint;
 import sudoken.persistence.SectionParser;
 
 public class DiagonalsParser implements SectionParser {
@@ -28,13 +29,13 @@ public class DiagonalsParser implements SectionParser {
             throw new IllegalArgumentException(
                     "Width and height must be equal.");
         
-		UniqueConstraint forwardConstraint = new UniqueConstraint(EXTENSION_NAME, false, false);
+		DiagonalsUniqueConstraint forwardConstraint = new DiagonalsUniqueConstraint(EXTENSION_NAME, false);
 		for (int i = 0; i < width; i++) {
 			forwardConstraint.add(new Position(i, i));
 		}
 		diagonalConstraints.add(forwardConstraint);
 		
-		UniqueConstraint backwardsConstraint = new UniqueConstraint(EXTENSION_NAME, false, false);
+		DiagonalsUniqueConstraint backwardsConstraint = new DiagonalsUniqueConstraint(EXTENSION_NAME, false);
 		for (int i = 0; i < width; i++) {
 			backwardsConstraint.add(new Position(width - i - 1, i));
 		}
