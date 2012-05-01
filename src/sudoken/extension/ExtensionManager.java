@@ -201,10 +201,10 @@ public class ExtensionManager {
                     if (i >= 0 && f.getName().substring(i + 1).equals("jar")) {
                         ClassLoader cl = loadJAR(f);
                         ServiceLoader<Extension> extensionLoader = 
-                        		ServiceLoader.load(Extension.class, cl);
+                        	ServiceLoader.load(Extension.class, cl);
                         
                         for (Extension newlyLoadedExtension : extensionLoader) {
-                            register(newlyLoadedExtension);
+				register(newlyLoadedExtension);
                         	notifyListeners(newlyLoadedExtension);
                         }
                     }
