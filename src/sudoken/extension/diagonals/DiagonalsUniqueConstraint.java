@@ -6,8 +6,7 @@ import sudoken.gui.*;
 import sudoken.domain.*;
 
 /**
- * DiagonalsUniqueConstraint is used to enforce Unique constraints on diagonals
- *
+ * DiagonalsUniqueConstraint overrides paint functionality to color diagonal squares.
  */
 public class DiagonalsUniqueConstraint extends UniqueConstraint {
 	public DiagonalsUniqueConstraint(String provider, boolean shouldSave) {
