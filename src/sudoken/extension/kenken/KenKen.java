@@ -3,6 +3,7 @@ package sudoken.extension.kenken;
 import java.util.HashSet;
 import java.util.Set;
 
+import sudoken.domain.BoardDecorator;
 import sudoken.extension.Extension;
 
 /**

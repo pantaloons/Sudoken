@@ -121,7 +121,17 @@ public class ExtensionManager {
      *               and was successful
      */
 	public static BoardDecorator getDecorator(String ext) {
-		return m.get(ext).getDecorator();
+		BoardDecorator decorator = null;
+		try {
+			decorator = m.get(ext).getDecorator().getClass().newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return decorator;
 	}
 
     /**

@@ -12,5 +12,6 @@ public class SudokuDecorator extends BoardDecorator {
 	@Override
 	public void decorate(BoardGraphics bg) {
 		ExtensionManager.getDecorator("latinsquare").decorate(bg);
+		super.decorate(bg);
 	}
 }

@@ -32,6 +32,7 @@ public class Parser {
                     + " not loaded.");
         }
         ExtensionManager.setCurrentPrimaryExtension(type);
+        BoardDecorator decorator = ExtensionManager.getDecorator(type);
 
         int width = sc.nextInt();
         int height = sc.nextInt();
@@ -80,10 +81,10 @@ public class Parser {
                 conf += cur;
             }
             constraints.addAll(ExtensionManager.getParser(ext).load(conf,
-                    width, height, ExtensionManager.getDecorator(ext)));
+                    width, height, decorator));
         }
         return ExtensionManager.getConstructor(type).create(width, height,
-                grid, constraints, ExtensionManager.getDecorator(type));
+                grid, constraints, decorator);
     }
     
     /**

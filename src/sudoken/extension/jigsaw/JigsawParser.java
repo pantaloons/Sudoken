@@ -12,6 +12,7 @@ import sudoken.domain.BoardDecorator;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
 import sudoken.domain.UniqueConstraint;
+import sudoken.gui.BorderDecorator;
 import sudoken.persistence.SectionParser;
 
 /**
@@ -65,6 +66,7 @@ public class JigsawParser implements SectionParser {
         		throw new ParseException("Positions of jigsaw piece " + i + " are not adjacent.", 0);
         	pieces.add(piece);
         	constraints.add(constraint);
+        	bd.addConstraintDecorator(new BorderDecorator(constraint.getPositions()));
         }
         return constraints;
     }

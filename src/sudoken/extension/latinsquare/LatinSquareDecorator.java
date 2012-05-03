@@ -12,6 +12,7 @@ public class LatinSquareDecorator extends BoardDecorator {
 
 	@Override
 	public void decorate(BoardGraphics bg) {
+		
 		bg.setBorderWidths(1);
 		int w = bg.getBoard().getWidth(), h = bg.getBoard().getHeight();
 		
@@ -35,6 +36,8 @@ public class LatinSquareDecorator extends BoardDecorator {
         
         bg.getCell(0, h - 1).setBorderWidth(CellGraphics.SOUTH, 2);
         bg.getCell(0, h - 1).setBorderWidth(CellGraphics.WEST, 2);
+        
+        super.decorate(bg);
 	}
 
 }

@@ -76,10 +76,4 @@ public abstract class Constraint {
     public boolean shouldSave() {
     	return shouldSave;
     }
-    
-    /**
-     * Decorate a BoardGraphics with this constraint
-     * @param bg BoardGraphics to decorate
-     */
-    public abstract void decorate(BoardGraphics bg);
 }

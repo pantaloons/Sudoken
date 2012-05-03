@@ -15,6 +15,7 @@ import sudoken.persistence.SectionParser;
 
 import sudoken.extension.kenken.OperatorConstraint;
 import sudoken.extension.kenken.Operator;
+import sudoken.gui.BorderDecorator;
 /**
  * KenKenParser reads constraints for a KenKen puzzle 
  *
@@ -57,7 +58,11 @@ public class KenKenParser implements SectionParser {
         		positions.add(new Position(sc.nextInt(), sc.nextInt()));
         	if (!arePositionsAdjacent(positions))
         		throw new ParseException("Cage positions nonadjacent.", 0);
-        	cageConstraints.add(new OperatorConstraint(EXTENSION_NAME, true, positions, target, operator));
+        	OperatorConstraint c = new OperatorConstraint(EXTENSION_NAME, true, positions, target, operator);
+        	bd.addConstraintDecorator(new OperatorDecorator(c));
+        	
+        	cageConstraints.add(c);
+        	
         }
         return cageConstraints;
     }

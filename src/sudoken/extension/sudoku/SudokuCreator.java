@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import sudoken.domain.*;
 import sudoken.extension.ExtensionManager;
+import sudoken.gui.BorderDecorator;
 
 /**
  * SudokuCreator creates Boards to be used with Sudoku puzzles
@@ -45,6 +46,7 @@ public class SudokuCreator implements BoardCreator {
                     }
                 }
                 boardConstraints.add(boxConstraint);
+                bd.addConstraintDecorator(new BorderDecorator(boxConstraint.getPositions()));
             }
         }
 

@@ -25,9 +25,9 @@ public class BoardWidget extends JPanel {
     public void setBoard(Board b) {
         BoardGraphics bg = new BoardGraphics(b);
         b.getDecorator().decorate(bg);
-        for(Constraint c : b.getConstraints()) {
+        /*for(Constraint c : b.getConstraints()) {
         	c.decorate(bg);
-        }
+        }*/
         
         removeAll();
         add(bg);

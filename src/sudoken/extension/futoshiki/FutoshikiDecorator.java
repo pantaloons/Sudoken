@@ -2,6 +2,7 @@ package sudoken.extension.futoshiki;
 
 import sudoken.domain.Board;
 import sudoken.domain.BoardDecorator;
+import sudoken.domain.ConstraintDecorator;
 import sudoken.gui.BoardGraphics;
 
 /***
@@ -19,5 +20,8 @@ public class FutoshikiDecorator extends BoardDecorator {
 		
 		for (int i = 0; i < board.getWidth() - 1; i++) bg.setGapWidth(i, 30);
 		for (int i = 0; i < board.getHeight() - 1; i++) bg.setGapHeight(i, 30);
+		
+		super.decorate(bg);
 	}
+
 }
