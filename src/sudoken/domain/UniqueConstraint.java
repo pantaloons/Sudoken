@@ -13,7 +13,7 @@ public class UniqueConstraint extends Constraint {
     /**
      *  List of cells that constraint is concerned about 
      **/
-    protected List<Position> positions;
+    private List<Position> positions;
 
     /**
      * Create a UniqueConstraint

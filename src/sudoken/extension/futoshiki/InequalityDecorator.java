@@ -5,11 +5,11 @@ import sudoken.domain.Position;
 import sudoken.gui.BoardGraphics;
 import sudoken.gui.GapGraphics;
 
-public class InequalityDecorator extends ConstraintDecorator {
+class InequalityDecorator extends ConstraintDecorator {
 	
 	private InequalityConstraint constraint;
 
-	public InequalityDecorator(InequalityConstraint c) {
+	InequalityDecorator(InequalityConstraint c) {
 		this.constraint = c;
 	}
 	

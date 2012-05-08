@@ -10,7 +10,7 @@ import sudoken.gui.BorderDecorator;
  * SudokuCreator creates Boards to be used with Sudoku puzzles
  *
  */
-public class SudokuCreator implements BoardCreator {
+class SudokuCreator implements BoardCreator {
 	
 	/** Name of base prerequisite extension */
 	private static final String BASE_EXTENSION = "latinsquare";

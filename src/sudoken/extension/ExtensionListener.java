@@ -8,7 +8,7 @@ package sudoken.extension;
  * @author Kevin Doran
  * 
  */
-public interface ExtensionListener {
+interface ExtensionListener {
 
 	/**
 	 * Act on a newly loaded Extension

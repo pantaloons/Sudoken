@@ -18,7 +18,7 @@ import sudoken.domain.*;
  * @author Joshua Leung
  * @author Kevin Doran
  */
-public class SudokenGUI implements BoardChangeListener {
+class SudokenGUI implements BoardChangeListener {
 
 	/** Controller which controls this GUI */
     private Controller controller;

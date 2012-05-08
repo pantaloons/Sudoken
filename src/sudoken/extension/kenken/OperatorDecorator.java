@@ -9,12 +9,12 @@ import sudoken.gui.BoardGraphics;
 import sudoken.gui.BorderDecorator;
 import sudoken.gui.CellGraphics;
 
-public class OperatorDecorator extends ConstraintDecorator {
+class OperatorDecorator extends ConstraintDecorator {
 
 	private OperatorConstraint constraint;
 	private BorderDecorator borderDecorator;
 
-	public OperatorDecorator(OperatorConstraint c) {
+	OperatorDecorator(OperatorConstraint c) {
 		this.constraint = c;
 		this.borderDecorator = new BorderDecorator(c.getPositions());
 	}

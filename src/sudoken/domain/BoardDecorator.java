@@ -13,7 +13,7 @@ import sudoken.gui.BoardGraphics;
  */
 public class BoardDecorator {
 	
-	List<ConstraintDecorator> constraintDecorators = new ArrayList<ConstraintDecorator>();
+	private List<ConstraintDecorator> constraintDecorators = new ArrayList<ConstraintDecorator>();
 	
 	/**
 	 * Decorate a BoardGraphics

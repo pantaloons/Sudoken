@@ -19,7 +19,7 @@ import sudoken.persistence.SectionParser;
  * JigsawParser reads the constraints for a JigsawPuzzle
  *
  */
-public class JigsawParser implements SectionParser {
+class JigsawParser implements SectionParser {
 	
 	/**
 	 * Name of the encompassing Extension

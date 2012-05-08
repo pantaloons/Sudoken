@@ -12,7 +12,7 @@ import sudoken.domain.Position;
  * of the cage
  *
  */
-public class OperatorConstraint extends Constraint {
+class OperatorConstraint extends Constraint {
 	/** operator defining behaviour of constraint */
 	private Operator operator;
 	
@@ -30,7 +30,7 @@ public class OperatorConstraint extends Constraint {
 	 * @param target Target value of the cage
 	 * @param operator Operator used by the cage
 	 */
-	public OperatorConstraint(String provider, boolean shouldSave, List<Position> positions, int target, Operator operator) {
+	OperatorConstraint(String provider, boolean shouldSave, List<Position> positions, int target, Operator operator) {
 		super(provider, shouldSave);
 		
 		if (positions.size() < 2) {

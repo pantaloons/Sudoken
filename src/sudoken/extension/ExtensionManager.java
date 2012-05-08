@@ -130,7 +130,7 @@ public class ExtensionManager {
     /**
      * Called from static initialisers of plugins when they are first loaded
      */
-    public static void register(Extension ext) {
+    private static void register(Extension ext) {
         //String longName = ext.getClass().getName();
         String name = ext.getClass().getSimpleName().toLowerCase();
 

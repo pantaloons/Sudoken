@@ -32,7 +32,7 @@ public class BoardGraphics extends JPanel {
 	 * Create a BoardGraphics
 	 * @param b Board to base this BoardGraphics off
 	 */
-	public BoardGraphics(Board b) {
+	BoardGraphics(Board b) {
 		super(new GridBagLayout());
 		
 		this.b = b;
