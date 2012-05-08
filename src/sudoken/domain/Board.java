@@ -78,7 +78,7 @@ public class Board {
      * @param position Position of the cell
      * @param value New cell value
      */
-    public void setValue(Position position, int value) {
+    void setValue(Position position, int value) {
         values[position.getX()][position.getY()] = value;
     }
 

@@ -119,7 +119,6 @@ class SudokenGUI implements BoardChangeListener {
         
         panel.add(saveButton, "align right, wrap");
         
-        // TODO: show the type of puzzle?
         panel.add(boardWidget, "align center, span, wrap");
         
         panel.add(sliderLabel, "split, span");
@@ -225,19 +224,6 @@ class SudokenGUI implements BoardChangeListener {
                 saveButton.setEnabled(isLoaded);
             }
         });
-    }
-
-    /**
-     * Puts the GUI in the puzzle solved or puzzle not-solved state.
-     * 
-     * @param isSuccess
-     *            the state to put the GUI in. {@code true}: the solved state;
-     *            {@code false}: the not-solved state.
-     */
-    public void setSolved(boolean isSuccess) {
-        // TODO Auto-generated method stub
-    	if (isSuccess) System.out.println("SOLVED");
-
     }
     
     public void setSolverPaused(boolean solverPaused){
