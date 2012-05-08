@@ -19,7 +19,9 @@ public class BacktrackingSolver extends Solver {
     @Override
     public boolean solve() throws InterruptedException {
     	stop = false;
-        return solve(new Position(0, 0));
+        boolean ret = solve(new Position(0, 0));
+        notifyListeners(board);
+        return ret;
     }
     
     /**

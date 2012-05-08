@@ -1,6 +1,5 @@
 package sudoken.extension.kenken;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.util.List;
 

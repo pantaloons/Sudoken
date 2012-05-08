@@ -1,11 +1,13 @@
 package sudoken.extension;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
@@ -38,11 +40,11 @@ public class ExtensionManager {
     /**
      * Refresh rate of the Extension scanner
      */
-    private static final int REFRESH_RATE_IN_SECONDS = 10;
+    private static final int REFRESH_RATE_IN_SECONDS = 2;
 
     // called on first usage of ExtensionManager
     static {
-        System.out.println("Extension Manager Starting up");
+        //System.out.println("Extension Manager Starting up");
 
         m = new HashMap<String, Extension>();
         // TODO: Load property files
@@ -141,7 +143,7 @@ public class ExtensionManager {
         String longName = ext.getClass().getName();
         String name = ext.getClass().getSimpleName().toLowerCase();
 
-        System.out.format("Registering: '%s' => %s\n", name, longName);
+        //System.out.format("Registering: '%s' => %s\n", name, longName);
         m.put(name, ext);
     }
 
@@ -218,27 +220,31 @@ public class ExtensionManager {
      */
     private static void loadExtensions() throws InterruptedException,
             MalformedURLException {
+		URLClassLoader ucl = new URLClassLoader(new URL[]{});
         File dir = new File("./plugins");
+        ServiceLoader<Extension> extensionLoader = 
+            	ServiceLoader.load(Extension.class, ucl);
+        
         while (true) {
             if (!dir.exists()) {
                 TimeUnit.SECONDS.sleep(REFRESH_RATE_IN_SECONDS);
                 continue;
             }
-            System.out.println("Looking for new extensions...");
+            //System.out.println("Looking for new extensions...");
             for (File f : dir.listFiles()) {
                 if (f.isFile()) {
                     int i = f.getName().lastIndexOf('.');
                     if (i >= 0 && f.getName().substring(i + 1).equals("jar")) {
-                        ClassLoader cl = loadJAR(f);
-                        ServiceLoader<Extension> extensionLoader = 
-                        	ServiceLoader.load(Extension.class, cl);
-                        
-                        for (Extension newlyLoadedExtension : extensionLoader) {
-				register(newlyLoadedExtension);
-                        	notifyListeners(newlyLoadedExtension);
-                        }
+                        loadJAR(f, ucl);
                     }
                 }
+            }
+            
+            Iterator<Extension> it = extensionLoader.iterator();
+            while(it.hasNext()) {
+            	Extension e = it.next();
+            	register(e);
+            	notifyListeners(e);
             }
             TimeUnit.SECONDS.sleep(REFRESH_RATE_IN_SECONDS);
         }
@@ -247,11 +253,18 @@ public class ExtensionManager {
     /**
      * Load a JAR file
      * @param f File representing the JAR file
-     * @return a ClassLoader using the JAR file
+     * @param ul The classloader to load into
      * @throws MalformedURLException
      */
-    private static ClassLoader loadJAR(File f) throws MalformedURLException {
-        return new URLClassLoader(new URL[] { f.toURI().toURL() });
+    private static void loadJAR(File f, URLClassLoader ul) throws MalformedURLException {
+		try {
+			Method m = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
+			m.setAccessible(true);
+			m.invoke(ClassLoader.getSystemClassLoader(), new Object[]{ f.toURI().toURL() });
+		}
+		catch(Throwable t) {
+			t.printStackTrace();
+		}
     }
     
     /**
