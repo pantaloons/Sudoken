@@ -33,8 +33,7 @@ public class Controller {
 	private Timer guiUpdateTimer;
 	/** Thread to run Solver in */
 	private Thread solverThread;
-	/** Is the puzzle solved? */
-	protected boolean puzzleSolved;
+
 	private boolean solverPaused = false;
 	
 	/**
@@ -179,12 +178,11 @@ public class Controller {
 		gui.setSolverPaused(solverPaused);
 		if (!solverRunning) {
 			solverRunning = true;
-			puzzleSolved = false;
 			guiUpdateTimer.start();
 			Runnable runSolver = new Runnable() {
 				public void run() {
 					try {
-						puzzleSolved = puzzleSolver.solve();
+						puzzleSolver.solve();
 					} 
 					catch (InterruptedException e) {
 						e.printStackTrace();

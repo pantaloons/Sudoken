@@ -23,7 +23,7 @@ public class ShadingDecorator extends ConstraintDecorator {
 	 */
 	public ShadingDecorator(List<Position> positions, Color color) {
 		this.positions = positions;
-		this.colour = colour;
+		this.colour = color;
 	}
 	
 	@Override

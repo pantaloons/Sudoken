@@ -28,13 +28,4 @@ public class NoMatchingExtensionException extends Exception {
     public NoMatchingExtensionException(String message) {
         super(message);
     }
-
-    /**
-     * Create a NoMatchingExtensionException with a message
-     * @param message error message
-     * @param cause the cause of the NoMatchingExtensionException
-     */
-    public NoMatchingExtensionException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

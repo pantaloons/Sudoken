@@ -2,8 +2,6 @@ package sudoken.domain;
 
 import java.util.*;
 
-import sudoken.gui.BoardGraphics;
-
 /**
  * Ensure that within a set of constraints, each value occurs only once
  * 
@@ -16,11 +14,6 @@ public class UniqueConstraint extends Constraint {
      *  List of cells that constraint is concerned about 
      **/
     protected List<Position> positions;
-    
-    /**
-     * 
-     */
-    private boolean highlight;
 
     /**
      * Create a UniqueConstraint
@@ -28,10 +21,9 @@ public class UniqueConstraint extends Constraint {
      * @param shouldSave Whether this constraint should be saved when a Board is saved 
      * @param highlight Should the group of unique values be decorated
      */
-    public UniqueConstraint(String provider, boolean shouldSave, boolean highlight) {
+    public UniqueConstraint(String provider, boolean shouldSave) {
     	super(provider, shouldSave);
         positions = new ArrayList<Position>();
-        this.highlight = highlight;
     }
 
     /**
@@ -49,14 +41,6 @@ public class UniqueConstraint extends Constraint {
      */
     public boolean canHandle(Position position) {
         return positions.contains(position);
-        /*
-    	for (Position p : positions) {
-            if (position.equals(p))
-                return true;
-        }
-
-        return false;*/
-        
     }
 
     /**
@@ -111,5 +95,4 @@ public class UniqueConstraint extends Constraint {
     public List<Position> getPositions() {
     	return positions;
     }
-
 }

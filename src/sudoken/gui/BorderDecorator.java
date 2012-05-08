@@ -1,6 +1,5 @@
 package sudoken.gui;
 
-import java.util.Collection;
 import java.util.List;
 
 import sudoken.domain.ConstraintDecorator;

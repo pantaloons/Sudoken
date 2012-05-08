@@ -5,15 +5,12 @@ import java.awt.event.*;
 import java.io.File;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.event.*;
+import javax.swing.filechooser.*;
 
 import net.miginfocom.swing.MigLayout;
 
 import sudoken.domain.*;
-import sudoken.extension.Extension;
 
 /**
  * Main user interface for Sudoku puzzles solvers
@@ -200,14 +197,6 @@ public class SudokenGUI implements BoardChangeListener {
     	}
     }
     
-    /**
-     * Handle the event of a new Extension being loaded
-     * @param newlyLoadedExtension
-     */
-    public void processNewExtension(Extension newlyLoadedExtension) {
-        // add new icon for new extension (Maybe. This is not that important).
-    }
-    
     /** 
      * Update UI in response to changes to the board state 
      */
@@ -261,15 +250,7 @@ public class SudokenGUI implements BoardChangeListener {
     	System.out.println("Solver is paused: " + solverPaused);
     	
     }
-
-    /**
-     * Resets the GUI. A reset GUI acts as if it has just started up.
-     */
-    public void reset() {
-        // clear board.
-
-    }
-
+    
     /**
      * @return the JPanel containing all the GUI components.
      */

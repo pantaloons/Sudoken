@@ -15,7 +15,6 @@ import sudoken.persistence.SectionParser;
 
 import sudoken.extension.kenken.OperatorConstraint;
 import sudoken.extension.kenken.Operator;
-import sudoken.gui.BorderDecorator;
 /**
  * KenKenParser reads constraints for a KenKen puzzle 
  *

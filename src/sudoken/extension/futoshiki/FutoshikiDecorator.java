@@ -2,7 +2,6 @@ package sudoken.extension.futoshiki;
 
 import sudoken.domain.Board;
 import sudoken.domain.BoardDecorator;
-import sudoken.domain.ConstraintDecorator;
 import sudoken.gui.BoardGraphics;
 
 /***

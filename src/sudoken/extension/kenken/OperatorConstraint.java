@@ -1,15 +1,10 @@
 package sudoken.extension.kenken;
 
-import java.awt.GridBagConstraints;
 import java.util.List;
-
-import javax.swing.JLabel;
 
 import sudoken.domain.Board;
 import sudoken.domain.Constraint;
 import sudoken.domain.Position;
-import sudoken.gui.BoardGraphics;
-import sudoken.gui.CellGraphics;
 
 /**
  * OperatorConstraint enforces that the values of a cage meet

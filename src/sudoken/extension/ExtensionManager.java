@@ -5,13 +5,11 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 import sudoken.domain.*;
@@ -29,13 +27,6 @@ public class ExtensionManager {
     
     /** Name of the primary extension of the currently loaded puzzle. */
     private static String currentPrimaryExtension;
-
-    /**
-     * List of Extension update listeners.
-     * This collection is accessed in multiple threads, thus needs to be a
-     * thread safe implementation.
-     */
-    private static Collection<ExtensionListener> listeners = new CopyOnWriteArrayList<ExtensionListener>();
 
     /**
      * Refresh rate of the Extension scanner
@@ -140,34 +131,11 @@ public class ExtensionManager {
      * Called from static initialisers of plugins when they are first loaded
      */
     public static void register(Extension ext) {
-        String longName = ext.getClass().getName();
+        //String longName = ext.getClass().getName();
         String name = ext.getClass().getSimpleName().toLowerCase();
 
         //System.out.format("Registering: '%s' => %s\n", name, longName);
         m.put(name, ext);
-    }
-
-    /**
-     * Subscribes an ExtensionListener to new Extension updates. When a new
-     * Extension is loaded, all extension listeners will be notified by having
-     * their {@link ExtensionListener#processNewExtension(Extension)} method
-     * called.
-     * 
-     * @param listener
-     *            the ExtensionListener to subscribe.
-     * 
-     * @return {@code true} if the listener was added, {@code false} if not. A
-     *         possible reasons for not being added is that the listener has
-     *         already been added.
-     */
-    public static boolean addExtensionListener(ExtensionListener listener) {
-        return listeners.add(listener);
-    }
-
-    private static void notifyListeners(Extension newlyLoadedExtension) {
-        for (ExtensionListener listener : listeners) {
-            listener.processNewExtension(newlyLoadedExtension);
-        }
     }
 
     /**
@@ -244,7 +212,6 @@ public class ExtensionManager {
             while(it.hasNext()) {
             	Extension e = it.next();
             	register(e);
-            	notifyListeners(e);
             }
             TimeUnit.SECONDS.sleep(REFRESH_RATE_IN_SECONDS);
         }

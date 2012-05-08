@@ -41,7 +41,7 @@ public class JigsawParser implements SectionParser {
         List<Constraint> constraints = new ArrayList<Constraint>();
         for (int i = 0; i < width; i++) {
         	List<Position> piece = new ArrayList<Position>();
-        	UniqueConstraint constraint = new UniqueConstraint(EXTENSION_NAME, true, true);
+        	UniqueConstraint constraint = new UniqueConstraint(EXTENSION_NAME, true);
         	for (int j = 0; j < width; j++) {
         		int x, y;
         		if (sc.hasNextInt())

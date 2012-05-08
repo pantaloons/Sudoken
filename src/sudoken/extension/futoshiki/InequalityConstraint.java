@@ -1,8 +1,6 @@
 package sudoken.extension.futoshiki;
 
 import sudoken.domain.*;
-import sudoken.gui.BoardGraphics;
-import sudoken.gui.GapGraphics;
 
 /**
  * InequalityContraint represents an inequality between two cells (eg. one cell must have a value greater than another)
