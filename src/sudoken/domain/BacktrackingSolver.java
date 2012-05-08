@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class BacktrackingSolver extends Solver {
     
 	private boolean stop = false;
+	private boolean paused;
 	
 	/**
 	 * Solve the puzzle recursively
@@ -19,6 +20,7 @@ public class BacktrackingSolver extends Solver {
     @Override
     public boolean solve() throws InterruptedException {
     	stop = false;
+    	paused = false;
         boolean ret = solve(new Position(0, 0));
         notifyListeners(board);
         return ret;
@@ -38,7 +40,9 @@ public class BacktrackingSolver extends Solver {
      * @throws InterruptedException 
      */
     private boolean solve(Position p) throws InterruptedException {
-        if (stop) return false;
+    	
+    	if (stop) return false;
+        
         //notifyListeners(board);
         if (p.getX() == board.getWidth()) {
         	p = new Position(0, p.getY() + 1);
@@ -54,6 +58,14 @@ public class BacktrackingSolver extends Solver {
         }
 
         for (int value = 1; value <= board.getNumCandidates(); value++) {
+        	
+        	//Wait while solver is paused
+        	//Pause loop has been placed here to give a more reponsive pause
+        	while (paused && !stop) {
+            	Thread.sleep(50);
+            }
+        	
+        	
             // Assume the computation time is minimal in comparison to the sleep time. 
             TimeUnit.MILLISECONDS.sleep(getMilisecondDelay());
             board.setValue(p, value);
@@ -82,5 +94,15 @@ public class BacktrackingSolver extends Solver {
 	public void stop() {
 		stop = true;
 		
+	}
+
+	@Override
+	public void pause() {
+		paused = true;
+	}
+
+	@Override
+	public void resume() {
+		paused = false;
 	}
 }

@@ -35,6 +35,7 @@ public class Controller {
 	private Thread solverThread;
 	/** Is the puzzle solved? */
 	protected boolean puzzleSolved;
+	private boolean solverPaused = false;
 	
 	/**
 	 * Create a Controller
@@ -47,6 +48,7 @@ public class Controller {
 			}
 		});
 		guiUpdateTimer.stop();
+		
 	}
 	
 	/**
@@ -77,6 +79,7 @@ public class Controller {
 	private void setGUI(SudokenGUI gui) {
 		this.gui = gui;
 		errorDisplay.setParentComponent(gui.getPanel());
+		gui.setSolverPaused(solverPaused);
 	}
 	
 	/**
@@ -172,6 +175,8 @@ public class Controller {
 	 * Solve the current puzzle, running the solver in a new thread
 	 */
 	public void solve() {
+		solverPaused = false;
+		gui.setSolverPaused(solverPaused);
 		if (!solverRunning) {
 			solverRunning = true;
 			puzzleSolved = false;
@@ -202,6 +207,7 @@ public class Controller {
 	 */
 	private void stopSolver() {
 		if (solverThread != null && solverThread.getState() != Thread.State.TERMINATED) {
+			puzzleSolver.resume();
 			puzzleSolver.stop();
 			try {
 				
@@ -224,6 +230,19 @@ public class Controller {
 	 */
 	public void setSolveSpeed(int value) {
 		puzzleSolver.setStepsPerSecond(value);
+	}
+
+	/**
+	 * Toggle the pause state of the solver
+	 */
+	public void togglePause() {
+		if (solverPaused) puzzleSolver.resume();
+		else puzzleSolver.pause();
+		
+		solverPaused = !solverPaused;
+		
+		gui.setSolverPaused(solverPaused);
+		
 	}
 	
 }

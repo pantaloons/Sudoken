@@ -47,9 +47,20 @@ public abstract class Solver {
     public abstract boolean solve() throws InterruptedException;
     
     /**
-     * Stop the solver
+     * Stop the solver. After stop is called the solver will be in a dirty
+     * state and cannot be resumed.
      */
     public abstract void stop();
+    
+    /**
+     * Pause the solver such that it may be resumed later. Has no effect if already paused.
+     */
+    public abstract void pause();
+    
+    /**
+     * Resume the solver. Has no effect if the solver is not paused. 
+     */
+    public abstract void resume();
 
     /**
      * Subscribes a SolverListener to this solver. The BoardChangeListener will
