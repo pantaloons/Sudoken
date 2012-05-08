@@ -226,19 +226,6 @@ public class SudokenGUI implements BoardChangeListener {
             }
         });
     }
-
-    /**
-     * Puts the GUI in the puzzle solved or puzzle not-solved state.
-     * 
-     * @param isSuccess
-     *            the state to put the GUI in. {@code true}: the solved state;
-     *            {@code false}: the not-solved state.
-     */
-    public void setSolved(boolean isSuccess) {
-        // TODO Auto-generated method stub
-    	if (isSuccess) System.out.println("SOLVED");
-
-    }
     
     public void setSolverPaused(boolean solverPaused){
     	if (solverPaused) {
@@ -247,8 +234,7 @@ public class SudokenGUI implements BoardChangeListener {
     	else {
     		pauseButton.setText("Pause");
     	}
-    	System.out.println("Solver is paused: " + solverPaused);
-    	
+    	//System.out.println("Solver is paused: " + solverPaused);
     }
     
     /**
