@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
  *
  * @author Tim Hobbs
  */
-public class Controller {
+class Controller {
 	
 	/** Puzzle solver used by this controller */
 	private Solver puzzleSolver;
@@ -62,7 +62,7 @@ public class Controller {
 	 * @return the created Controller
 	 */
 	// A normal constructor could not be used, as
-	public static Controller createController(Solver puzzleSolver, SudokenGUI gui) {
+	static Controller createController(Solver puzzleSolver, SudokenGUI gui) {
 		Controller controller = new Controller();
 		controller.setGUI(gui);
 		gui.setController(controller);
@@ -93,7 +93,7 @@ public class Controller {
 	 * Load a puzzle from a file 
 	 * @param fileName
 	 */
-	public void loadPuzzle(String fileName) {
+	void loadPuzzle(String fileName) {
 		stopSolver();
 		File puzzleFile = new File(fileName);
 		Board puzzleBoard;
@@ -139,7 +139,7 @@ public class Controller {
 	 * Save a puzzle to a file
 	 * @param fileName filename of file to save to
 	 */
-	public void savePuzzle(String fileName) {
+	void savePuzzle(String fileName) {
 		File saveFile = new File(fileName);
 		if (!saveFile.exists()) {
 			try {
@@ -167,13 +167,12 @@ public class Controller {
 			errorDisplay.showErrorMessage("An error occurred while trying to convert "
 					+ "the loaded puzzle to its save file format.");
 		}
-		// TODO: Save feedback in GUI.
 	}
 	
 	/**
 	 * Solve the current puzzle, running the solver in a new thread
 	 */
-	public void solve() {
+	void solve() {
 		solverPaused = false;
 		gui.setSolverPaused(solverPaused);
 		if (!solverRunning) {
@@ -233,7 +232,7 @@ public class Controller {
 	/**
 	 * Toggle the pause state of the solver
 	 */
-	public void togglePause() {
+	void togglePause() {
 		if (solverPaused) puzzleSolver.resume();
 		else puzzleSolver.pause();
 		

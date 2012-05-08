@@ -38,7 +38,6 @@ public class ExtensionManager {
         //System.out.println("Extension Manager Starting up");
 
         m = new HashMap<String, Extension>();
-        // TODO: Load property files
     }
     
     /**
@@ -118,10 +117,8 @@ public class ExtensionManager {
 		try {
 			decorator = m.get(ext).getDecorator().getClass().newInstance();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return decorator;
@@ -130,7 +127,7 @@ public class ExtensionManager {
     /**
      * Called from static initialisers of plugins when they are first loaded
      */
-    public static void register(Extension ext) {
+    private static void register(Extension ext) {
         //String longName = ext.getClass().getName();
         String name = ext.getClass().getSimpleName().toLowerCase();
 
@@ -159,7 +156,6 @@ public class ExtensionManager {
      * Extension Loader is used to poll for Extensions 
      */
     private static class ExtensionLoader implements Runnable {
-
         @Override
         public void run() {
             try {
@@ -167,10 +163,6 @@ public class ExtensionManager {
             }
             catch (InterruptedException e) {
                 // Nothing needs to be cleaned up. The thread will now end.
-            }
-            catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
         }
 
@@ -184,10 +176,8 @@ public class ExtensionManager {
      * extensions.
      * 
      * @throws InterruptedException
-     * @throws MalformedURLException
      */
-    private static void loadExtensions() throws InterruptedException,
-            MalformedURLException {
+    private static void loadExtensions() throws InterruptedException {
 		URLClassLoader ucl = new URLClassLoader(new URL[]{});
         File dir = new File("./plugins");
         ServiceLoader<Extension> extensionLoader = 
@@ -221,13 +211,17 @@ public class ExtensionManager {
      * Load a JAR file
      * @param f File representing the JAR file
      * @param ul The classloader to load into
-     * @throws MalformedURLException
      */
-    private static void loadJAR(File f, URLClassLoader ul) throws MalformedURLException {
+    private static void loadJAR(File f, URLClassLoader ul) {
 		try {
 			Method m = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
 			m.setAccessible(true);
-			m.invoke(ClassLoader.getSystemClassLoader(), new Object[]{ f.toURI().toURL() });
+			try {
+				m.invoke(ClassLoader.getSystemClassLoader(), new Object[]{ f.toURI().toURL() });
+			}
+			catch(MalformedURLException e) {
+				e.printStackTrace();
+			}
 		}
 		catch(Throwable t) {
 			t.printStackTrace();

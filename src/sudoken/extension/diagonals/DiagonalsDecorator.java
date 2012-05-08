@@ -10,7 +10,7 @@ import sudoken.gui.BoardGraphics;
  * DiagonalsDecorator decorates a Board with Unique Diagonal constraints highlighted
  *
  */
-public class DiagonalsDecorator extends BoardDecorator {
+class DiagonalsDecorator extends BoardDecorator {
 	@Override
 	public void decorate(BoardGraphics bg) {
 		for(int i = 0; i < bg.getWidth(); i++) {

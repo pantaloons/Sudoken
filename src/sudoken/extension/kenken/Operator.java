@@ -11,7 +11,7 @@ import sudoken.domain.*;
  * @author Adam Freeth
  * @author Joshua Leung
  */
-public enum Operator {
+enum Operator {
 	/* Operator Defines ------------------ */
 	ADDITION("+", false) {
 		@Override
@@ -103,7 +103,7 @@ public enum Operator {
 	 * @param value String value representing the symbol
 	 * @return an Operator represented by the symbol
 	 */	
-	public static Operator fromSymbol(String value) {
+	static Operator fromSymbol(String value) {
 		for (Operator op : values()) {
 			if (value.equals(op.toString()))
 				return op;

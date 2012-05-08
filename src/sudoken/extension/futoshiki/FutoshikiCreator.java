@@ -12,7 +12,7 @@ import sudoken.extension.ExtensionManager;
  * FutoshikiCreator creates a Board for a Futoshiki Puzzle
  *
  */
-public class FutoshikiCreator implements BoardCreator {
+class FutoshikiCreator implements BoardCreator {
 	
 	/**
 	 * Base Extension required by this BoardCreator

@@ -8,7 +8,7 @@ import sudoken.gui.CellGraphics;
  * LatinSquareDecorator decorates a Board as a grid for a Latin Square puzzle 
  *
  */
-public class LatinSquareDecorator extends BoardDecorator {
+class LatinSquareDecorator extends BoardDecorator {
 
 	@Override
 	public void decorate(BoardGraphics bg) {

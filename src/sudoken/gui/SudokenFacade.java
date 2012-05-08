@@ -17,7 +17,7 @@ import sudoken.extension.ExtensionManager;
  * @author Kevin Doran
  *
  */
-public class SudokenFacade {
+class SudokenFacade {
 	/** Frame to wrap the Facade components in */
 	private JFrame wrappingFrame;
 	
@@ -55,7 +55,7 @@ public class SudokenFacade {
 	/**
 	 * Start the Facade, making it visible
 	 */
-	public void start() {
+	private void start() {
 		wrappingFrame.setVisible(true);
 	}
 	

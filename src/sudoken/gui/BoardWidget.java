@@ -7,7 +7,7 @@ import sudoken.domain.*;
  * A board widget that can be added onto a GUI. The widget
  * wraps a board which may be being solved.
  */
-public class BoardWidget extends JPanel {
+class BoardWidget extends JPanel {
     private static final long serialVersionUID = -2031869036220290839L;
 
     /**

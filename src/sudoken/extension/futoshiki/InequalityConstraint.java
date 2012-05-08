@@ -7,7 +7,7 @@ import sudoken.domain.*;
  * 
  * @author Tim Hobbs
  */
-public class InequalityConstraint extends Constraint {
+class InequalityConstraint extends Constraint {
     /* cell positions */
     private Position p1, p2;
 
@@ -22,7 +22,7 @@ public class InequalityConstraint extends Constraint {
      * @param position2 Position of the second cell in the equation
      * @param isLess is the cell at position 1 less than the cell at position 2
      */
-    public InequalityConstraint(String provider, boolean shouldSave, Position position1, Position position2, boolean isLess) {
+    InequalityConstraint(String provider, boolean shouldSave, Position position1, Position position2, boolean isLess) {
     	super(provider, shouldSave);
         /* cell 1 */
         this.p1 = position1;
@@ -68,7 +68,7 @@ public class InequalityConstraint extends Constraint {
      * @param index index of the cell in the equation (0 or 1)
      * @return the Position of the selected cell
      */
-    public Position getPosition(int index) {
+    Position getPosition(int index) {
     	if (index == 0) return p1;
     	else if (index == 1) return p2;
     	else return null;

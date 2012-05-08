@@ -18,7 +18,7 @@ import sudoken.persistence.SectionParser;
  * Parser for Diagonals puzzle Boards
  *
  */
-public class DiagonalsParser implements SectionParser {
+class DiagonalsParser implements SectionParser {
 	
 	/**
 	 * Name of the encompassing Extension

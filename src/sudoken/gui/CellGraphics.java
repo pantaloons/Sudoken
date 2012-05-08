@@ -31,7 +31,7 @@ public class CellGraphics extends JPanel {
      * Create a CellGraphics
      * @param label Initial text contents of the Cell
      */
-    public CellGraphics(String label) {
+    CellGraphics(String label) {
         super(new GridBagLayout());
         
         borders = new int[]{0, 0, 0, 0};

@@ -12,7 +12,7 @@ import sudoken.extension.ExtensionManager;
  * JigsawCreator creates Boards to be used by the Jigsaw puzzle
  *
  */
-public class JigsawCreator implements BoardCreator {
+class JigsawCreator implements BoardCreator {
 	
 	/**
 	 * The name of the encompassing extension

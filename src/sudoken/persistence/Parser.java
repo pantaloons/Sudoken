@@ -44,13 +44,13 @@ public class Parser {
                     if (nextInt > 0)
                         grid[j][i] = nextInt;
                     else
-                        throw new IOException("Parse error...");
+                        throw new IOException("Invalid grid found in .sudoku file.");
                 }
                 else {
                     if (sc.next().equals("-"))
                         grid[j][i] = -1;
                     else
-                        throw new ParseException("Parse error...", 0);
+                        throw new ParseException("Invalid grid found in .sudoku file.", 0);
                 }
             }
         }
@@ -58,15 +58,16 @@ public class Parser {
         Collection<Constraint> constraints = new ArrayList<Constraint>();
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
-            if (line.trim().equals(""))
-                continue;
-            else if (line.charAt(0) != '.')
-                throw new ParseException("Parse error...", 0); // <-- TODO: fix
-                                                               // that
+            if (line.trim().equals("")) {
+            	continue;
+            }
+            else if (line.charAt(0) != '.') {
+                throw new ParseException("Invalid metadata section found in .sudoku file.", 0);
+            }
 
             String ext = line.substring(1);
             if (!ExtensionManager.hasExtension(ext))
-                throw new NoMatchingExtensionException("Parse error...");
+                throw new NoMatchingExtensionException("Sudoken puzzle depends on extension which is not loaded.");
 
             String conf = "";
             boolean flipped = false;
