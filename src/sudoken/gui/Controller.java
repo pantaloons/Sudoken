@@ -93,7 +93,7 @@ class Controller {
 	 * Load a puzzle from a file 
 	 * @param fileName
 	 */
-	void loadPuzzle(String fileName) {
+	public void loadPuzzle(String fileName) {
 		stopSolver();
 		File puzzleFile = new File(fileName);
 		Board puzzleBoard;
@@ -139,7 +139,7 @@ class Controller {
 	 * Save a puzzle to a file
 	 * @param fileName filename of file to save to
 	 */
-	void savePuzzle(String fileName) {
+	public void savePuzzle(String fileName) {
 		File saveFile = new File(fileName);
 		if (!saveFile.exists()) {
 			try {
@@ -172,7 +172,7 @@ class Controller {
 	/**
 	 * Solve the current puzzle, running the solver in a new thread
 	 */
-	void solve() {
+	public void solve() {
 		solverPaused = false;
 		gui.setSolverPaused(solverPaused);
 		if (!solverRunning) {
@@ -215,7 +215,6 @@ class Controller {
 				
 				e1.printStackTrace();
 			}
-
 		}
 	}
 	
@@ -230,14 +229,12 @@ class Controller {
 	/**
 	 * Toggle the pause state of the solver
 	 */
-	void togglePause() {
+	public void togglePause() {
 		if (solverPaused) puzzleSolver.resume();
 		else puzzleSolver.pause();
 		
 		solverPaused = !solverPaused;
 		
-		gui.setSolverPaused(solverPaused);
-		
-	}
-	
+		gui.setSolverPaused(solverPaused);	
+	}	
 }
