@@ -156,8 +156,6 @@ public class Controller {
 			};
 			new Thread(runSolver).start();
 		}
-		
-		// show message;
 	}
 	
 	public void setSolveSpeed(int value) {
