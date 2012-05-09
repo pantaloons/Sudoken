@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
  * 
  * @author Kevin Doran
  */
-public class PopupErrorDisplay implements ErrorDisplay {
+class PopupErrorDisplay implements ErrorDisplay {
     private Component parentComponent;
 
     public PopupErrorDisplay() {

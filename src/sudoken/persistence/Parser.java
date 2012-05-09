@@ -32,6 +32,7 @@ public class Parser {
                     + " not loaded.");
         }
         ExtensionManager.setCurrentPrimaryExtension(type);
+        BoardDecorator decorator = ExtensionManager.getDecorator(type);
 
         int width = sc.nextInt();
         int height = sc.nextInt();
@@ -43,13 +44,13 @@ public class Parser {
                     if (nextInt > 0)
                         grid[j][i] = nextInt;
                     else
-                        throw new IOException("Parse error...");
+                        throw new IOException("Invalid grid found in .sudoku file.");
                 }
                 else {
                     if (sc.next().equals("-"))
                         grid[j][i] = -1;
                     else
-                        throw new ParseException("Parse error...", 0);
+                        throw new ParseException("Invalid grid found in .sudoku file.", 0);
                 }
             }
         }
@@ -57,15 +58,16 @@ public class Parser {
         Collection<Constraint> constraints = new ArrayList<Constraint>();
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
-            if (line.trim().equals(""))
-                continue;
-            else if (line.charAt(0) != '.')
-                throw new ParseException("Parse error...", 0); // <-- TODO: fix
-                                                               // that
+            if (line.trim().equals("")) {
+            	continue;
+            }
+            else if (line.charAt(0) != '.') {
+                throw new ParseException("Invalid metadata section found in .sudoku file.", 0);
+            }
 
             String ext = line.substring(1);
             if (!ExtensionManager.hasExtension(ext))
-                throw new NoMatchingExtensionException("Parse error...");
+                throw new NoMatchingExtensionException("Sudoken puzzle depends on extension which is not loaded.");
 
             String conf = "";
             boolean flipped = false;
@@ -80,12 +82,19 @@ public class Parser {
                 conf += cur;
             }
             constraints.addAll(ExtensionManager.getParser(ext).load(conf,
-                    width, height, ExtensionManager.getDecorator(ext)));
+                    width, height, decorator));
         }
         return ExtensionManager.getConstructor(type).create(width, height,
-                grid, constraints, ExtensionManager.getDecorator(type));
+                grid, constraints, decorator);
     }
     
+    /**
+     * Save a  Board to a file
+     * @param board Board to save
+     * @param f File to save to
+     * @throws IOException
+     * @throws ParseException
+     */
     public static void save(Board board, File f) throws IOException, ParseException {
     	// Open a writer for the save file.
     	PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(f)));

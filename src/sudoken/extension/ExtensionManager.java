@@ -1,41 +1,50 @@
 package sudoken.extension;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 import sudoken.domain.*;
 import sudoken.persistence.*;
 
+/**
+ * 
+ * ExtensionManager provides the various components required to load, solve, and render Puzzles.
+ * ExtensionManager is also used to keep track of Extensions in a given folder, periodically checking for changes.
+ *
+ */
 public class ExtensionManager {
     /** Registry mapping extension identifiers to {@link Extension} instances */
     private static Map<String, Extension> m;
     
-    // Name of the primary extension of the currently loaded puzzle.
+    /** Name of the primary extension of the currently loaded puzzle. */
     private static String currentPrimaryExtension;
 
-    // This collection is accessed in multiple threads, thus needs to be a
-    // thread safe implementation.
-    private static Collection<ExtensionListener> listeners = new CopyOnWriteArrayList<ExtensionListener>();
-
-    private static final int REFRESH_RATE_IN_SECONDS = 10;
+    /**
+     * Refresh rate of the Extension scanner
+     */
+    private static final int REFRESH_RATE_IN_SECONDS = 2;
 
     // called on first usage of ExtensionManager
     static {
-        System.out.println("Extension Manager Starting up");
+        //System.out.println("Extension Manager Starting up");
 
         m = new HashMap<String, Extension>();
-        // TODO: Load property files
     }
     
+    /**
+     * Check if the ExtensionManager has a set of Extensions
+     * @param exts Set of Extensions to check for
+     * @return True if ExtensionManager has all of the Extensions in the Set, False otherwise.
+     */
     private static boolean hasAllExtensions(Set<String> exts) {
     	for(String s : exts) {
     		if(!m.containsKey(s) || !hasExtension(s)) return false;
@@ -104,41 +113,26 @@ public class ExtensionManager {
      *               and was successful
      */
 	public static BoardDecorator getDecorator(String ext) {
-		return m.get(ext).getDecorator();
+		BoardDecorator decorator = null;
+		try {
+			decorator = m.get(ext).getDecorator().getClass().newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return decorator;
 	}
 
     /**
      * Called from static initialisers of plugins when they are first loaded
      */
-    public static void register(Extension ext) {
-        String longName = ext.getClass().getName();
+    private static void register(Extension ext) {
+        //String longName = ext.getClass().getName();
         String name = ext.getClass().getSimpleName().toLowerCase();
 
-        System.out.format("Registering: '%s' => %s\n", name, longName);
+        //System.out.format("Registering: '%s' => %s\n", name, longName);
         m.put(name, ext);
-    }
-
-    /**
-     * Subscribes an ExtensionListener to new Extension updates. When a new
-     * Extension is loaded, all extension listeners will be notified by having
-     * their {@link ExtensionListener#processNewExtension(Extension)} method
-     * called.
-     * 
-     * @param listener
-     *            the ExtensionListener to subscribe.
-     * 
-     * @return {@code true} if the listener was added, {@code false} if not. A
-     *         possible reasons for not being added is that the listener has
-     *         already been added.
-     */
-    public static boolean addExtensionListener(ExtensionListener listener) {
-        return listeners.add(listener);
-    }
-
-    private static void notifyListeners(Extension newlyLoadedExtension) {
-        for (ExtensionListener listener : listeners) {
-            listener.processNewExtension(newlyLoadedExtension);
-        }
     }
 
     /**
@@ -158,8 +152,10 @@ public class ExtensionManager {
         loadingThread.start();
     }
 
+    /**
+     * Extension Loader is used to poll for Extensions 
+     */
     private static class ExtensionLoader implements Runnable {
-
         @Override
         public void run() {
             try {
@@ -167,10 +163,6 @@ public class ExtensionManager {
             }
             catch (InterruptedException e) {
                 // Nothing needs to be cleaned up. The thread will now end.
-            }
-            catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
         }
 
@@ -184,44 +176,70 @@ public class ExtensionManager {
      * extensions.
      * 
      * @throws InterruptedException
-     * @throws MalformedURLException
      */
-    private static void loadExtensions() throws InterruptedException,
-            MalformedURLException {
+    private static void loadExtensions() throws InterruptedException {
+		URLClassLoader ucl = new URLClassLoader(new URL[]{});
         File dir = new File("./plugins");
+        ServiceLoader<Extension> extensionLoader = 
+            	ServiceLoader.load(Extension.class, ucl);
+        
         while (true) {
             if (!dir.exists()) {
                 TimeUnit.SECONDS.sleep(REFRESH_RATE_IN_SECONDS);
                 continue;
             }
-            System.out.println("Looking for new extensions...");
+            //System.out.println("Looking for new extensions...");
             for (File f : dir.listFiles()) {
                 if (f.isFile()) {
                     int i = f.getName().lastIndexOf('.');
                     if (i >= 0 && f.getName().substring(i + 1).equals("jar")) {
-                        ClassLoader cl = loadJAR(f);
-                        ServiceLoader<Extension> extensionLoader = 
-                        		ServiceLoader.load(Extension.class, cl);
-                        
-                        for (Extension newlyLoadedExtension : extensionLoader) {
-                            register(newlyLoadedExtension);
-                        	notifyListeners(newlyLoadedExtension);
-                        }
+                        loadJAR(f, ucl);
                     }
                 }
+            }
+            
+            Iterator<Extension> it = extensionLoader.iterator();
+            while(it.hasNext()) {
+            	Extension e = it.next();
+            	register(e);
             }
             TimeUnit.SECONDS.sleep(REFRESH_RATE_IN_SECONDS);
         }
     }
 
-    private static ClassLoader loadJAR(File f) throws MalformedURLException {
-        return new URLClassLoader(new URL[] { f.toURI().toURL() });
+    /**
+     * Load a JAR file
+     * @param f File representing the JAR file
+     * @param ul The classloader to load into
+     */
+    private static void loadJAR(File f, URLClassLoader ul) {
+		try {
+			Method m = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
+			m.setAccessible(true);
+			try {
+				m.invoke(ClassLoader.getSystemClassLoader(), new Object[]{ f.toURI().toURL() });
+			}
+			catch(MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+		catch(Throwable t) {
+			t.printStackTrace();
+		}
     }
     
+    /**
+     * Set the current primary Extension name
+     * @param ext current primary Extension name
+     */
     public static void setCurrentPrimaryExtension(String ext) {
     	currentPrimaryExtension = ext;
     }
     
+    /**
+     * Get the current primary Extension name
+     * @return the current primary Extension name
+     */
     public static String getCurrentPrimaryExtension() {
     	return currentPrimaryExtension;
     }

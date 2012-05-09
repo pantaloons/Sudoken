@@ -5,8 +5,15 @@ import java.util.*;
 import sudoken.persistence.*;
 import sudoken.domain.*;
 
-public class FutoshikiParser implements SectionParser {
+/**
+ * FutoshikiParser reads FutoshikiConstraints
+ *
+ */
+class FutoshikiParser implements SectionParser {
 	
+	/**
+	 * Name of the encompassing Extension
+	 */
 	private static final String EXTENSION_NAME = "futoshiki";
 	
     /**
@@ -22,7 +29,9 @@ public class FutoshikiParser implements SectionParser {
             Position p1 = new Position(sc.nextInt(), sc.nextInt());
             String type = sc.next();
             Position p2 = new Position(sc.nextInt(), sc.nextInt());
-            inequalityConstraints.add(new InequalityConstraint(EXTENSION_NAME, true, p1, p2, type.equals("<")));
+            InequalityConstraint c = new InequalityConstraint(EXTENSION_NAME, true, p1, p2, type.equals("<"));
+            inequalityConstraints.add(c);
+            bd.addConstraintDecorator(new InequalityDecorator(c));
         }
         return inequalityConstraints;
     }

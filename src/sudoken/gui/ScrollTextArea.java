@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
  * 
  * @author Kevin Doran
  */
-public class ScrollTextArea extends JScrollPane {
+class ScrollTextArea extends JScrollPane {
     /**
      * 
      */
@@ -29,7 +29,7 @@ public class ScrollTextArea extends JScrollPane {
      * @param text
      *            the text the <ScrollTextArea} is to display.
      */
-    public ScrollTextArea(String text) {
+    ScrollTextArea(String text) {
         final JTextArea textArea = new JTextArea(text);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);

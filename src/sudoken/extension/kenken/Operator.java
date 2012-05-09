@@ -11,7 +11,7 @@ import sudoken.domain.*;
  * @author Adam Freeth
  * @author Joshua Leung
  */
-public enum Operator {
+enum Operator {
 	/* Operator Defines ------------------ */
 	ADDITION("+", false) {
 		@Override
@@ -96,8 +96,14 @@ public enum Operator {
 		return this.symbol;
 	}
 	
-	/* can't use valueOf, as that expects for full names of the enum items, and can't be subclassed */
-	public static Operator fromSymbol(String value) {
+	/**
+	 * Create an Operator from a symbol. Can't use valueOf, 
+	 * as that expects for full names of the enum items
+	 * and can't be subclassed
+	 * @param value String value representing the symbol
+	 * @return an Operator represented by the symbol
+	 */	
+	static Operator fromSymbol(String value) {
 		for (Operator op : values()) {
 			if (value.equals(op.toString()))
 				return op;
@@ -106,11 +112,20 @@ public enum Operator {
 		throw new IllegalArgumentException("Unknown operator");
 	}
 	
-	/* returns whether operator requires exactly 2 positions (to be valid) */
+	/**
+	 * Check if an operator requires exactly 2 positions (to be valid)
+	 * @return True if the operator requires exactly 2 positions, False otherwise
+	 */
 	public boolean isBinary() {
 		return this.binary;
 	}
 	
-	/* checks if the board position violates the constraint imposed by this operator */
+	/** 
+	 * Checks if the board position violates the constraint imposed by this operator
+	 * @param board Board to check
+	 * @param positions List of positions to check on the Board
+	 * @param target Target value to reach
+	 * @return True if the Board is violated, False otherwise
+	 */
 	public abstract boolean isViolated(Board board, List<Position> positions, int target);
 }

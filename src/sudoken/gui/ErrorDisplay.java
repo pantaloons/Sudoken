@@ -7,7 +7,7 @@ import java.awt.Component;
  * 
  * @author Kevin Doran
  */
-public interface ErrorDisplay {
+interface ErrorDisplay {
     /**
      * Sets the swing component over which to display errors.
      * 

@@ -30,6 +30,10 @@ public abstract class Solver {
         notifyListeners(board);
     }
     
+    /**
+     * Get the Sudoku Board being worked on by the Solver
+     * @return
+     */
     public Board getSudokuBoard() {
     	return board;
     }
@@ -41,6 +45,22 @@ public abstract class Solver {
      *         not.
      */
     public abstract boolean solve() throws InterruptedException;
+    
+    /**
+     * Stop the solver. After stop is called the solver will be in a dirty
+     * state and cannot be resumed.
+     */
+    public abstract void stop();
+    
+    /**
+     * Pause the solver such that it may be resumed later. Has no effect if already paused.
+     */
+    public abstract void pause();
+    
+    /**
+     * Resume the solver. Has no effect if the solver is not paused. 
+     */
+    public abstract void resume();
 
     /**
      * Subscribes a SolverListener to this solver. The BoardChangeListener will
@@ -58,12 +78,20 @@ public abstract class Solver {
     	return listeners.add(listener);
     }
     
+    /**
+     * Notify all BoardListeners to a Board change
+     * @param solvedBoard The current Sudoku Board
+     */
     protected void notifyListeners(Board solvedBoard) {
         for (BoardChangeListener listener : listeners) {
             listener.processUpdatedBoard();
         }
     }
     
+    /**
+     * Set how many solve steps should be run each second
+     * @param logOfStepsPerSecond The logarithm of how many solve steps should be run each second
+     */
     public void setStepsPerSecond(int logOfStepsPerSecond) {
         int base = 2;
         long stepsPerSecond = new Double(Math.pow(base, logOfStepsPerSecond)).longValue();
@@ -71,6 +99,10 @@ public abstract class Solver {
         this.milisecondDelay.set(delay);
     }
     
+    /**
+     * Get the millisecond delay waited at each solve step
+     * @return the millisecond delay waited at each solve step
+     */
     protected long getMilisecondDelay() {
         return this.milisecondDelay.get();
     }

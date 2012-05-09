@@ -10,8 +10,8 @@ import javax.swing.WindowConstants;
  * 
  * @author Kevin Doran
  */
-public class WrappingFrame {
-	JFrame frame;
+class WrappingFrame {
+	private JFrame frame;
 	
 	/**
 	 * Wraps a {@code JPanel} in a {@code JFrame}. For reusability, most GUI
@@ -22,7 +22,7 @@ public class WrappingFrame {
 	 * @param panel
 	 *            the panel to wrap.
 	 */
-	public WrappingFrame(String title, Component panel) {
+	WrappingFrame(String title, Component panel) {
 		frame = new JFrame(title);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.add(panel);

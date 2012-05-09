@@ -6,7 +6,11 @@ import sudoken.domain.BoardDecorator;
 import sudoken.domain.Position;
 import sudoken.gui.BoardGraphics;
 
-public class DiagonalsDecorator extends BoardDecorator {
+/**
+ * DiagonalsDecorator decorates a Board with Unique Diagonal constraints highlighted
+ *
+ */
+class DiagonalsDecorator extends BoardDecorator {
 	@Override
 	public void decorate(BoardGraphics bg) {
 		for(int i = 0; i < bg.getWidth(); i++) {

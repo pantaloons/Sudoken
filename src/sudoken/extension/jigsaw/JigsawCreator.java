@@ -8,8 +8,15 @@ import sudoken.domain.BoardDecorator;
 import sudoken.domain.Constraint;
 import sudoken.extension.ExtensionManager;
 
-public class JigsawCreator implements BoardCreator {
+/**
+ * JigsawCreator creates Boards to be used by the Jigsaw puzzle
+ *
+ */
+class JigsawCreator implements BoardCreator {
 	
+	/**
+	 * The name of the encompassing extension
+	 */
 	private static final String BASE_EXTENSION = "latinsquare";
 
     @Override
