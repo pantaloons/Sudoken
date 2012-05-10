@@ -7,7 +7,7 @@ import sudoken.domain.*;
  * 
  * @author Tim Hobbs
  */
-class InequalityConstraint extends Constraint {
+public class InequalityConstraint extends Constraint {
     /* cell positions */
     private Position p1, p2;
 

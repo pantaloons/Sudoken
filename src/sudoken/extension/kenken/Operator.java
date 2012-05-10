@@ -11,7 +11,7 @@ import sudoken.domain.*;
  * @author Adam Freeth
  * @author Joshua Leung
  */
-enum Operator {
+public enum Operator {
 	/* Operator Defines ------------------ */
 	ADDITION("+", false) {
 		@Override

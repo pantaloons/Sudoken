@@ -5,7 +5,7 @@ import sudoken.domain.Position;
 import sudoken.gui.BoardGraphics;
 import sudoken.gui.GapGraphics;
 
-class InequalityDecorator extends ConstraintDecorator {
+public class InequalityDecorator extends ConstraintDecorator {
 	
 	private InequalityConstraint constraint;
 

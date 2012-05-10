@@ -19,7 +19,7 @@ import sudoken.extension.kenken.Operator;
  * KenKenParser reads constraints for a KenKen puzzle 
  *
  */
-class KenKenParser implements SectionParser {
+public class KenKenParser implements SectionParser {
 	
 	/**
 	 * Name of the encompassing Extension

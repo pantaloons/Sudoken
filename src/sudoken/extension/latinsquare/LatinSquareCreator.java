@@ -8,7 +8,7 @@ import sudoken.domain.*;
  * LatinSquareCreator creates Boards for LatinSquare puzzles
  *
  */
-class LatinSquareCreator implements BoardCreator {
+public class LatinSquareCreator implements BoardCreator {
 	/**
 	 * Name of the encompassing Extension
 	 */

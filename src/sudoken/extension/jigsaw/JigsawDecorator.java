@@ -8,7 +8,7 @@ import sudoken.gui.BoardGraphics;
  * Jigsaw Decorator decorates a Jigsaw Sudoku puzzle
  *
  */
-class JigsawDecorator extends BoardDecorator {
+public class JigsawDecorator extends BoardDecorator {
 
 	@Override
 	public void decorate(BoardGraphics bg) {
