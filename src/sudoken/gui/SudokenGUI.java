@@ -226,7 +226,7 @@ class SudokenGUI implements BoardChangeListener {
         });
     }
     
-    public void setSolverPaused(boolean solverPaused){
+    public void setIsSolverPaused(boolean solverPaused){
     	if (solverPaused) {
     		pauseButton.setText("Resume");
     	}

@@ -78,7 +78,7 @@ class Controller {
 	private void setGUI(SudokenGUI gui) {
 		this.gui = gui;
 		errorDisplay.setParentComponent(gui.getPanel());
-		gui.setSolverPaused(solverPaused);
+		gui.setIsSolverPaused(solverPaused);
 	}
 	
 	/**
@@ -174,7 +174,7 @@ class Controller {
 	 */
 	public void solve() {
 		solverPaused = false;
-		gui.setSolverPaused(solverPaused);
+		gui.setIsSolverPaused(solverPaused);
 		if (!solverRunning) {
 			solverRunning = true;
 			guiUpdateTimer.start();
@@ -235,6 +235,6 @@ class Controller {
 		
 		solverPaused = !solverPaused;
 		
-		gui.setSolverPaused(solverPaused);	
+		gui.setIsSolverPaused(solverPaused);	
 	}	
 }
