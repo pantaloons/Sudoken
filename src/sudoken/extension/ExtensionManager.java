@@ -116,9 +116,11 @@ public class ExtensionManager {
 		BoardDecorator decorator = null;
 		try {
 			decorator = m.get(ext).getDecorator().getClass().newInstance();
-		} catch (InstantiationException e) {
+		} 
+        catch (InstantiationException e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} 
+        catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
 		return decorator;
@@ -198,10 +200,8 @@ public class ExtensionManager {
                 }
             }
             
-            Iterator<Extension> it = extensionLoader.iterator();
-            while(it.hasNext()) {
-            	Extension e = it.next();
-            	register(e);
+            for (Extension ext : extensionLoader) {
+            	register(ext);
             }
             TimeUnit.SECONDS.sleep(REFRESH_RATE_IN_SECONDS);
         }
