@@ -59,11 +59,17 @@
 
 %\doublespacing % for easier marking
 
+\section{Design Overview}
+\begin{figure}[h]
+\includegraphics[scale=0.6]{FrameworkOverview.pdf}
+\caption{UML class diagram showing key components of the design}
+\end{figure}
+
 \section{Design Patterns}
 
 \subsection{Model-View-Controller}
 
-The \textit{model-view-controller} pattern is used to completely separate the presentation layer of the program from the domain logic layer, i.e., separating the \textit{view} from the \textit{model}. These layers should be decoupled to allow them to be independent of one another, as the presentation layer should not need to be aware of the logic layer, and vice versa. This allows the graphical user interface to be changed, or a new interface to be added, without the need for modifying any of the logic layer. It similarly allows changes to the logic layer while leaving the presentation layer as it is.
+The \textit{Model-View-Controller} pattern is used to completely separate the presentation layer of the program from the domain logic layer (i.e. separating the \textit{view} from the \textit{model}). These layers should be decoupled to allow them to be independent of one another, as the presentation layer should not need to be aware of the logic layer, and vice versa. This allows the graphical user interface to be changed, or a new interface to be added, without the need for modifying any of the logic layer. It similarly allows changes to the logic layer while requiring changes in the presentation layer.
 
 \begin{table}[h!]
 \centering
@@ -73,7 +79,7 @@ Model         & \texttt{Solver} \\
 View          & \texttt{SudokenGUI} \\
 Controller    & \texttt{Controller} \\
 \end{tabular}
-\caption{\textit{Model-view-controller} pattern.}
+\caption{\textit{Model-View-Controller} pattern.}
 \label{table:mvc}
 \end{table}
 
@@ -89,7 +95,7 @@ This decoupling allows the user interface and the domain model to be developed a
 
 \subsection{Service Locator}
 
-The \textit{service locator} pattern is used to allow new puzzle extensions to be hotswapped into the application as it is running. For example, a new \texttt{Extension} packaged into a JAR file can be placed into the plugins directory while the application is running, and it will detect that this new \texttt{Extension} has been added and will load these classes, allowing the user to load and solve puzzles of this type.
+The \textit{Service Locator} pattern is used to allow new puzzle extensions to be hotswapped into the application as it is running. For example, a new \texttt{Extension} packaged into a JAR file can be placed into the plugins directory while the application is running, and it will detect that this new \texttt{Extension} has been added and will load these classes, allowing the user to load and solve puzzles of this type.
 
 The \texttt{ExtensionManager} periodically checks the plugin directory for new JAR files. When these new JAR files are found, they are loaded into the application using \texttt{java.util.ServiceLoader}. The \texttt{ExtensionManager} then registers the newly loaded \texttt{Extension}s, placing them in a \texttt{Map} where they are referenced by a string, allowing the program to obtain the appropriate constructors, parsers, and decorators of the extension when needed.
 
@@ -114,7 +120,7 @@ The use of this pattern means that the creation of boards and their constraints 
 
 \subsection{Strategy}
 
-As a \texttt{Board} is defined by a grid of values and a collection of \texttt{Constraint}s, it is possible to make different implementations of \texttt{Solver}s that will work for any puzzle type. The only requirement is that the entire grid can be filled with values while none of the \texttt{Constraint}s are violated., which can be checked using \texttt{Constraint.isViolated()}. This allows different strategies to be implemented to solve puzzles, i.e., the \textit{strategy} pattern. Sudoken's implementations for the roles of this pattern are detailed in Table~\ref{table:strategy}.
+As a \texttt{Board} is defined by a grid of values and a collection of \texttt{Constraint}s, it is possible to make different implementations of \texttt{Solver}s that will work for any puzzle type. The only requirement is that the entire grid can be filled with values while none of the \texttt{Constraint}s are violated. \texttt{Constraint.isViolated()} is used for this purpose. This allows different strategies to be implemented to solve puzzles (i.e. the \textit{Strategy} pattern). Sudoken's implementations for the roles of this pattern are detailed in Table~\ref{table:strategy}.
 
 \begin{table}[h!]
 \centering
@@ -135,11 +141,11 @@ This pattern would make it possible so that different \texttt{Solver}s could be 
 
 Each \texttt{Extension} needs to have a significant amount of control over the display of the board, including features which are not necessarily known by the main application. For example, Futoshiki puzzles will need to display inequality symbols between some cells. However, it is known that the display of each puzzle will follow a general pattern---a grid of cells each containing a value, and that the spaces between cells with often need to be modified for borders, constraint symbols, etc. To allow extensions to have a lot of control of the display of the board while still making it simple for them to implement changes in the board, the \textit{facade} pattern was used.
 
-The \textit{facade} simplifies this control by offering \texttt{BoardGraphics}, \texttt{CellGraphics}, and \texttt{GapGraphics} classes, each implementing \texttt{JPanel}. Together, these classes hide most of the creation and organisation needed to display the board, for example, the creation of the grid layout and display of cell values. Extensions can then customise the board display by calling methods such as \texttt{CellGraphics.setColor()}, which will set the background colour of a particular cell. Most extensions should be able to rely on these access points provided by these classes, but in the event that they need to modify the board in some other way, they can use \texttt{JPanel}'s methods to customise them in any way they want. So while much of the \texttt{JPanel} functionality can be ignored by extensions, it is still available for their use if they require it.
+The \textit{Facade} simplifies this control by offering \texttt{BoardGraphics}, \texttt{CellGraphics}, and \texttt{GapGraphics} classes, each extending \texttt{JPanel}. Together, these classes hide most of the creation and organisation needed to display the board, for example, the creation of the grid layout and display of cell values. Extensions can then customise the board display by calling methods such as \texttt{CellGraphics.setColor()}, which will set the background colour of a particular cell. Most extensions should be able to rely on these access points provided by these classes, but in the event that they need to modify the board in some other way, they can use \texttt{JPanel}'s methods to customise them in any way they want. So, while much of the \texttt{JPanel} functionality can be ignored by extensions, it is still available for their use if they require it.
 
 \subsection{Observer}
 
-The \textit{observer} pattern is used to notify the GUI that the board has been updated, for example, when a new board has been loaded or a puzzle is being solved. \texttt{SudokenGUI} implements \texttt{BoardChangeListener}, and is added as a listener to the \texttt{Solver} when the application is started. Whenever the board changes such that it will probably needed to be redrawn, the \texttt{Solver} notifies its listeners of the change, i.e., \texttt{SudokenGUI}. \texttt{SudokenGUI} then attempts to redraw the board, based on the current values contained in the cells in the \texttt{Board} and the \texttt{Decorator}s that are applicable. The implemented bindings for the \textit{observer} pattern are outlined in Table~\ref{table:observer}.
+The \textit{Observer} pattern is used to notify the GUI that the board has been updated, for example, when a new board has been loaded or a puzzle is being solved. \texttt{SudokenGUI} implements \texttt{BoardChangeListener}, and is added as a listener to the \texttt{Solver} when the application is started. Whenever the board changes and needs to be redrawn, the \texttt{Solver} notifies its listeners (i.e. (\texttt{SudokenGUI}) of the change. \texttt{SudokenGUI} then attempts to redraw the board, based on the current values contained in the cells in the \texttt{Board} and the \texttt{Decorator}s that are applicable. The implemented bindings for the \textit{Observer} pattern are outlined in Table~\ref{table:observer}.
 
         \begin{table}[h!]
         \centering
@@ -156,6 +162,6 @@ The \textit{observer} pattern is used to notify the GUI that the board has been 
         \label{table:observer}
         \end{table}
 
-The \textit{observer} pattern here makes it possible for \texttt{SudokenGUI} to update whenever \texttt{Solver} changes the board state, with these classes decoupled from each other. This decoupling will minimise the modifications needed if related parts of the program are refactored in the future. This pattern also means that any additional parts of the program which may need to know when the board has been updated can be simply added as a listener of \texttt{Solver}. In other words, \texttt{Solver} and the puzzle board are open for extension, but not for modification.
+The \textit{Observer} pattern here makes it possible for \texttt{SudokenGUI} to update whenever \texttt{Solver} changes the board state, with these classes decoupled from each other. This decoupling minimises the amount of modifications needed if related parts of the program are refactored in the future. Another advantage is that new functionality which depends on knowing when the board changes can do so by simply becoming a listener of \texttt{Solver}. In other words, \texttt{Solver} and the puzzle board are open for extension, but not for modification.
 
 \end{document}
