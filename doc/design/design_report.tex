@@ -26,7 +26,7 @@
 % narrow margins 
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
 % no indention of paragraphs
-%\setlength{\parindent}{0in}
+\setlength{\parindent}{0in}
 % have wider spacing between paragraphs
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 % greater separation between columns
@@ -61,7 +61,7 @@
 
 \section{Design Overview}
 \begin{figure}[h]
-\includegraphics[scale=0.6]{FrameworkOverview.pdf}
+\includegraphics[width=\textwidth]{FrameworkOverview.pdf}
 \caption{UML class diagram showing key components of the design}
 \end{figure}
 
@@ -97,7 +97,7 @@ This decoupling allows the user interface and the domain model to be developed a
 
 The \textit{Service Locator} pattern is used to allow new puzzle extensions to be hotswapped into the application as it is running. For example, a new \texttt{Extension} packaged into a JAR file can be placed into the plugins directory while the application is running, and it will detect that this new \texttt{Extension} has been added and will load these classes, allowing the user to load and solve puzzles of this type.
 
-The \texttt{ExtensionManager} periodically checks the plugin directory for new JAR files. When these new JAR files are found, they are loaded into the application using \texttt{java.util.ServiceLoader}. The \texttt{ExtensionManager} then registers the newly loaded \texttt{Extension}s, placing them in a \texttt{Map} where they are referenced by a string, allowing the program to obtain the appropriate constructors, parsers, and decorators of the extension when needed.
+The \texttt{ExtensionManager} periodically checks the plugin directory for new JAR files. When these new JAR files are found, they are loaded into the application using \texttt{java.util.ServiceLoader}. The \texttt{Extension Manager} then registers the newly loaded \texttt{Extension}s, placing them in a \texttt{Map} where they are referenced by a string, allowing the program to obtain the appropriate constructors, parsers, and decorators of the extension when needed.
 
 \subsection{Factory Method}
 
