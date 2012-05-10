@@ -37,7 +37,7 @@ class SudokenGUI implements BoardChangeListener {
     /** Save Button */
     private JButton saveButton;
     
-    private JButton pauseButton;
+    //private JButton pauseButton;
     
     /** Slider for selection of solving speed */
     private JSlider solverSpeedSlider;
@@ -62,7 +62,7 @@ class SudokenGUI implements BoardChangeListener {
         boardWidget = new BoardWidget();
         solveButton = new JButton("Solve");
         loadButton = new JButton("Load Puzzle");
-        pauseButton = new JButton("Pause");
+        //pauseButton = new JButton("Pause");
         saveButton = new JButton("Save Puzzle");
         sliderLabel = new JLabel("Solve Speed: ");
         createSlider();
@@ -71,7 +71,7 @@ class SudokenGUI implements BoardChangeListener {
         solveButton.addActionListener(new SolveButtonListener());
         loadButton.addActionListener(new LoadButtonListener());
         saveButton.addActionListener(new SaveButtonListener());
-        pauseButton.addActionListener(new PauseButtonListener());
+        //pauseButton.addActionListener(new PauseButtonListener());
     }
     
     /**
@@ -103,7 +103,7 @@ class SudokenGUI implements BoardChangeListener {
      * Layout the components of the GUI
      */
     private void layoutComponents() {
-        LayoutManager layout = new MigLayout("", "[][grow][grow][]", "[]20[grow][]");        
+        LayoutManager layout = new MigLayout("", "[][grow][]", "[]20[grow][]");        
         panel.setPreferredSize(new Dimension(500, 500)); 
         panel.setLayout(layout);
         
@@ -111,10 +111,10 @@ class SudokenGUI implements BoardChangeListener {
         panel.add(solveButton, "align center");
         
         //Create pause button with fixed width so it doesn't resize when changed to resume
-        panel.add(pauseButton);
+        /*panel.add(pauseButton);
         Dimension pauseButtonDimens = pauseButton.getSize();
         pauseButtonDimens.width = 100;
-        pauseButton.setPreferredSize(pauseButtonDimens);
+        pauseButton.setPreferredSize(pauseButtonDimens);*/
         
         
         panel.add(saveButton, "align right, wrap");
@@ -226,12 +226,17 @@ class SudokenGUI implements BoardChangeListener {
         });
     }
     
-    public void setIsSolverPaused(boolean solverPaused){
-    	if (solverPaused) {
-    		pauseButton.setText("Resume");
+    public void setIsSolverPaused(boolean solverRunning, boolean solverPaused){
+    	if (solverRunning) {
+	    	if (solverPaused) {
+	    		solveButton.setText("Resume");
+	    	}
+	    	else {
+	    		solveButton.setText("Pause");
+	    	}
     	}
     	else {
-    		pauseButton.setText("Pause");
+    		solveButton.setText("Solve");
     	}
     	//System.out.println("Solver is paused: " + solverPaused);
     }

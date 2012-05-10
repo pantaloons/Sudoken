@@ -78,7 +78,7 @@ class Controller {
 	private void setGUI(SudokenGUI gui) {
 		this.gui = gui;
 		errorDisplay.setParentComponent(gui.getPanel());
-		gui.setIsSolverPaused(solverPaused);
+		gui.setIsSolverPaused(solverRunning, solverPaused);
 	}
 	
 	/**
@@ -173,10 +173,11 @@ class Controller {
 	 * Solve the current puzzle, running the solver in a new thread
 	 */
 	public void solve() {
-		solverPaused = false;
-		gui.setIsSolverPaused(solverPaused);
+		
 		if (!solverRunning) {
+			solverPaused = false;
 			solverRunning = true;
+			gui.setIsSolverPaused(solverRunning, solverPaused);
 			guiUpdateTimer.start();
 			Runnable runSolver = new Runnable() {
 				public void run() {
@@ -189,11 +190,15 @@ class Controller {
 					}
 					solverRunning = false;
 					guiUpdateTimer.stop();
-					
+					gui.setIsSolverPaused(solverRunning, solverPaused);
+
 				}
 			};
 			solverThread = new Thread(runSolver);
 			solverThread.start();
+		}
+		else {
+			togglePause();
 		}
 	}
 	
@@ -215,6 +220,7 @@ class Controller {
 				
 				e1.printStackTrace();
 			}
+			gui.setIsSolverPaused(solverRunning, solverPaused);
 		}
 	}
 	
@@ -235,6 +241,6 @@ class Controller {
 		
 		solverPaused = !solverPaused;
 		
-		gui.setIsSolverPaused(solverPaused);	
+		gui.setIsSolverPaused(solverRunning, solverPaused);	
 	}	
 }
