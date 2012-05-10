@@ -9,7 +9,7 @@ import sudoken.gui.BoardGraphics;
  * @author Tim Hobbs
  *
  */
-class FutoshikiDecorator extends BoardDecorator {
+public class FutoshikiDecorator extends BoardDecorator {
 
 	@Override
 	public void decorate(BoardGraphics bg) {

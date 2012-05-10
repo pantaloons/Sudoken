@@ -12,7 +12,7 @@ import sudoken.domain.Position;
  * of the cage
  *
  */
-class OperatorConstraint extends Constraint {
+public class OperatorConstraint extends Constraint {
 	/** operator defining behaviour of constraint */
 	private Operator operator;
 	

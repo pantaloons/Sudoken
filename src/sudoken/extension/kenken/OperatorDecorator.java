@@ -9,7 +9,7 @@ import sudoken.gui.BoardGraphics;
 import sudoken.gui.BorderDecorator;
 import sudoken.gui.CellGraphics;
 
-class OperatorDecorator extends ConstraintDecorator {
+public class OperatorDecorator extends ConstraintDecorator {
 
 	private OperatorConstraint constraint;
 	private BorderDecorator borderDecorator;

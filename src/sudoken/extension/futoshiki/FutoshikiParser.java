@@ -9,7 +9,7 @@ import sudoken.domain.*;
  * FutoshikiParser reads FutoshikiConstraints
  *
  */
-class FutoshikiParser implements SectionParser {
+public class FutoshikiParser implements SectionParser {
 	
 	/**
 	 * Name of the encompassing Extension
