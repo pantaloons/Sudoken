@@ -51,8 +51,8 @@ public class DiagonalsParser implements SectionParser {
 		}
 		diagonalConstraints.add(backwardsConstraint);
 		
-		bd.addConstraintDecorator(new ShadingDecorator(backwardsConstraint.getPositions(), Color.DARK_GRAY));
-		bd.addConstraintDecorator(new ShadingDecorator(forwardConstraint.getPositions(), Color.DARK_GRAY));
+		bd.addConstraintDecorator(new ShadingDecorator(backwardsConstraint.getPositions(), Color.LIGHT_GRAY));
+		bd.addConstraintDecorator(new ShadingDecorator(forwardConstraint.getPositions(), Color.LIGHT_GRAY));
 		
 		return diagonalConstraints;
     }
