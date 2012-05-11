@@ -1,4 +1,21 @@
 % Installation
-Unzip all files and run. % PLACEHOLDER!!!
+\subsection{Source Code}
+Source code for the Sudoken project can be found on GitHub at:
+\\
+\url{https://github.com/pantaloons/Sudoken}
 
-... Prerequisites List ...
+\subsection{Building}
+Sudoken can be built using the Apache Ant (\url{http://ant.apache.org/} -- versions 1.7.x and 1.8.x should work) build-system. Eclipse can also be used, but will not create the plugin JAR files correctly. 
+
+To build, simply navigate to the root project folder (where \texttt{build.xml} is located), and in a console, type:
+\begin{verbatim}
+	$ ant clean
+	$ ant
+\end{verbatim}
+
+It is recommended that after changing any files to do an \texttt{ant clean} before compiling.
+
+The application and its support files can be found in the \texttt{build} folder under the root directory.
+
+\subsection{Installing}
+Simply copy the \texttt{build} folder (and its subfolders/folders) to a convenient location.
