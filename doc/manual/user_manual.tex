@@ -15,6 +15,7 @@
 \usepackage{multirow}
 % for pictures
 \usepackage{graphicx}
+\usepackage{wrapfig}
 
 \usepackage{url}
 \usepackage{enumitem}
@@ -61,6 +62,15 @@
 
 %\section{Introduction}
 \input{section_1-intro}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{gui.png}
+  \end{center}
+  \vspace{-10pt}
+  \caption{The main Sudoken GUI.}
+  \vspace{-60pt}
+\end{wrapfigure}
 
 \section{Installation}
 \input{section_2-install}
