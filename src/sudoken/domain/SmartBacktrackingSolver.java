@@ -14,7 +14,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class SmartBacktrackingSolver extends Solver {
     private boolean stop;
+	private boolean paused;
 
+    /**
+     * Solve the puzzle intelligently and recursively
+     */
 	@Override
     public boolean solve() throws InterruptedException {
 		stop = false;
@@ -33,6 +37,9 @@ public class SmartBacktrackingSolver extends Solver {
      * @throws InterruptedException 
      */
     private boolean solve(Set<Position> nextPos) throws InterruptedException {
+    	
+    	if (stop) return false;
+    	
     	Iterator<Position> it = nextPos.iterator();
     	
         //notifyListeners(board);
@@ -45,6 +52,14 @@ public class SmartBacktrackingSolver extends Solver {
         nextPos.remove(p);
 
         for (int value = 1; value <= board.getNumCandidates(); value++) {
+        	
+        	//Wait while solver is paused
+        	//Pause loop has been placed here to give a more reponsive pause
+        	while (paused && !stop) {
+            	Thread.sleep(50);
+            }
+        	
+        	
         	// Assume the computation time is minimal in comparison to the sleep time. 
             TimeUnit.MILLISECONDS.sleep(getMilisecondDelay());
             board.setValue(p, value);
@@ -75,6 +90,10 @@ public class SmartBacktrackingSolver extends Solver {
         return false;
     }
     
+    /**
+     * Get a set of Positions where values can be placed
+     * @return A set of Positions where values can be placed
+     */
     private Set<Position> getNextPositions() {
     	int minPossibilities = board.getNumCandidates() + 1;
     	Set<Position> nextPos = new HashSet<Position>();
@@ -111,9 +130,22 @@ public class SmartBacktrackingSolver extends Solver {
     	return nextPos;
     }
     
+    /**
+     * Stop the solver
+     */
 	@Override
 	public void stop() {
 		stop = true;
 		
+	}
+
+	@Override
+	public void pause() {
+		paused = true;
+	}
+
+	@Override
+	public void resume() {
+		paused = false;
 	}
 }

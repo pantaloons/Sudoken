@@ -15,6 +15,7 @@
 \usepackage{multirow}
 % for pictures
 \usepackage{graphicx}
+\usepackage{wrapfig}
 
 \usepackage{url}
 \usepackage{enumitem}
@@ -26,7 +27,7 @@
 % narrow margins 
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
 % no indention of paragraphs
-%\setlength{\parindent}{0in}
+\setlength{\parindent}{0in}
 % have wider spacing between paragraphs
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 % greater separation between columns
@@ -62,13 +63,19 @@
 %\section{Introduction}
 \input{section_1-intro}
 
-\section{Installing}
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{gui.png}
+  \end{center}
+  \vspace{-10pt}
+  \caption{The main Sudoken GUI.}
+  \vspace{-60pt}
+\end{wrapfigure}
+
+\section{Installation}
 \input{section_2-install}
 
-\section{Getting Started}
+\section{Execution}
 \input{section_3-basics}
-
-\section{Adding new Puzzle Types}
-\input{section_4-plugins}
 
 \end{document}

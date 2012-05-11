@@ -1,7 +1,5 @@
 package sudoken.domain;
 
-import sudoken.gui.BoardGraphics;
-
 /**
  * The extension point for plugins to add constraints to the solving process.
  * 
@@ -9,9 +7,20 @@ import sudoken.gui.BoardGraphics;
  * @author Joshua Leung
  */
 public abstract class Constraint {
+	/**
+	 * Name of the extension that created this constraint
+	 */
 	private String provider;
+	/**
+	 * Should this constraint be saved when a Board is saved 
+	 */
 	private boolean shouldSave;
 	
+	/**
+	 * Create a constraint
+	 * @param provider Name of the extension providing the Constraint
+	 * @param shouldSave Whether this constraint should be saved when a Board is saved 
+	 */
 	public Constraint(String provider, boolean shouldSave) {
 		this.provider = provider;
 		this.shouldSave = shouldSave;
@@ -44,15 +53,25 @@ public abstract class Constraint {
      */
     public abstract boolean isViolated(Board board);
     
+    /**
+     * Get the name of the Extension that provided this constraint
+     * @return The name of the extension that provided this constraint
+     */
     public String getPluginProvider() {
     	return provider;
     }
     
+    /**
+     * Save the constraint
+     * @return A string representation of the constraint
+     */
     public abstract String save();
     
+    /**
+     * Get if the constraint should be saved when a Board is saved
+     * @return True if the constraint should be saved, False otherwise
+     */
     public boolean shouldSave() {
     	return shouldSave;
     }
-    
-    public abstract void decorate(BoardGraphics bg);
 }

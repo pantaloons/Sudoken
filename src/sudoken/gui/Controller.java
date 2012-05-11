@@ -14,16 +14,31 @@ import sudoken.persistence.Parser;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Controller {
+/**
+ * Controller is the Controller part of the MVC pattern, and controls all GUI behaviour.
+ *
+ * @author Tim Hobbs
+ */
+class Controller {
 	
+	/** Puzzle solver used by this controller */
 	private Solver puzzleSolver;
+	/** Popup for displaying errors */
 	private ErrorDisplay errorDisplay = new PopupErrorDisplay();
+	/** Main GUI */
 	private SudokenGUI gui;
+	/** Is the solver currently running? */
 	private boolean solverRunning;
+	/** Timer for updates */
 	private Timer guiUpdateTimer;
+	/** Thread to run Solver in */
 	private Thread solverThread;
-	protected boolean puzzleSolved;
+
+	private boolean solverPaused = false;
 	
+	/**
+	 * Create a Controller
+	 */
 	private Controller() {
 		super();
 		guiUpdateTimer = new Timer(20, new ActionListener() {
@@ -32,6 +47,7 @@ public class Controller {
 			}
 		});
 		guiUpdateTimer.stop();
+		
 	}
 	
 	/**
@@ -46,7 +62,7 @@ public class Controller {
 	 * @return the created Controller
 	 */
 	// A normal constructor could not be used, as
-	public static Controller createController(Solver puzzleSolver, SudokenGUI gui) {
+	static Controller createController(Solver puzzleSolver, SudokenGUI gui) {
 		Controller controller = new Controller();
 		controller.setGUI(gui);
 		gui.setController(controller);
@@ -55,15 +71,28 @@ public class Controller {
 		return controller;
 	}
 	
+	/**
+	 * Set the GUI for the Controller to control
+	 * @param gui GUI to control
+	 */
 	private void setGUI(SudokenGUI gui) {
 		this.gui = gui;
 		errorDisplay.setParentComponent(gui.getPanel());
+		gui.setIsSolverPaused(solverRunning, solverPaused);
 	}
 	
+	/**
+	 * Set the Solver for this Controller to use
+	 * @param puzzleSolver Solver to use
+	 */
 	private void setSolver(Solver puzzleSolver) {
 		this.puzzleSolver = puzzleSolver;
 	}
 	
+	/**
+	 * Load a puzzle from a file 
+	 * @param fileName
+	 */
 	public void loadPuzzle(String fileName) {
 		stopSolver();
 		File puzzleFile = new File(fileName);
@@ -106,6 +135,10 @@ public class Controller {
 		gui.setPuzzle(puzzleBoard);
 	}
 	
+	/**
+	 * Save a puzzle to a file
+	 * @param fileName filename of file to save to
+	 */
 	public void savePuzzle(String fileName) {
 		File saveFile = new File(fileName);
 		if (!saveFile.exists()) {
@@ -134,18 +167,22 @@ public class Controller {
 			errorDisplay.showErrorMessage("An error occurred while trying to convert "
 					+ "the loaded puzzle to its save file format.");
 		}
-		// TODO: Save feedback in GUI.
 	}
 	
+	/**
+	 * Solve the current puzzle, running the solver in a new thread
+	 */
 	public void solve() {
+		
 		if (!solverRunning) {
+			solverPaused = false;
 			solverRunning = true;
-			puzzleSolved = false;
+			gui.setIsSolverPaused(solverRunning, solverPaused);
 			guiUpdateTimer.start();
 			Runnable runSolver = new Runnable() {
 				public void run() {
 					try {
-						puzzleSolved = puzzleSolver.solve();
+						puzzleSolver.solve();
 					} 
 					catch (InterruptedException e) {
 						e.printStackTrace();
@@ -153,18 +190,24 @@ public class Controller {
 					}
 					solverRunning = false;
 					guiUpdateTimer.stop();
-					
+					gui.setIsSolverPaused(solverRunning, solverPaused);
+
 				}
 			};
 			solverThread = new Thread(runSolver);
 			solverThread.start();
 		}
-		
-		// show message;
+		else {
+			togglePause();
+		}
 	}
 	
+	/**
+	 * Stop the Solver
+	 */
 	private void stopSolver() {
 		if (solverThread != null && solverThread.getState() != Thread.State.TERMINATED) {
+			puzzleSolver.resume();
 			puzzleSolver.stop();
 			try {
 				
@@ -177,12 +220,27 @@ public class Controller {
 				
 				e1.printStackTrace();
 			}
-
+			gui.setIsSolverPaused(solverRunning, solverPaused);
 		}
 	}
 	
+	/** 
+	 * Set the solve speed of the solver
+	 * @param value solve speed
+	 */
 	public void setSolveSpeed(int value) {
 		puzzleSolver.setStepsPerSecond(value);
 	}
-	
+
+	/**
+	 * Toggle the pause state of the solver
+	 */
+	public void togglePause() {
+		if (solverPaused) puzzleSolver.resume();
+		else puzzleSolver.pause();
+		
+		solverPaused = !solverPaused;
+		
+		gui.setIsSolverPaused(solverRunning, solverPaused);	
+	}	
 }

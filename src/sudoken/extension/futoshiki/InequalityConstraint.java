@@ -1,9 +1,12 @@
 package sudoken.extension.futoshiki;
 
 import sudoken.domain.*;
-import sudoken.gui.BoardGraphics;
-import sudoken.gui.GapGraphics;
 
+/**
+ * InequalityContraint represents an inequality between two cells (eg. one cell must have a value greater than another)
+ * 
+ * @author Tim Hobbs
+ */
 public class InequalityConstraint extends Constraint {
     /* cell positions */
     private Position p1, p2;
@@ -11,7 +14,15 @@ public class InequalityConstraint extends Constraint {
     /* which way inequality points (1 should be less than 2 if true) */
     private boolean less;
 
-    public InequalityConstraint(String provider, boolean shouldSave, Position position1, Position position2, boolean isLess) {
+    /**
+     * Create an InequalityPosition
+     * @param provider name of the  Extension that provided this constraint
+     * @param shouldSave Should this constraint be saved when the Board is saved
+     * @param position1 Position of the first cell in the equation 
+     * @param position2 Position of the second cell in the equation
+     * @param isLess is the cell at position 1 less than the cell at position 2
+     */
+    InequalityConstraint(String provider, boolean shouldSave, Position position1, Position position2, boolean isLess) {
     	super(provider, shouldSave);
         /* cell 1 */
         this.p1 = position1;
@@ -52,49 +63,47 @@ public class InequalityConstraint extends Constraint {
         }
     }
     
-    public Position getPosition(int index) {
+    /**
+     * Get the position of an affected cell
+     * @param index index of the cell in the equation (0 or 1)
+     * @return the Position of the selected cell
+     */
+    Position getPosition(int index) {
     	if (index == 0) return p1;
     	else if (index == 1) return p2;
     	else return null;
     }
     
+    /**
+     * Get the position of the first cell in the equation
+     * @return the position of the first cell in the equation
+     */
     public Position getFirstPosition() {
     	return p1;
     }
     
+    /**
+     * Get the position of the second cell in the equation
+     * @return the position of the second cell in the equation
+     */
     public Position getSecondPosition() {
     	return p2;
     }
     
+    /**
+     * Should the value of the first cell in the equation be less than the value of the second cell
+     * @return True if the first cell should be less than the second, False otherwise
+     */
     public boolean isLess() {
     	return less;
     }
     
+    /**
+     * Save the constraint
+     */
     public String save() {
     	String ineq = ">";
     	if (less) ineq = "<";
     	return p1.getX() + " " + p1.getY() + " " + ineq + " " + p2.getX() + " " + p2.getY();
     }
-
-	@Override
-	public void decorate(BoardGraphics bg) {
-		//TODO: Actually draw a nice graphics arrow here instead of text.
-		Position p = BoardGraphics.getPositionBetween(getPosition(0), getPosition(1));
-		GapGraphics gap = bg.getGap(p, 0);
-		gap.setText(inequalityRepresentation());
-	}
-	
-	private String inequalityRepresentation() {
-		String ret = "";
-		Position p1 = getPosition(0), p2 = getPosition(1);
-		if (p1.getY() == p2.getY()) {
-			if (isLess() == p1.getX() < p2.getX()) ret = "<";
-			else ret = ">";
-		}
-		else if (p1.getX() == p2.getX()) {
-			if (isLess() == p1.getY() < p2.getY()) ret = "^";
-			else ret = "v";
-		}
-		return ret;
-	}
 }

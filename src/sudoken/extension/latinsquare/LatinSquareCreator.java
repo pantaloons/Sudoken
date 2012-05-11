@@ -4,7 +4,14 @@ import java.util.Collection;
 
 import sudoken.domain.*;
 
-public class LatinSquareCreator implements BoardCreator {	
+/**
+ * LatinSquareCreator creates Boards for LatinSquare puzzles
+ *
+ */
+public class LatinSquareCreator implements BoardCreator {
+	/**
+	 * Name of the encompassing Extension
+	 */
 	private static final String EXTENSION_NAME = "latinsquare";
 
     @Override
@@ -15,7 +22,7 @@ public class LatinSquareCreator implements BoardCreator {
                     "Width and height must be equal.");
 
         for (int i = 0; i < height; i++) {
-            UniqueConstraint rowConstraint = new UniqueConstraint(EXTENSION_NAME, false, false);
+            UniqueConstraint rowConstraint = new UniqueConstraint(EXTENSION_NAME, false);
             for (int j = 0; j < width; j++) {
                 rowConstraint.add(new Position(j, i));
             }
@@ -23,7 +30,7 @@ public class LatinSquareCreator implements BoardCreator {
         }
 
         for (int i = 0; i < width; i++) {
-            UniqueConstraint colConstraint = new UniqueConstraint(EXTENSION_NAME, false, false);
+            UniqueConstraint colConstraint = new UniqueConstraint(EXTENSION_NAME, false);
             for (int j = 0; j < height; j++) {
                 colConstraint.add(new Position(i, j));
             }

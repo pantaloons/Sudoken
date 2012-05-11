@@ -16,7 +16,7 @@ import java.awt.event.ComponentEvent;
  * @author Kevin Doran
  * @version 1.0 15.04.2011
  */
-public class MinSizeComponentBehaviour extends ComponentAdapter {
+class MinSizeComponentBehaviour extends ComponentAdapter {
     /**
      * Called when a component resizes.
      */

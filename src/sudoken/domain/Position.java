@@ -7,17 +7,37 @@ package sudoken.domain;
  * All position indices are zero-based.
  */
 public class Position {
-    private int x, y;
+	/**
+	 * x-coordinate of the Position
+	 */
+    private int x;
+    /**
+     * y-coordinate of the Position
+     */
+    private int y;
     
+    /**
+     * Create a Position
+     * @param x x-coordinate of the new Position
+     * @param y y-coordinate of the new Position
+     */
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
     
+    /**
+     * Get the x-coordinate of the Position
+     * @return x-coordinate of the Position
+     */
     public int getX() {
         return x;
     }   
     
+    /**
+     * Get the y-coordinate of the Position
+     * @return y-coordinate of the Position
+     */
     public int getY() {
         return y;
     }
